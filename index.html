@@ -1,21 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Absolute OS</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Absolute OS – Start</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #000;
+    color: #ff2b2b;
+    font-family: Consolas, monospace;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    background: #050505;
+    border-right: 1px solid #ff2b2b55;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .sidebar-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ff2b2b;
+  }
+
+  .side-link {
+    display: block;
+    margin: 8px 0;
+    color: #ff2b2b;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .side-link.active {
+    color: #fff;
+    text-shadow: 0 0 10px #ff2b2b;
+  }
+
+  .container {
+    margin-left: 200px;
+    padding: 20px;
+  }
+</style>
 </head>
+
 <body>
 
-<div id="boot-screen" class="boot">
-  <div class="boot-lines" id="boot-lines"></div>
-</div>
-
-<div id="main-ui" class="hidden">
+<!-- SIDEBAR WITH SEARCHER INCLUDED -->
 <div class="sidebar">
   <div class="sidebar-title">ABSOLUTE OS</div>
 
-  <a class="side-link" href="index.html">Start</a>
+  <a class="side-link active" href="index.html">Start</a>
   <a class="side-link" href="movies.html">Movies</a>
   <a class="side-link" href="games.html">Games</a>
   <a class="side-link" href="about.html">About</a>
@@ -23,26 +64,12 @@
   <a class="side-link" href="search.html">Private Search</a>
 </div>
 
-  <div class="terminal">
-    <h1 class="title">ABSOLUTE<span class="cursor">_</span></h1>
-
-    <div class="menu">
-      <a class="item" href="index.html">&gt; HOME</a>
-      <a class="item" href="games.html">&gt; GAMES</a>
-      <a class="item" href="movies.html">&gt; MOVIES</a>
-      <a class="item" href="about.html">&gt; ABOUT</a>
-    </div>
-
-    <pre class="welcome" id="welcome"></pre>
-
-    <div class="cli">
-      <span class="prompt">absolute@system:~$</span>
-      <input type="text" id="command-input" autocomplete="off" />
-    </div>
-
-    <pre class="cli-output" id="cli-output"></pre>
-  </div>
+<!-- MAIN CONTENT -->
+<div class="container">
+  <h1>Welcome to Absolute OS</h1>
+  <p>This is your start page.</p>
 </div>
 
-
+</body>
+</html>
 
