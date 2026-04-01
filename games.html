@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Absolute - Games</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-title">/root</div>
+  <a href="index.html" class="side-link">/home</a>
+  <a href="games.html" class="side-link active">/games</a>
+  <a href="movies.html" class="side-link">/movies</a>
+  <a href="about.html" class="side-link">/about</a>
+  <button id="toggle-sidebar" class="toggle-btn">&lt;</button>
+</div>
+
+<div class="terminal">
+  <h1 class="title">GAMES<span class="cursor">_</span></h1>
+  <pre class="welcome">
+Click any game to launch it in fullscreen mode.
+  </pre>
+
+  <div class="grid">
+
+    <!-- Each card now has a data-url attribute -->
+
+    <div class="card" data-url="https://www.onlinegames.io/drift-king/">
+      <div class="card-title">Drift King</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/real-flight-simulator/">
+      <div class="card-title">Real Flight Simulator</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/cs-online/">
+      <div class="card-title">CS Online</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/get-on-top/">
+      <div class="card-title">Get On Top</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/basket-hoop/">
+      <div class="card-title">Basket Hoop</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/police-chase-drifter/">
+      <div class="card-title">Police Chase Drifter</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/gta-simulator/">
+      <div class="card-title">GTA Simulator</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/dta-6/">
+      <div class="card-title">DTA 6</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/tank-stars/">
+      <div class="card-title">Tank Stars</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/a-small-world-cup/">
+      <div class="card-title">A Small World Cup</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/geometry-vibes-x-arrow/">
+      <div class="card-title">Geometry Vibes X Arrow</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/basketball-stars-2026/">
+      <div class="card-title">Basketball Stars 2026</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/stick-fighter-3d/">
+      <div class="card-title">Stick Fighter 3D</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/football-legends/">
+      <div class="card-title">Football Legends</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/rooftop-snipers/">
+      <div class="card-title">Rooftop Snipers</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/fnaf-shooter/">
+      <div class="card-title">FNAF Shooter</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/bloxd-io/">
+      <div class="card-title">Bloxd.io</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/obby-football-soccer-3d/">
+      <div class="card-title">Obby Football Soccer 3D</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/steal-brainrot-original-3d/">
+      <div class="card-title">Steal Brainrot Original 3D</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/dublix/">
+      <div class="card-title">Dublix</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/steal-car-duel/">
+      <div class="card-title">Steal Car Duel</div>
+    </div>
+
+    <div class="card" data-url="https://www.onlinegames.io/obby-but-you-re-on-a-bike/">
+      <div class="card-title">Obby But You're On A Bike</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FULLSCREEN GAME VIEWER -->
+<div id="game-viewer" class="game-viewer hidden">
+  <button id="close-game" class="close-btn">CLOSE</button>
+  <iframe id="game-frame" src="" frameborder="0"></iframe>
+</div>
+
+<script src="sidebar.js"></script>
+
+<script>
+// Fullscreen game viewer logic
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+    const url = card.getAttribute("data-url");
+    document.getElementById("game-frame").src = url;
+    document.getElementById("game-viewer").classList.remove("hidden");
+  });
+});
+
+document.getElementById("close-game").addEventListener("click", () => {
+  document.getElementById("game-viewer").classList.add("hidden");
+  document.getElementById("game-frame").src = "";
+});
+</script>
+
+</body>
+</html>
+
+
+
