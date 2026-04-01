@@ -11,6 +11,29 @@
     background: #000;
     color: #ff2b2b;
     font-family: Consolas, monospace;
+  }
+
+  /* BOOT SCREEN */
+  .boot-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    white-space: pre-line;
+    font-size: 14px;
+    animation: bootFade 0.6s ease-out;
+  }
+
+  @keyframes bootFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* MAIN UI */
+  .app {
+    display: none; /* shown after boot */
     animation: fadeIn 0.6s ease-out;
   }
 
@@ -88,21 +111,45 @@
 
 <body>
 
-<div class="sidebar">
-  <div class="sidebar-title">ABSOLUTE OS</div>
-
-  <a class="side-link active" href="index.html">Start</a>
-  <a class="side-link" href="movies.html">Movies</a>
-  <a class="side-link" href="games.html">Games</a>
-  <a class="side-link" href="about.html">About</a>
-  <a class="side-link" href="profile.html">Profile</a>
-  <a class="side-link" href="search.html">Private Search</a>
+<!-- BOOT SCREEN -->
+<div class="boot-screen" id="boot">
+[ABSOLUTE OS v3.7]
+> INITIALIZING KERNEL...
+> LOADING SYSTEM DRIVERS...
+> WARNING: UNSTABLE MODULE DETECTED
+> PATCHING MEMORY SECTORS...
+> ESTABLISHING SECURE LINK...
+> CONNECTION LOST
+> RECONNECTING...
+> CONNECTION RESTORED
+> LAUNCHING ABSOLUTE OS INTERFACE...
 </div>
 
-<div class="container">
-  <div class="title">ABSOLUTE OS</div>
+<!-- MAIN APP UI -->
+<div class="app" id="app">
+  <div class="sidebar">
+    <div class="sidebar-title">ABSOLUTE OS</div>
+
+    <a class="side-link active" href="index.html">Start</a>
+    <a class="side-link" href="movies.html">Movies</a>
+    <a class="side-link" href="games.html">Games</a>
+    <a class="side-link" href="about.html">About</a>
+    <a class="side-link" href="profile.html">Profile</a>
+    <a class="side-link" href="search.html">Private Search</a>
+  </div>
+
+  <div class="container">
+    <div class="title">ABSOLUTE OS</div>
+  </div>
 </div>
+
+<script>
+  // After boot, show main UI
+  setTimeout(function () {
+    document.getElementById('boot').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+  }, 3500); // 3.5 seconds boot
+</script>
 
 </body>
 </html>
-
