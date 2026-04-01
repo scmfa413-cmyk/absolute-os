@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Absolute OS – Private Searcher</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #000;
+    color: #ff2b2b;
+    font-family: Consolas, monospace;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    background: #050505;
+    border-right: 1px solid #ff2b2b55;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .sidebar-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ff2b2b;
+  }
+
+  .side-link {
+    display: block;
+    margin: 8px 0;
+    color: #ff2b2b;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .side-link.active {
+    color: #fff;
+    text-shadow: 0 0 10px #ff2b2b;
+  }
+
+  .container {
+    margin-left: 200px;
+    padding: 20px;
+  }
+
+  .search-bar {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+    background: #0a0a0a;
+    border: 1px solid #ff2b2b;
+    color: #ff2b2b;
+    outline: none;
+  }
+
+  .private-info {
+    margin-top: 10px;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  .vpn-box {
+    margin-top: 15px;
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ff2b2b55;
+    background: #0a0a0a;
+  }
+
+  iframe {
+    width: 100%;
+    height: 80vh;
+    margin-top: 20px;
+    border: 1px solid #ff2b2b55;
+    background: #111;
+  }
+
+  .glitch {
+    animation: glitch 0.3s;
+  }
+
+  @keyframes glitch {
+    0% { filter: blur(3px); }
+    50% { filter: blur(8px); }
+    100% { filter: blur(0px); }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-title">ABSOLUTE OS</div>
+
+  <a class="side-link" href="index.html">Start</a>
+  <a class="side-link" href="movies.html">Movies</a>
+  <a class="side-link" href="games.html">Games</a>
+  <a class="side-link" href="about.html">About</a>
+  <a class="side-link active" href="search.html">Private Search</a>
+</div>
+
+<div class="container">
+
+  <input id="searchInput" class="search-bar" placeholder="Search or enter URL...">
+
+  <div class="private-info">
+    PRIVATE MODE — NO HISTORY — NO COOKIES — NO TRACKING
+  </div>
+
+  <div class="vpn-box">
+    VPN: <b style="color:#00ff00;">ACTIVE</b><br>
+    PROXY: <b style="color:#00ff00;">AUTO</b><br>
+    TRACE: <b style="color:#00ff00;">BLOCKED</b>
+  </div>
+
+  <iframe id="browserFrame" src=""></iframe>
+
+</div>
+
+<script>
+const input = document.getElementById("searchInput");
+const frame = document.getElementById("browserFrame");
+
+function isURL(text) {
+  return text.startsWith("http://") ||
+         text.startsWith("https://") ||
+         text.includes(".");
+}
+
+input.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    let query = input.value.trim();
+    if (!query) return;
+
+    frame.classList.add("glitch");
+    setTimeout(() => frame.classList.remove("glitch"), 300);
+
+    let url;
+
+    if (isURL(query)) {
+      if (!query.startsWith("http")) {
+        url = "https://" + query;
+      } else {
+        url = query;
+      }
+    } else {
+      url = "https://www.startpage.com/sp/search?query=" + encodeURIComponent(query);
+    }
+
+    frame.src = url;
+
+    // AUTO PROXY FALLBACK
+    setTimeout(() => {
+      try {
+        let blocked = frame.contentWindow.location.href === "about:blank";
+        if (blocked) {
+          frame.src = "https://corsproxy.io/?" + url;
+        }
+      } catch (err) {
+        frame.src = "https://corsproxy.io/?" + url;
+      }
+    }, 1200);
+  }
+});
+</script>
+
+</body>
+</html>
