@@ -150,6 +150,38 @@
     document.getElementById('app').style.display = 'block';
   }, 3500); // 3.5 seconds boot
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  
+  // Fade-in for whole page
+  document.body.style.opacity = 0;
+  setTimeout(() => {
+    document.body.style.transition = "opacity 0.6s ease-out";
+    document.body.style.opacity = 1;
+  }, 50);
+
+  // Sidebar slide animation
+  const sidebar = document.querySelector(".sidebar");
+  sidebar.style.transform = "translateX(-40px)";
+  sidebar.style.opacity = 0;
+
+  setTimeout(() => {
+    sidebar.style.transition = "all 0.5s ease-out";
+    sidebar.style.transform = "translateX(0)";
+    sidebar.style.opacity = 1;
+  }, 200);
+
+  // Title glow pulse (JS version)
+  const title = document.querySelector(".title");
+  setInterval(() => {
+    title.style.textShadow = "0 0 25px #ff2b2b";
+    setTimeout(() => {
+      title.style.textShadow = "0 0 5px #ff2b2b";
+    }, 1000);
+  }, 2000);
+
+});
+</script>
 
 </body>
 </html>
