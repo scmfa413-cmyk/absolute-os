@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Absolute OS – Profile</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #000;
+    color: #ff2b2b;
+    font-family: Consolas, monospace;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    background: #050505;
+    border-right: 1px solid #ff2b2b55;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .sidebar-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ff2b2b;
+  }
+
+  .side-link {
+    display: block;
+    margin: 8px 0;
+    color: #ff2b2b;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .side-link.active {
+    color: #fff;
+    text-shadow: 0 0 10px #ff2b2b;
+  }
+
+  .container {
+    margin-left: 200px;
+    padding: 30px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    border: 1px solid #ff2b2b;
+    padding: 8px 14px;
+    display: inline-block;
+    margin-bottom: 20px;
+    text-shadow: 0 0 8px #ff0000;
+  }
+
+  .profile-box {
+    border: 1px solid #ff2b2b55;
+    padding: 20px;
+    width: 420px;
+    background: #0a0a0a;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border: 2px solid #ff2b2b;
+    border-radius: 50%;
+    background: #111;
+    margin-bottom: 15px;
+  }
+
+  .info-line {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-title">ABSOLUTE OS</div>
+
+  <a class="side-link" href="index.html">Start</a>
+  <a class="side-link" href="movies.html">Movies</a>
+  <a class="side-link" href="games.html">Games</a>
+  <a class="side-link" href="about.html">About</a>
+  <a class="side-link" href="profile.html">Profile</a>
+  <a class="side-link" href="search.html">Private Search</a>
+</div>
+
+<div class="container">
+
+  <h2 class="section-title">[ USER PROFILE ]</h2>
+
+  <div class="profile-box">
+
+    <div class="avatar"></div>
+
+    <div class="info-line">Username: <b>BERLIN</b></div>
+    <div class="info-line">Role: <b>Administrator</b></div>
+    <div class="info-line">Joined: <b>March 2026</b></div>
+    <div class="info-line">Theme: <b>Red Cyberpunk</b></div>
+    <div class="info-line">System Rank: <b>Root Access</b></div>
+
+  </div>
+
+</div>
+
+<!-- Hacker entrance sound -->
+<audio id="enterSound" src="https://assets.mixkit.co/sfx/preview/mixkit-fast-typing-on-keyboard-1381.mp3"></audio>
+
+<script>
+  // Play sound when page loads
+  window.onload = () => {
+    const sound = document.getElementById("enterSound");
+    sound.volume = 0.4;
+    sound.play().catch(() => {});
+  };
+</script>
+
+</body>
+</html>

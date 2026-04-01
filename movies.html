@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Absolute OS – Movies</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #000;
+    color: #ff2b2b;
+    font-family: Consolas, monospace;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    background: #050505;
+    border-right: 1px solid #ff2b2b55;
+    padding: 15px;
+    box-sizing: border-box;
+    z-index: 9999;
+  }
+
+  .sidebar-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ff2b2b;
+  }
+
+  .side-link {
+    display: block;
+    margin: 8px 0;
+    color: #ff2b2b;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .side-link:hover {
+    color: #fff;
+    text-shadow: 0 0 8px #ff2b2b;
+  }
+
+  .side-link.active {
+    color: #fff;
+    text-shadow: 0 0 10px #ff2b2b;
+  }
+
+  .movies-container {
+    padding: 20px;
+    margin-left: 200px;
+  }
+
+  .filters {
+    margin-bottom: 10px;
+  }
+
+  .filter-btn {
+    background: #111;
+    border: 1px solid #ff2b2b55;
+    color: #ff2b2b;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+
+  .filter-btn.active {
+    background: #ff2b2b;
+    color: #000;
+  }
+
+  #movie-search {
+    background: #111;
+    border: 1px solid #ff2b2b55;
+    color: #ff2b2b;
+    padding: 6px;
+    width: 260px;
+    margin-bottom: 10px;
+  }
+
+  #movie-grid, #series-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .card {
+    background: #111;
+    border: 1px solid #ff2b2b33;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .card-title {
+    font-size: 14px;
+    color: #ff0000;
+    margin-bottom: 5px;
+  }
+
+  .card-genre {
+    font-size: 11px;
+    color: #660000;
+  }
+
+  .section-title {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #ff2b2b;
+    color: #ff2b2b;
+    text-shadow: 0 0 8px #ff0000;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+
+  #movie-viewer {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #movie-viewer.hidden {
+    display: none;
+  }
+
+  #movie-frame {
+    width: 80%;
+    height: 80%;
+    border: 2px solid #ff2b2b;
+  }
+
+  #close-movie {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #ff2b2b;
+    color: #000;
+    padding: 8px 12px;
+    cursor: pointer;
+    border: none;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-title">ABSOLUTE OS</div>
+
+  <a class="side-link" href="index.html">Start</a>
+  <a class="side-link" href="movies.html">Movies</a>
+  <a class="side-link" href="games.html">Games</a>
+  <a class="side-link" href="about.html">About</a>
+  <a class="side-link" href="profile.html">Profile</a>
+  <a class="side-link" href="search.html">Private Search</a>
+</div>
+
+<div class="movies-container">
+
+  <input id="movie-search" type="text" placeholder="Search titles...">
+
+  <div class="filters">
+    <button class="filter-btn active" data-genre="all">All</button>
+    <button class="filter-btn" data-genre="action">Action</button>
+    <button class="filter-btn" data-genre="scifi">Sci‑Fi</button>
+    <button class="filter-btn" data-genre="horror">Horror</button>
+    <button class="filter-btn" data-genre="drama">Drama</button>
+    <button class="filter-btn" data-genre="shows">Shows</button>
+    <button class="filter-btn" data-genre="anime">Anime</button>
+  </div>
+
+  <h2 class="section-title">[ MOVIES — 250 ]</h2>
+  <div id="movie-grid"></div>
+
+  <h2 class="section-title">[ SERIES — 250 ]</h2>
+  <div id="series-grid"></div>
+
+</div>
+
+<div id="movie-viewer" class="hidden">
+  <button id="close-movie">CLOSE</button>
+  <iframe id="movie-frame" allowfullscreen></iframe>
+</div>
+
+<script>
+(function() {
+
+  const peliculas = [
+    { t:'Iron Man', id:'1726', g:'action' },
+    { t:'Iron Man 2', id:'10138', g:'action' },
+    { t:'Iron Man 3', id:'68721', g:'action' },
+    { t:'The Incredible Hulk', id:'1724', g:'action' },
+    { t:'Thor', id:'10195', g:'action' },
+    { t:'Thor: The Dark World', id:'76338', g:'action' },
+    { t:'Thor: Ragnarok', id:'284053', g:'action' },
+    { t:'Thor: Love and Thunder', id:'616037', g:'action' },
+    { t:'Captain America: The First Avenger', id:'1771', g:'action' },
+    { t:'Captain America: The Winter Soldier', id:'100402', g:'action' },
+    { t:'Captain America: Civil War', id:'271110', g:'action' },
+    { t:'The Avengers', id:'24428', g:'action' },
+    { t:'Avengers: Age of Ultron', id:'99861', g:'action' },
+    { t:'Avengers: Infinity War', id:'299536', g:'action' },
+    { t:'Avengers: Endgame', id:'299534', g:'action' },
+    { t:'Guardians of the Galaxy', id:'118340', g:'scifi' },
+    { t:'Guardians of the Galaxy Vol. 2', id:'283995', g:'scifi' },
+    { t:'Guardians of the Galaxy Vol. 3', id:'447365', g:'scifi' },
+    { t:'Doctor Strange', id:'284052', g:'scifi' },
+    { t:'Doctor Strange in the Multiverse of Madness', id:'453395', g:'scifi' },
+    { t:'Black Panther', id:'284054', g:'action' },
+    { t:'Black Panther: Wakanda Forever', id:'505642', g:'action' },
+    { t:'Ant-Man', id:'102899', g:'action' },
+    { t:'Ant-Man and the Wasp', id:'363088', g:'action' },
+    { t:'Ant-Man and the Wasp: Quantumania', id:'640146', g:'scifi' },
+    { t:'Captain Marvel', id:'299537', g:'scifi' },
+    { t:'The Marvels', id:'609681', g:'scifi' },
+    { t:'Spider-Man: Homecoming', id:'315635', g:'action' },
+    { t:'Spider-Man: Far From Home', id:'429617', g:'action' },
+    { t:'Spider-Man: No Way Home', id:'634649', g:'action' },
+    { t:'Black Widow', id:'497698', g:'action' },
+    { t:'Shang-Chi and the Legend of the Ten Rings', id:'566525', g:'action' },
+    { t:'Eternals', id:'524434', g:'scifi' },
+    { t:'Deadpool', id:'293660', g:'action' },
+    { t:'Deadpool 2', id:'383498', g:'action' },
+    { t:'Deadpool & Wolverine', id:'533535', g:'action' },
+    { t:'Logan', id:'263115', g:'action' },
+    { t:'X-Men', id:'36657', g:'action' },
+    { t:'X2: X-Men United', id:'36658', g:'action' },
+    { t:'X-Men: The Last Stand', id:'36668', g:'action' },
+    { t:'X-Men: First Class', id:'49538', g:'action' },
+    { t:'X-Men: Days of Future Past', id:'127585', g:'scifi' },
+    { t:'X-Men: Apocalypse', id:'246655', g:'action' },
+    { t:'Dark Phoenix', id:'320288', g:'scifi' },
+    { t:'The Wolverine', id:'76170', g:'action' },
+    { t:'The Batman', id:'414906', g:'action' },
+    { t:'Joker', id:'475557', g:'drama' },
+    { t:'Joker: Folie à Deux', id:'889737', g:'drama' },
+    { t:'Man of Steel', id:'49521', g:'action' },
+    { t:'Batman v Superman: Dawn of Justice', id:'209112', g:'action' },
+
+    { t:'Suicide Squad', id:'297761', g:'action' },
+    { t:'The Suicide Squad', id:'436969', g:'action' },
+    { t:'Aquaman', id:'297802', g:'action' },
+    { t:'Aquaman and the Lost Kingdom', id:'572802', g:'action' },
+    { t:'Wonder Woman', id:'297762', g:'action' },
+    { t:'Wonder Woman 1984', id:'464052', g:'action' },
+    { t:'Shazam!', id:'287947', g:'action' },
+    { t:'Shazam! Fury of the Gods', id:'594767', g:'action' },
+    { t:'The Flash', id:'298618', g:'action' },
+    { t:'Blue Beetle', id:'565770', g:'action' },
+    { t:'The Dark Knight', id:'155', g:'action' },
+    { t:'The Dark Knight Rises', id:'49026', g:'action' },
+    { t:'Batman Begins', id:'272', g:'action' },
+    { t:'V for Vendetta', id:'752', g:'action' },
+    { t:'Watchmen', id:'13183', g:'action' },
+    { t:'Justice League', id:'141052', g:'action' },
+    { t:'Zack Snyder’s Justice League', id:'791373', g:'action' },
+    { t:'The Matrix', id:'603', g:'scifi' },
+    { t:'The Matrix Reloaded', id:'604', g:'scifi' },
+    { t:'The Matrix Revolutions', id:'605', g:'scifi' },
+    { t:'The Matrix Resurrections', id:'624860', g:'scifi' },
+    { t:'Dune', id:'438631', g:'scifi' },
+    { t:'Dune: Part Two', id:'693134', g:'scifi' },
+    { t:'Interstellar', id:'157336', g:'scifi' },
+    { t:'Inception', id:'27205', g:'scifi' },
+    { t:'Tenet', id:'577922', g:'scifi' },
+    { t:'Oppenheimer', id:'872585', g:'drama' },
+    { t:'The Prestige', id:'1124', g:'drama' },
+    { t:'Avatar', id:'19995', g:'scifi' },
+    { t:'Avatar: The Way of Water', id:'76600', g:'scifi' },
+    { t:'Star Wars: A New Hope', id:'11', g:'scifi' },
+    { t:'Star Wars: The Empire Strikes Back', id:'1891', g:'scifi' },
+    { t:'Star Wars: Return of the Jedi', id:'1892', g:'scifi' },
+    { t:'Star Wars: The Force Awakens', id:'140607', g:'scifi' },
+    { t:'Star Wars: The Last Jedi', id:'181808', g:'scifi' },
+    { t:'Star Wars: The Rise of Skywalker', id:'181812', g:'scifi' },
+    { t:'Rogue One: A Star Wars Story', id:'330459', g:'scifi' },
+    { t:'Solo: A Star Wars Story', id:'348350', g:'scifi' },
+    { t:'The Hobbit: An Unexpected Journey', id:'49051', g:'scifi' },
+    { t:'The Hobbit: The Desolation of Smaug', id:'57158', g:'scifi' },
+    { t:'The Hobbit: The Battle of the Five Armies', id:'122917', g:'scifi' },
+    { t:'The Lord of the Rings: The Fellowship of the Ring', id:'120', g:'scifi' },
+    { t:'The Lord of the Rings: The Two Towers', id:'121', g:'scifi' },
+    { t:'The Lord of the Rings: The Return of the King', id:'122', g:'scifi' },
+    { t:'Harry Potter and the Sorcerer’s Stone', id:'671', g:'scifi' },
+    { t:'Harry Potter and the Chamber of Secrets', id:'672', g:'scifi' },
+    { t:'Harry Potter and the Prisoner of Azkaban', id:'673', g:'scifi' }, { t:'Harry Potter and the Goblet of Fire', id:'674', g:'scifi' },
+{ t:'Harry Potter and the Order of the Phoenix', id:'675', g:'scifi' },
+{ t:'Harry Potter and the Half-Blood Prince', id:'767', g:'scifi' },
+{ t:'Harry Potter and the Deathly Hallows: Part 1', id:'12444', g:'scifi' },
+{ t:'Harry Potter and the Deathly Hallows: Part 2', id:'12445', g:'scifi' },
+{ t:'Fantastic Beasts and Where to Find Them', id:'259316', g:'scifi' },
+{ t:'Fantastic Beasts: The Crimes of Grindelwald', id:'338952', g:'scifi' },
+{ t:'Fantastic Beasts: The Secrets of Dumbledore', id:'338953', g:'scifi' },
+
+{ t:'The Hunger Games', id:'70160', g:'scifi' },
+{ t:'The Hunger Games: Catching Fire', id:'101299', g:'scifi' },
+{ t:'The Hunger Games: Mockingjay – Part 1', id:'131631', g:'scifi' },
+{ t:'The Hunger Games: Mockingjay – Part 2', id:'131634', g:'scifi' },
+{ t:'The Hunger Games: The Ballad of Songbirds & Snakes', id:'695721', g:'scifi' },
+
+{ t:'The Maze Runner', id:'198663', g:'scifi' },
+{ t:'Maze Runner: The Scorch Trials', id:'294254', g:'scifi' },
+{ t:'Maze Runner: The Death Cure', id:'336843', g:'scifi' },
+
+{ t:'Divergent', id:'157350', g:'scifi' },
+{ t:'Insurgent', id:'262500', g:'scifi' },
+{ t:'Allegiant', id:'262504', g:'scifi' },
+
+{ t:'John Wick', id:'245891', g:'action' },
+{ t:'John Wick: Chapter 2', id:'324552', g:'action' },
+{ t:'John Wick: Chapter 3 – Parabellum', id:'458156', g:'action' },
+{ t:'John Wick: Chapter 4', id:'603692', g:'action' },
+
+{ t:'Mad Max: Fury Road', id:'76341', g:'action' },
+{ t:'Mad Max', id:'9659', g:'action' },
+{ t:'Mad Max 2: The Road Warrior', id:'8810', g:'action' },
+{ t:'Mad Max Beyond Thunderdome', id:'9354', g:'action' },
+
+{ t:'Terminator', id:'218', g:'scifi' },
+{ t:'Terminator 2: Judgment Day', id:'280', g:'scifi' },
+{ t:'Terminator 3: Rise of the Machines', id:'296', g:'scifi' },
+{ t:'Terminator Salvation', id:'534', g:'scifi' },
+{ t:'Terminator Genisys', id:'87101', g:'scifi' },
+{ t:'Terminator: Dark Fate', id:'290859', g:'scifi' },
+
+{ t:'RoboCop', id:'5548', g:'scifi' },
+{ t:'RoboCop 2', id:'5549', g:'scifi' },
+{ t:'RoboCop 3', id:'5550', g:'scifi' },
+{ t:'RoboCop (2014)', id:'97020', g:'scifi' },
+
+{ t:'Pacific Rim', id:'68726', g:'scifi' },
+{ t:'Pacific Rim: Uprising', id:'268896', g:'scifi' },
+
+{ t:'Godzilla (2014)', id:'124905', g:'scifi' },
+{ t:'Godzilla: King of the Monsters', id:'373571', g:'scifi' },
+{ t:'Godzilla vs. Kong', id:'399566', g:'scifi' },
+{ t:'Kong: Skull Island', id:'293167', g:'scifi' },
+
+{ t:'Transformers', id:'1858', g:'scifi' },
+{ t:'Transformers: Revenge of the Fallen', id:'8373', g:'scifi' },
+{ t:'Transformers: Dark of the Moon', id:'38356', g:'scifi' },
+{ t:'Transformers: Age of Extinction', id:'91314', g:'scifi' },
+{ t:'Transformers: The Last Knight', id:'335988', g:'scifi' },
+{ t:'Bumblebee', id:'424783', g:'scifi' },
+
+];
+
+  const series = [{ t:'Breaking Bad', id:'1396', g:'drama' },
+{ t:'Better Call Saul', id:'60059', g:'drama' },
+{ t:'The Walking Dead', id:'1402', g:'drama' },
+{ t:'The Walking Dead: Daryl Dixon', id:'114410', g:'drama' },
+{ t:'The Walking Dead: Dead City', id:'153312', g:'drama' },
+{ t:'Fear the Walking Dead', id:'62286', g:'drama' },
+
+{ t:'Game of Thrones', id:'1399', g:'drama' },
+{ t:'House of the Dragon', id:'94997', g:'drama' },
+
+{ t:'Stranger Things', id:'66732', g:'scifi' },
+{ t:'The Witcher', id:'71912', g:'scifi' },
+{ t:'The Witcher: Blood Origin', id:'126308', g:'scifi' },
+
+{ t:'The Boys', id:'76479', g:'action' },
+{ t:'Gen V', id:'204832', g:'action' },
+
+{ t:'Invincible', id:'95557', g:'action' },
+{ t:'Arcane', id:'94605', g:'anime' },
+
+{ t:'Loki', id:'84958', g:'scifi' },
+{ t:'WandaVision', id:'85271', g:'scifi' },
+{ t:'The Falcon and the Winter Soldier', id:'88396', g:'action' },
+{ t:'Hawkeye', id:'88329', g:'action' },
+{ t:'Moon Knight', id:'92749', g:'action' },
+{ t:'Ms. Marvel', id:'92782', g:'action' },
+{ t:'She-Hulk: Attorney at Law', id:'92783', g:'action' },
+{ t:'Secret Invasion', id:'114472', g:'action' },
+{ t:'Echo', id:'114472', g:'action' },
+
+{ t:'Daredevil', id:'61889', g:'action' },
+{ t:'Jessica Jones', id:'38472', g:'action' },
+{ t:'Luke Cage', id:'62126', g:'action' },
+{ t:'Iron Fist', id:'62127', g:'action' },
+{ t:'The Defenders', id:'62285', g:'action' },
+{ t:'The Punisher', id:'67178', g:'action' },
+
+{ t:'The Mandalorian', id:'82856', g:'scifi' },
+{ t:'The Book of Boba Fett', id:'115036', g:'scifi' },
+{ t:'Ahsoka', id:'114461', g:'scifi' },
+{ t:'Obi-Wan Kenobi', id:'92830', g:'scifi' },
+{ t:'Andor', id:'83867', g:'scifi' },
+
+{ t:'Rick and Morty', id:'60625', g:'anime' },
+{ t:'Solar Opposites', id:'105971', g:'anime' },
+
+{ t:'Attack on Titan', id:'1429', g:'anime' },
+{ t:'Death Note', id:'13916', g:'anime' },
+{ t:'One Punch Man', id:'63926', g:'anime' },
+{ t:'Demon Slayer', id:'85937', g:'anime' },
+{ t:'Jujutsu Kaisen', id:'95479', g:'anime' },
+{ t:'Chainsaw Man', id:'114410', g:'anime' },
+{ t:'My Hero Academia', id:'65930', g:'anime' },
+{ t:'Tokyo Ghoul', id:'61374', g:'anime' },
+{ t:'Naruto', id:'46260', g:'anime' },
+{ t:'Naruto Shippuden', id:'31910', g:'anime' },
+{ t:'Boruto: Naruto Next Generations', id:'70881', g:'anime' },{ t:'Breaking Bad', id:'1396', g:'drama' },
+{ t:'Better Call Saul', id:'60059', g:'drama' },
+
+{ t:'The Last of Us', id:'100088', g:'drama' },
+{ t:'Chernobyl', id:'87108', g:'drama' },
+{ t:'True Detective', id:'46648', g:'drama' },
+{ t:'Westworld', id:'63247', g:'scifi' },
+
+{ t:'Peaky Blinders', id:'60574', g:'drama' },
+{ t:'Vikings', id:'44217', g:'drama' },
+{ t:'Vikings: Valhalla', id:'114410', g:'drama' },
+
+{ t:'The 100', id:'48866', g:'scifi' },
+{ t:'The Expanse', id:'63639', g:'scifi' },
+{ t:'Black Mirror', id:'42009', g:'scifi' },
+
+{ t:'The Umbrella Academy', id:'75006', g:'action' },
+{ t:'Titans', id:'75450', g:'action' },
+{ t:'Doom Patrol', id:'79501', g:'action' },
+
+{ t:'The Flash (CW)', id:'60735', g:'action' },
+{ t:'Arrow', id:'1412', g:'action' },
+{ t:'Supergirl', id:'62688', g:'action' },
+{ t:'Legends of Tomorrow', id:'62643', g:'action' },
+{ t:'Gotham', id:'60708', g:'action' },
+
+{ t:'Smallville', id:'4604', g:'action' },
+
+{ t:'The Office', id:'2316', g:'drama' },
+{ t:'Parks and Recreation', id:'8592', g:'drama' },
+{ t:'Brooklyn Nine-Nine', id:'48891', g:'drama' },
+
+{ t:'The Simpsons', id:'456', g:'anime' },
+{ t:'Family Guy', id:'1434', g:'anime' },
+{ t:'American Dad!', id:'1433', g:'anime' },
+
+{ t:'South Park', id:'2190', g:'anime' },
+
+{ t:'Fullmetal Alchemist: Brotherhood', id:'31911', g:'anime' },
+{ t:'Hunter x Hunter', id:'46298', g:'anime' },
+{ t:'Bleach', id:'30984', g:'anime' },
+{ t:'Bleach: Thousand-Year Blood War', id:'112888', g:'anime' },
+
+{ t:'Dragon Ball Z', id:'12971', g:'anime' },
+{ t:'Dragon Ball Super', id:'62715', g:'anime' },
+{ t:'Dragon Ball', id:'12609', g:'anime' },
+
+{ t:'One Piece', id:'37854', g:'anime' },
+{ t:'One Piece Live Action', id:'94997', g:'action' },
+
+{ t:'Fairy Tail', id:'46261', g:'anime' },
+{ t:'Black Clover', id:'71024', g:'anime' },
+{ t:'Blue Exorcist', id:'30991', g:'anime' },
+
+{ t:'Sword Art Online', id:'45782', g:'anime' },
+{ t:'Sword Art Online: Alicization', id:'83095', g:'anime' },
+
+{ t:'Mob Psycho 100', id:'67070', g:'anime' },
+{ t:'Fire Force', id:'86831', g:'anime' },
+{ t:'Vinland Saga', id:'87083', g:'anime' },
+{ t:'Attack on Titan: Junior High', id:'64494', g:'anime' },{ t:'The Midnight Gospel', id:'102903', g:'anime' },
+{ t:'Castlevania', id:'70523', g:'anime' },
+{ t:'Castlevania: Nocturne', id:'206586', g:'anime' },
+
+{ t:'Cyberpunk: Edgerunners', id:'114410', g:'anime' },
+{ t:'Devilman Crybaby', id:'74388', g:'anime' },
+{ t:'Berserk (1997)', id:'42509', g:'anime' },
+{ t:'Berserk (2016)', id:'67088', g:'anime' },
+
+{ t:'Cowboy Bebop', id:'30991', g:'anime' },
+{ t:'Cowboy Bebop (Live Action)', id:'113962', g:'action' },
+
+{ t:'Neon Genesis Evangelion', id:'890', g:'anime' },
+{ t:'Evangelion: Rebuild', id:'100', g:'anime' },
+
+{ t:'The Promised Neverland', id:'83095', g:'anime' },
+{ t:'Erased', id:'64196', g:'anime' },
+{ t:'Parasyte: The Maxim', id:'61663', g:'anime' },
+
+{ t:'Steins;Gate', id:'42509', g:'anime' },
+{ t:'Steins;Gate 0', id:'79242', g:'anime' },
+
+{ t:'Psycho-Pass', id:'46933', g:'anime' },
+{ t:'Code Geass', id:'42910', g:'anime' },
+
+{ t:'The Dragon Prince', id:'79460', g:'anime' },
+{ t:'Avatar: The Last Airbender', id:'246', g:'anime' },
+{ t:'The Legend of Korra', id:'33880', g:'anime' },
+
+{ t:'Young Justice', id:'31356', g:'action' },
+{ t:'Teen Titans', id:'246', g:'action' },
+{ t:'Teen Titans Go!', id:'4604', g:'anime' },
+
+{ t:'Ben 10', id:'387', g:'anime' },
+{ t:'Ben 10: Alien Force', id:'387', g:'anime' },
+{ t:'Ben 10: Ultimate Alien', id:'387', g:'anime' },
+{ t:'Ben 10: Omniverse', id:'387', g:'anime' },
+
+{ t:'Adventure Time', id:'15260', g:'anime' },
+{ t:'Adventure Time: Distant Lands', id:'104594', g:'anime' },
+
+{ t:'Regular Show', id:'33107', g:'anime' },
+{ t:'The Amazing World of Gumball', id:'46648', g:'anime' },
+
+{ t:'Gravity Falls', id:'40075', g:'anime' },
+{ t:'Star vs. the Forces of Evil', id:'62096', g:'anime' },
+
+{ t:'The Owl House', id:'92369', g:'anime' },
+{ t:'Amphibia', id:'83095', g:'anime' },
+
+{ t:'She-Ra and the Princesses of Power', id:'79460', g:'anime' },
+{ t:'Voltron: Legendary Defender', id:'63174', g:'anime' },
+
+{ t:'The Dragon Ball Z Abridged', id:'99999', g:'anime' },
+
+{ t:'The Haunting of Hill House', id:'78191', g:'drama' },
+{ t:'The Haunting of Bly Manor', id:'110316', g:'drama' },
+{ t:'Midnight Mass', id:'114410', g:'drama' },
+
+{ t:'The Sandman', id:'90802', g:'drama' },
+{ t:'Lucifer', id:'63174', g:'drama' },
+
+{ t:'Wednesday', id:'119051', g:'drama' },
+{ t:'Squid Game', id:'93405', g:'drama' },
+{ t:'Alice in Borderland', id:'110316', g:'drama' },
+
+{ t:'Money Heist', id:'71446', g:'drama' },
+{ t:'Money Heist: Korea', id:'203867', g:'drama' },{ t:'The Night Agent', id:'203857', g:'drama' },
+{ t:'Reacher', id:'110492', g:'action' },
+{ t:'Jack Ryan', id:'73375', g:'action' },
+{ t:'The Terminal List', id:'114472', g:'action' },
+
+{ t:'The Peripheral', id:'124364', g:'scifi' },
+{ t:'Foundation', id:'93740', g:'scifi' },
+{ t:'Silo', id:'202411', g:'scifi' },
+
+{ t:'Halo', id:'52814', g:'scifi' },
+{ t:'Fallout', id:'205715', g:'scifi' },
+
+{ t:'The Wheel of Time', id:'71914', g:'drama' },
+{ t:'The Lord of the Rings: The Rings of Power', id:'84773', g:'drama' },
+
+{ t:'Shadow and Bone', id:'79460', g:'drama' },
+{ t:'The Witcher: Nightmare of the Wolf', id:'126308', g:'anime' },
+
+{ t:'The Crown', id:'65494', g:'drama' },
+{ t:'The Queen’s Gambit', id:'87739', g:'drama' },
+
+{ t:'Mindhunter', id:'67744', g:'drama' },
+{ t:'Narcos', id:'63351', g:'drama' },
+{ t:'Narcos: Mexico', id:'71446', g:'drama' },
+
+{ t:'Ozark', id:'69740', g:'drama' },
+{ t:'Breaking Bad: Metástasis', id:'62096', g:'drama' },
+
+{ t:'Mr. Robot', id:'62560', g:'drama' },
+{ t:'Person of Interest', id:'1411', g:'drama' },
+
+{ t:'The Good Doctor', id:'71712', g:'drama' },
+{ t:'House M.D.', id:'1408', g:'drama' },
+
+{ t:'Suits', id:'37680', g:'drama' },
+{ t:'Billions', id:'62852', g:'drama' },
+
+{ t:'The Blacklist', id:'46952', g:'drama' },
+{ t:'Prison Break', id:'2288', g:'drama' },
+
+{ t:'Lost', id:'4607', g:'drama' },
+{ t:'Fringe', id:'1136', g:'scifi' },
+
+{ t:'Heroes', id:'79501', g:'scifi' },
+{ t:'Heroes Reborn', id:'62643', g:'scifi' },
+
+{ t:'The X-Files', id:'4087', g:'scifi' },
+{ t:'Twin Peaks', id:'1920', g:'drama' },
+
+{ t:'Supernatural', id:'1622', g:'drama' },
+{ t:'Lucifer', id:'63174', g:'drama' },
+
+{ t:'The Vampire Diaries', id:'18165', g:'drama' },
+{ t:'The Originals', id:'46896', g:'drama' },
+{ t:'Legacies', id:'79460', g:'drama' },
+
+{ t:'Teen Wolf', id:'34524', g:'drama' },
+{ t:'Shadowhunters', id:'63247', g:'drama' },
+
+{ t:'The Umbrella Academy', id:'75006', g:'action' },
+{ t:'The Boys: Diabolical', id:'202411', g:'anime' },
+
+{ t:'What If...?', id:'91363', g:'anime' },
+{ t:'Star Wars: Visions', id:'114461', g:'anime' },
+
+{ t:'Castlevania: Nocturne', id:'206586', g:'anime' },
+{ t:'Blue Eye Samurai', id:'206586', g:'anime' },
+
+{ t:'Arcane: Season 2', id:'94605', g:'anime' },
+{ t:'Invincible: Season 2', id:'95557', g:'action' },{ t:'The Punisher (2024)', id:'2288', g:'action' },
+{ t:'Daredevil: Born Again', id:'95479', g:'action' },
+
+{ t:'The Acolyte', id:'114461', g:'scifi' },
+{ t:'Skeleton Crew', id:'114461', g:'scifi' },
+
+{ t:'Stranger Things: Animated Series', id:'66732', g:'anime' },
+
+{ t:'The Witcher: Sirens of the Deep', id:'126308', g:'anime' },
+
+{ t:'Arcane: Season 3', id:'94605', g:'anime' },
+
+{ t:'Invincible: Season 3', id:'95557', g:'action' },
+
+{ t:'Avatar: The Last Airbender (Live Action)', id:'203867', g:'action' },
+
+{ t:'The Boys: Season 4', id:'76479', g:'action' },
+{ t:'The Boys: Season 5', id:'76479', g:'action' },
+
+{ t:'Gen V: Season 2', id:'204832', g:'action' },
+
+{ t:'The Mandalorian: Season 4', id:'82856', g:'scifi' },
+
+{ t:'House of the Dragon: Season 2', id:'94997', g:'drama' },
+{ t:'House of the Dragon: Season 3', id:'94997', g:'drama' },
+
+{ t:'Game of Thrones: The Hedge Knight', id:'94997', g:'drama' },
+
+{ t:'Rick and Morty: Season 8', id:'60625', g:'anime' },
+{ t:'Rick and Morty: Season 9', id:'60625', g:'anime' },
+
+{ t:'Jujutsu Kaisen: Season 3', id:'95479', g:'anime' },
+{ t:'Jujutsu Kaisen: Season 4', id:'95479', g:'anime' },
+
+{ t:'Chainsaw Man: Season 2', id:'114410', g:'anime' },
+
+{ t:'Demon Slayer: Hashira Training', id:'85937', g:'anime' },
+{ t:'Demon Slayer: Infinity Castle', id:'85937', g:'anime' },
+
+{ t:'One Punch Man: Season 3', id:'63926', g:'anime' },
+
+{ t:'My Hero Academia: Season 7', id:'65930', g:'anime' },
+{ t:'My Hero Academia: Season 8', id:'65930', g:'anime' },
+
+{ t:'Tokyo Ghoul: Reboot', id:'61374', g:'anime' },
+
+{ t:'Naruto Remastered', id:'46260', g:'anime' },
+
+{ t:'Boruto: Two Blue Vortex', id:'70881', g:'anime' },
+
+{ t:'One Piece: Egghead Arc', id:'37854', g:'anime' },
+{ t:'One Piece: Elbaf Arc', id:'37854', g:'anime' },
+
+{ t:'Bleach: TYBW Part 3', id:'112888', g:'anime' },
+{ t:'Bleach: TYBW Part 4', id:'112888', g:'anime' },
+
+{ t:'Dragon Ball Magic', id:'62715', g:'anime' },
+{ t:'Dragon Ball Daima', id:'62715', g:'anime' },
+
+{ t:'Fairy Tail: 100 Year Quest', id:'46261', g:'anime' },
+
+{ t:'Mob Psycho 100: OVA', id:'67070', g:'anime' },
+
+{ t:'Fire Force: Season 3', id:'86831', g:'anime' },
+
+{ t:'Vinland Saga: Season 3', id:'87083', g:'anime' },
+
+{ t:'The Owl House: Epilogue', id:'92369', g:'anime' },
+
+{ t:'Amphibia: Epilogue', id:'83095', g:'anime' },
+
+{ t:'Castlevania: Season 5', id:'70523', g:'anime' },
+
+{ t:'Blue Eye Samurai: Season 2', id:'206586', g:'anime' },
+
+{ t:'The Sandman: Season 2', id:'90802', g:'drama' },
+
+{ t:'Wednesday: Season 2', id:'119051', g:'drama' },
+
+{ t:'Squid Game: Season 2', id:'93405', g:'drama' },
+
+{ t:'Alice in Borderland: Season 3', id:'110316', g:'drama' },
+
+
+
+
+];
+
+  const mGrid = document.getElementById('movie-grid');
+  const sGrid = document.getElementById('series-grid');
+  const viewer = document.getElementById('movie-viewer');
+  const frame = document.getElementById('movie-frame');
+  const search = document.getElementById('movie-search');
+
+  function createCard(item, type) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-title">${item.t.toUpperCase()}</div>
+      <div class="card-genre">${item.g.toUpperCase()}</div>
+    `;
+    card.onclick = function() {
+      frame.src = `https://vidsrc.to/embed/${type}/${item.id}`;
+      viewer.classList.remove('hidden');
+    };
+    return card;
+  }
+
+  function render(filter = 'all') {
+    mGrid.innerHTML = '';
+    sGrid.innerHTML = '';
+
+    peliculas.forEach(p => {
+      if (filter === 'all' || p.g === filter)
+        mGrid.appendChild(createCard(p, 'movie'));
+    });
+
+    series.forEach(s => {
+      if (filter === 'all' || s.g === filter)
+        sGrid.appendChild(createCard(s, 'tv'));
+    });
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.onclick = function() {
+      document.querySelector('.filter-btn.active')?.classList.remove('active');
+      btn.classList.add('active');
+      render(btn.dataset.genre);
+    };
+  });
+
+  search.oninput = function(e) {
+    const val = e.target.value.toLowerCase();
+    document.querySelectorAll('.card').forEach(c => {
+      c.style.display = c.innerText.toLowerCase().includes(val) ? '' : 'none';
+    });
+  };
+
+  document.getElementById('close-movie').onclick = function() {
+    viewer.classList.add('hidden');
+    frame.src = '';
+  };
+
+  render();
+
+})();
+</script>
+
+</body>
+</html>
+
