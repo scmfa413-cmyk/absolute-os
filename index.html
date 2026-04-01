@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Absolute OS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="boot-screen" class="boot">
+  <div class="boot-lines" id="boot-lines"></div>
+</div>
+
+<div id="main-ui" class="hidden">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-title">/root</div>
+    <a href="index.html" class="side-link">/home</a>
+    <a href="games.html" class="side-link">/games</a>
+    <a href="movies.html" class="side-link">/movies</a>
+    <a href="about.html" class="side-link">/about</a>
+    <button id="toggle-sidebar" class="toggle-btn">&lt;</button>
+  </div>
+
+  <div class="terminal">
+    <h1 class="title">ABSOLUTE<span class="cursor">_</span></h1>
+
+    <div class="menu">
+      <a class="item" href="index.html">&gt; HOME</a>
+      <a class="item" href="games.html">&gt; GAMES</a>
+      <a class="item" href="movies.html">&gt; MOVIES</a>
+      <a class="item" href="about.html">&gt; ABOUT</a>
+    </div>
+
+    <pre class="welcome" id="welcome"></pre>
+
+    <div class="cli">
+      <span class="prompt">absolute@system:~$</span>
+      <input type="text" id="command-input" autocomplete="off" />
+    </div>
+
+    <pre class="cli-output" id="cli-output"></pre>
+  </div>
+</div>
+
+<script src="boot.js"></script>
+<script src="sidebar.js"></script>
+<script src="commands.js"></script>
+</body>
+</html>
