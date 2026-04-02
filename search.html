@@ -58,12 +58,6 @@
     outline: none;
   }
 
-  .private-info {
-    margin-top: 10px;
-    font-size: 14px;
-    opacity: 0.7;
-  }
-
   .vpn-box {
     margin-top: 15px;
     padding: 10px;
@@ -78,10 +72,6 @@
     margin-top: 20px;
     border: 1px solid #ff2b2b55;
     background: #111;
-  }
-
-  .glitch {
-    animation: glitch 0.3s;
   }
 
   /* FULLSCREEN AI ASSISTANT */
@@ -161,39 +151,38 @@
 
   <div class="vpn-box">
     VPN: ACTIVE<br>
-    PROXY: ENABLED<br>
+    PROXY: AUTO<br>
     TRACE: BLOCKED
   </div>
 
   <!-- AI BUTTON -->
   <button id="open-ai">OPEN AI ASSISTANT</button>
 
-  <!-- YOUR EXISTING SEARCH SYSTEM (UNCHANGED) -->
+  <!-- SEARCH BAR -->
   <input type="text" id="searchInput" class="search-bar" placeholder="Search privately...">
+
+  <!-- IFRAME -->
   <iframe id="browserFrame"></iframe>
 </div>
 
 <!-- FULLSCREEN AI ASSISTANT -->
 <div id="ai-screen">
   <button id="close-ai">BACK TO SEARCH</button>
-
   <div id="ai-chat"></div>
-
   <input id="ai-input" placeholder="Type your message...">
 </div>
 
 <script>
-/* OPEN AI ASSISTANT */
+/* OPEN / CLOSE AI ASSISTANT */
 document.getElementById("open-ai").onclick = () => {
   document.getElementById("ai-screen").style.display = "flex";
 };
 
-/* CLOSE AI ASSISTANT */
 document.getElementById("close-ai").onclick = () => {
   document.getElementById("ai-screen").style.display = "none";
 };
 
-/* AI CHAT LOGIC */
+/* LOCAL AI (placeholder) */
 const aiChat = document.getElementById("ai-chat");
 const aiInput = document.getElementById("ai-input");
 
@@ -212,12 +201,12 @@ aiInput.addEventListener("keydown", (e) => {
   }
 });
 
-/* YOUR EXISTING SEARCH SYSTEM (UNCHANGED) */
+/* FIXED SEARCH SYSTEM — NOW USING STARTPAGE */
 document.getElementById("searchInput").addEventListener("keydown", function(e) {
   if (e.key === "Enter") {
     const query = this.value.trim();
     if (query) {
-      const url = "https://duckduckgo.com/?q=" + encodeURIComponent(query);
+      const url = "https://www.startpage.com/sp/search?query=" + encodeURIComponent(query);
       document.getElementById("browserFrame").src = url;
     }
   }
