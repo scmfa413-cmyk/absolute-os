@@ -182,9 +182,36 @@ document.getElementById("close-ai").onclick = () => {
   document.getElementById("ai-screen").style.display = "none";
 };
 
-/* LOCAL AI (placeholder) */
+/* LOCAL AI (temporary) */
 const aiChat = document.getElementById("ai-chat");
 const aiInput = document.getElementById("ai-input");
+
+function aiReply(msg) {
+  const lower = msg.toLowerCase();
+  let answer = "";
+
+  if (lower.includes("hello") || lower.includes("hi")) {
+    answer = "Hello Bro. You’re connected to the Absolute OS private AI channel.";
+  } 
+  else if (lower.includes("who are you")) {
+    answer = "I am the internal Absolute OS assistant running locally.";
+  }
+  else if (lower.includes("help")) {
+    answer = "Ask me anything. I can chat, explain things, and stay private.";
+  }
+  else if (lower.includes("time")) {
+    answer = "Local time: " + new Date().toLocaleTimeString();
+  }
+  else if (lower.includes("date")) {
+    answer = "Today’s date: " + new Date().toLocaleDateString();
+  }
+  else {
+    answer = "I hear you Bro. I’m a local simulated assistant for now.";
+  }
+
+  aiChat.innerHTML += `<div><b>AI:</b> ${answer}</div>`;
+  aiChat.scrollTop = aiChat.scrollHeight;
+}
 
 aiInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
@@ -194,20 +221,18 @@ aiInput.addEventListener("keydown", (e) => {
     aiChat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
     aiInput.value = "";
 
-    setTimeout(() => {
-      aiChat.innerHTML += `<div><b>AI:</b> Processing your request inside Absolute OS...</div>`;
-      aiChat.scrollTop = aiChat.scrollHeight;
-    }, 300);
+    setTimeout(() => aiReply(msg), 200);
   }
 });
 
-/* FIXED SEARCH SYSTEM — NOW USING STARTPAGE */
+/* PROXY EVERYTHING — FULL BROWSER MODE */
 document.getElementById("searchInput").addEventListener("keydown", function(e) {
   if (e.key === "Enter") {
     const query = this.value.trim();
     if (query) {
-      const url = "https://www.startpage.com/sp/search?query=" + encodeURIComponent(query);
-      document.getElementById("browserFrame").src = url;
+      const target = "https://www.startpage.com/sp/search?query=" + encodeURIComponent(query);
+      const proxyURL = "http://localhost:4000/proxy?url=" + encodeURIComponent(target);
+      document.getElementById("browserFrame").src = proxyURL;
     }
   }
 });
