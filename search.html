@@ -170,6 +170,94 @@ input.addEventListener("keydown", function(e) {
   }
 });
 </script>
+<script>
+const aiScreen = document.getElementById("ai-screen");
+const openAI = document.getElementById("open-ai");
+const closeAI = document.getElementById("close-ai");
+const aiChat = document.getElementById("ai-chat");
+const aiInput = document.getElementById("ai-input");
 
-</body>
+openAI.onclick = () => {
+  aiScreen.style.display = "flex";
+};
+
+closeAI.onclick = () => {
+  aiScreen.style.display = "none";
+};
+
+aiInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const msg = aiInput.value.trim();
+    if (!msg) return;
+
+    aiChat.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+    aiInput.value = "";
+
+    setTimeout(() => {
+      aiChat.innerHTML += `<div><b>AI:</b> Processing your request inside Absolute OS...</div>`;
+      aiChat.scrollTop = aiChat.scrollHeight;
+    }, 300);
+  }
+});
+</script>
+
+</body> 
+  <button id="open-ai" style="
+  margin: 20px 0;
+  padding: 10px 20px;
+  background:#ff2b2b;
+  border:none;
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
+  font-family:Consolas;
+  box-shadow:0 0 10px #ff2b2b;
+">
+  OPEN AI ASSISTANT
+</button>
+<div id="ai-screen" style="
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:#000;
+  color:#ff2b2b;
+  font-family:Consolas;
+  display:none;
+  flex-direction:column;
+  padding:20px;
+  box-sizing:border-box;
+  z-index:9999;
+">
+
+  <button id="close-ai" style="
+    padding:8px 16px;
+    background:#ff2b2b;
+    border:none;
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+    margin-bottom:20px;
+    box-shadow:0 0 10px #ff2b2b;
+  ">
+    BACK TO SEARCH
+  </button>
+
+  <div id="ai-chat" style="
+    flex-grow:1;
+    overflow-y:auto;
+    border:1px solid #ff2b2b55;
+    padding:15px;
+    margin-bottom:15px;
+  "></div>
+
+  <input id="ai-input" placeholder="Type your message..." style="
+    width:100%;
+    padding:10px;
+    background:#050505;
+    border:1px solid #ff2b2b55;
+    color:#ff2b2b;
+    font-family:Consolas;
+  ">
+</div>
+
 </html>
