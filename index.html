@@ -11,27 +11,62 @@
     color: #ff2b2b;
     font-family: Consolas, monospace;
     white-space: pre-line;
+    overflow: hidden;
   }
 
-  .hidden {
-    display: none;
-  }
+  .hidden { display: none; }
 
+  /* BOOT SCREEN */
   #boot-screen {
     padding: 40px;
     font-size: 14px;
+    animation: fadeIn 0.5s ease-out;
   }
 
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* MAIN UI */
   #main-ui {
     display: flex;
+    opacity: 0;
+    animation: uiFade 0.8s ease-out forwards;
+    animation-delay: 0.2s;
   }
 
+  @keyframes uiFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* SIDEBAR */
   .sidebar {
     width: 180px;
     background: #050505;
     border-right: 1px solid #ff2b2b55;
     padding: 15px;
     box-sizing: border-box;
+    transition: width 0.3s ease;
+    position: relative;
+  }
+
+  .sidebar.collapsed {
+    width: 40px;
+  }
+
+  /* TOGGLE BUTTON */
+  #toggle-sidebar {
+    position: absolute;
+    top: 10px;
+    right: -15px;
+    background: #050505;
+    border: 1px solid #ff2b2b55;
+    color: #ff2b2b;
+    padding: 4px 6px;
+    cursor: pointer;
+    font-size: 14px;
   }
 
   .sidebar-title {
@@ -39,6 +74,11 @@
     margin-bottom: 10px;
     color: #ff2b2b;
     text-shadow: 0 0 10px #ff2b2b;
+    transition: opacity 0.3s;
+  }
+
+  .sidebar.collapsed .sidebar-title {
+    opacity: 0;
   }
 
   .side-link {
@@ -47,6 +87,11 @@
     color: #ff2b2b;
     text-decoration: none;
     font-size: 14px;
+    transition: opacity 0.3s;
+  }
+
+  .sidebar.collapsed .side-link {
+    opacity: 0;
   }
 
   .side-link:hover {
@@ -54,6 +99,7 @@
     text-shadow: 0 0 10px #ff2b2b;
   }
 
+  /* MAIN CONTENT */
   .container {
     padding: 40px;
     flex-grow: 1;
@@ -68,7 +114,6 @@
   .welcome {
     margin-top: 20px;
     font-size: 14px;
-    white-space: pre-line;
   }
 
   /* CLI */
@@ -78,7 +123,6 @@
     border: 1px solid #ff2b2b55;
     height: 200px;
     overflow-y: auto;
-    white-space: pre-line;
   }
 
   #command-input {
@@ -89,6 +133,17 @@
     border: 1px solid #ff2b2b55;
     color: #ff2b2b;
     font-family: Consolas;
+  }
+
+  /* EXTRA MENU SECTION */
+  .section-title {
+    margin-top: 20px;
+    font-size: 12px;
+    opacity: 0.6;
+  }
+
+  .sidebar.collapsed .section-title {
+    opacity: 0;
   }
 </style>
 </head>
@@ -104,6 +159,8 @@
 <div id="main-ui" class="hidden">
 
   <div class="sidebar" id="sidebar">
+    <div id="toggle-sidebar"><</div>
+
     <div class="sidebar-title">ABSOLUTE OS</div>
 
     <a class="side-link active" href="index.html">Start</a>
@@ -112,13 +169,15 @@
     <a class="side-link" href="about.html">About</a>
     <a class="side-link" href="profile.html">Profile</a>
     <a class="side-link" href="search.html">Private Search</a>
+
+    <div class="section-title">Developer</div>
+    <a class="side-link" href="#">CLI</a>
   </div>
 
   <div class="container">
     <div class="title">ABSOLUTE OS</div>
     <div id="welcome" class="welcome"></div>
 
-    <!-- ⭐ RESTORED CLI -->
     <div id="cli-box">
       <div id="cli-output"></div>
     </div>
@@ -168,8 +227,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function startWelcomeTyping() {
   const text = document.getElementById("welcome");
-  if (!text) return;
-
   const message = [
     "Initializing Absolute System...",
     "Loading modules...",
@@ -177,13 +234,12 @@ function startWelcomeTyping() {
     "System ready."
   ];
 
-  let line = 0;
-  let char = 0;
+  let line = 0, char = 0;
 
   function type() {
     if (line < message.length) {
       if (char < message[line].length) {
-        text.textContent += message[line].charAt(char);
+        text.textContent += message[line][char];
         char++;
         setTimeout(type, 40);
       } else {
@@ -198,11 +254,19 @@ function startWelcomeTyping() {
   type();
 }
 
-/* ⭐ RESTORED COMMAND SYSTEM */
+/* SIDEBAR TOGGLE */
+document.getElementById("toggle-sidebar").addEventListener("click", () => {
+  const sidebar = document.getElementById("sidebar");
+  const toggle = document.getElementById("toggle-sidebar");
+
+  sidebar.classList.toggle("collapsed");
+  toggle.textContent = sidebar.classList.contains("collapsed") ? ">" : "<";
+});
+
+/* COMMAND SYSTEM */
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("command-input");
   const output = document.getElementById("cli-output");
-  if (!input || !output) return;
 
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
@@ -214,8 +278,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function handleCommand(cmd, output) {
-  if (!cmd) return;
-
   const lower = cmd.toLowerCase();
   let response = "";
 
