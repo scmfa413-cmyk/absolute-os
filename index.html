@@ -99,10 +99,10 @@
     text-shadow: 0 0 10px #ff2b2b;
   }
 
-  /* MAIN CONTENT */
   .container {
     padding: 40px;
     flex-grow: 1;
+    position: relative;
   }
 
   .title {
@@ -135,7 +135,6 @@
     font-family: Consolas;
   }
 
-  /* EXTRA MENU SECTION */
   .section-title {
     margin-top: 20px;
     font-size: 12px;
@@ -144,6 +143,75 @@
 
   .sidebar.collapsed .section-title {
     opacity: 0;
+  }
+
+  /* DEVELOPER PANEL */
+  #dev-panel {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 420px;
+    height: 420px;
+    background: #050505;
+    border: 1px solid #ff2b2b55;
+    padding: 15px;
+    box-sizing: border-box;
+    display: none;
+    overflow: hidden;
+  }
+
+  #dev-panel h2 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    text-shadow: 0 0 10px #ff2b2b;
+  }
+
+  #dev-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .dev-tab {
+    padding: 4px 8px;
+    border: 1px solid #ff2b2b55;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .dev-tab.active {
+    background: #ff2b2b22;
+  }
+
+  .dev-section {
+    display: none;
+    font-size: 12px;
+    height: 320px;
+    overflow-y: auto;
+    border-top: 1px solid #ff2b2b33;
+    padding-top: 8px;
+  }
+
+  .dev-section.active {
+    display: block;
+  }
+
+  #dev-ai-output {
+    height: 180px;
+    border: 1px solid #ff2b2b55;
+    padding: 8px;
+    overflow-y: auto;
+    margin-bottom: 6px;
+  }
+
+  #dev-ai-input {
+    width: 100%;
+    padding: 6px;
+    background: #000;
+    border: 1px solid #ff2b2b55;
+    color: #ff2b2b;
+    font-family: Consolas;
+    font-size: 12px;
   }
 </style>
 </head>
@@ -171,7 +239,7 @@
     <a class="side-link" href="search.html">Private Search</a>
 
     <div class="section-title">Developer</div>
-    <a class="side-link" href="#">CLI</a>
+    <a class="side-link" href="#" id="dev-menu-link">CLI / Core</a>
   </div>
 
   <div class="container">
@@ -182,11 +250,78 @@
       <div id="cli-output"></div>
     </div>
     <input id="command-input" placeholder="Enter command...">
+
+    <!-- DEVELOPER PANEL -->
+    <div id="dev-panel">
+      <h2>DEVELOPER CORE</h2>
+      <div id="dev-status" style="font-size:11px;margin-bottom:6px;">
+        ACCESS: LOCKED • Use <code>unlock.dev</code> in CLI with pattern code.
+      </div>
+
+      <div id="dev-tabs">
+        <div class="dev-tab active" data-target="dev-system">System</div>
+        <div class="dev-tab" data-target="dev-modules">Modules</div>
+        <div class="dev-tab" data-target="dev-net">Network</div>
+        <div class="dev-tab" data-target="dev-ai">AI Assistant</div>
+        <div class="dev-tab" data-target="dev-debug">Debug</div>
+      </div>
+
+      <div id="dev-system" class="dev-section active">
+        System Internals:
+        - Kernel: ABS-CORE-3.7
+        - Uptime: simulated
+        - Secure Mode: ENABLED
+        - Experimental Flags: DEV_ONLY
+
+        Hidden commands (CLI):
+        - dev.info       : show developer info
+        - dev.flags      : list experimental flags
+        - dev.lock       : re-lock developer mode
+      </div>
+
+      <div id="dev-modules" class="dev-section">
+        Module Loader:
+        - video.engine       [LOADED]
+        - game.launcher      [LOADED]
+        - search.proxy       [LOADED]
+        - ai.core            [LOADED]
+        - telemetry          [DISABLED]
+
+        (Conceptual only — no real system access.)
+      </div>
+
+      <div id="dev-net" class="dev-section">
+        Network Monitor:
+        - NET LINK: STABLE
+        - ROUTE: SCHOOL / PUBLIC
+        - PROXY: AUTO-FALLBACK ENABLED
+        - BLOCKED HOSTS: filtered
+
+        This is a visual layer only — no real network control.
+      </div>
+
+      <div id="dev-ai" class="dev-section">
+        AI Assistant Core:
+
+        <div id="dev-ai-output"></div>
+        <input id="dev-ai-input" placeholder="Ask the AI assistant...">
+      </div>
+
+      <div id="dev-debug" class="dev-section">
+        Debug Console:
+        - Logs simulated internal events.
+        - Use CLI commands:
+          - dev.log.test
+          - dev.log.clear
+      </div>
+    </div>
   </div>
 
 </div>
 
 <script>
+let devUnlocked = false;
+
 /* BOOT + TYPING */
 document.addEventListener("DOMContentLoaded", () => {
   const bootLines = [
@@ -263,6 +398,27 @@ document.getElementById("toggle-sidebar").addEventListener("click", () => {
   toggle.textContent = sidebar.classList.contains("collapsed") ? ">" : "<";
 });
 
+/* DEV PANEL TABS */
+document.querySelectorAll(".dev-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".dev-tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".dev-section").forEach(s => s.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.target).classList.add("active");
+  });
+});
+
+/* DEV MENU LINK */
+document.getElementById("dev-menu-link").addEventListener("click", (e) => {
+  e.preventDefault();
+  const panel = document.getElementById("dev-panel");
+  if (!devUnlocked) {
+    alert("Developer Mode locked.\nUse 'unlock.dev' in CLI with the pattern code.");
+    return;
+  }
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+});
+
 /* COMMAND SYSTEM */
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("command-input");
@@ -275,9 +431,26 @@ document.addEventListener("DOMContentLoaded", () => {
       input.value = "";
     }
   });
+
+  /* AI Assistant input */
+  const aiInput = document.getElementById("dev-ai-input");
+  const aiOutput = document.getElementById("dev-ai-output");
+  aiInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const q = aiInput.value.trim();
+      if (!q) return;
+      aiInput.value = "";
+      aiOutput.textContent += "YOU: " + q + "\n";
+      aiOutput.textContent += "AI: Processing request in simulated core...\n";
+      aiOutput.textContent += "AI: This is a conceptual assistant inside Absolute OS. Use it to imagine system changes, not real ones.\n\n";
+      aiOutput.scrollTop = aiOutput.scrollHeight;
+    }
+  });
 });
 
 function handleCommand(cmd, output) {
+  if (!cmd) return;
+
   const lower = cmd.toLowerCase();
   let response = "";
 
@@ -289,6 +462,7 @@ function handleCommand(cmd, output) {
       "  open movies     - go to movies\n" +
       "  open about      - go to about\n" +
       "  system.status   - show system status\n" +
+      "  unlock.dev      - unlock developer mode\n" +
       "  clear           - clear output\n";
   } else if (lower === "open games") {
     window.location.href = "games.html";
@@ -304,15 +478,53 @@ function handleCommand(cmd, output) {
       "SYSTEM STATUS:\n" +
       "  CORE: STABLE\n" +
       "  NET: LINKED\n" +
-      "  USER: ONLINE\n";
+      "  USER: ONLINE\n" +
+      "  DEV MODE: " + (devUnlocked ? "UNLOCKED" : "LOCKED") + "\n";
   } else if (lower === "clear") {
     output.textContent = "";
     return;
+  } else if (lower === "unlock.dev") {
+    const code = prompt("Enter pattern code:");
+    if (!code) {
+      response = "Developer unlock cancelled.\n";
+    } else if (code.trim().toLowerCase() === "up up down down left right") {
+      devUnlocked = true;
+      document.getElementById("dev-status").textContent =
+        "ACCESS: UNLOCKED • Developer tools available. Use sidebar 'CLI / Core' to open panel.";
+      response =
+        "Developer Mode unlocked.\n" +
+        "Use the 'CLI / Core' entry in the sidebar to open the Developer Panel.\n";
+    } else {
+      response = "Invalid pattern code.\n";
+    }
+  } else if (lower === "dev.info") {
+    response =
+      "DEVELOPER INFO:\n" +
+      "  CORE BUILD: ABS-DEV-ALPHA\n" +
+      "  FLAGS: ai.core, search.proxy, game.launcher\n";
+  } else if (lower === "dev.flags") {
+    response =
+      "EXPERIMENTAL FLAGS:\n" +
+      "  ai.core         [ENABLED]\n" +
+      "  telemetry       [DISABLED]\n" +
+      "  sandbox.fs      [SIMULATED]\n";
+  } else if (lower === "dev.lock") {
+    devUnlocked = false;
+    document.getElementById("dev-status").textContent =
+      "ACCESS: LOCKED • Use 'unlock.dev' in CLI with pattern code.";
+    document.getElementById("dev-panel").style.display = "none";
+    response = "Developer Mode re-locked.\n";
+  } else if (lower === "dev.log.test") {
+    response = "DEBUG LOG: test event recorded (simulated).\n";
+  } else if (lower === "dev.log.clear") {
+    response = "DEBUG LOG: cleared (simulated).\n";
   } else {
     response = `Unknown command: ${cmd}\nType 'help' for a list of commands.\n`;
   }
 
   output.textContent += `$ ${cmd}\n${response}\n`;
+  const cliBox = document.getElementById("cli-box");
+  cliBox.scrollTop = cliBox.scrollHeight;
 }
 </script>
 
