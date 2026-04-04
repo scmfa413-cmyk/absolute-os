@@ -202,4 +202,86 @@
     drawParticles();
   </script>
 </body>
+  <!-- Modern Minimal Sidebar -->
+<div class="sidebar-v2">
+  <div class="side-icon" title="Home">🏠</div>
+  <div class="side-icon" title="Movies">🎬</div>
+  <div class="side-icon" title="Games">🎮</div>
+  <div class="side-icon" title="Apps">📱</div>
+  <div class="side-icon" title="Proxy">🛡️</div>
+  <div class="side-icon" title="Assistant">🤖</div>
+
+  <div class="side-bottom">
+    <div class="side-icon" title="Settings">⚙️</div>
+    <div class="side-icon" title="Profile">👤</div>
+  </div>
+</div>
+
+<style>
+/* Sidebar container */
+.sidebar-v2 {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 70px;
+  height: auto;
+  padding: 20px 10px;
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 0 18px #b86eff;
+  z-index: 999;
+}
+
+/* Sidebar icons */
+.side-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(30, 30, 30, 0.8);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 0 6px #b86eff55;
+}
+
+/* Hover glow */
+.side-icon:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 12px #b86eff;
+}
+
+/* Active icon */
+.side-icon.active {
+  background: #b86eff33;
+  box-shadow: 0 0 14px #b86eff;
+  transform: scale(1.15);
+}
+
+/* Bottom section */
+.side-bottom {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+</style>
+
+<script>
+// Example: Set active icon when clicked
+document.querySelectorAll('.side-icon').forEach(icon => {
+  icon.addEventListener('click', () => {
+    document.querySelectorAll('.side-icon').forEach(i => i.classList.remove('active'));
+    icon.classList.add('active');
+  });
+});
+</script>
+
 </html>
