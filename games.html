@@ -1,150 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Absolute - Games</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Absolute OS — Games Window</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #0d0d0d;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+  }
+
+  /* Window container */
+  .game-window {
+    width: 85vw;
+    height: 85vh;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    box-shadow: 0 0 20px #b86eff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    animation: popIn 0.3s ease forwards;
+    overflow: hidden;
+  }
+
+  @keyframes popIn {
+    from { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  }
+
+  /* Title bar */
+  .title-bar {
+    height: 45px;
+    background: rgba(30, 30, 30, 0.9);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    cursor: grab;
+  }
+
+  .title-bar:active {
+    cursor: grabbing;
+  }
+
+  .title-text {
+    flex: 1;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* Window buttons */
+  .window-btns {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .close { background: #ff4b4b; }
+  .minimize { background: #ffcc00; }
+  .fullscreen { background: #6aff6a; }
+
+  /* Iframe */
+  iframe {
+    width: 100%;
+    height: calc(100% - 45px);
+    border: none;
+  }
+</style>
 </head>
+
 <body>
-<div class="sidebar">
-  <div class="sidebar-title">ABSOLUTE OS</div>
 
-  <a class="side-link" href="index.html">Start</a>
-  <a class="side-link" href="movies.html">Movies</a>
-  <a class="side-link" href="games.html">Games</a>
-  <a class="side-link" href="about.html">About</a>
-  <a class="side-link" href="profile.html">Profile</a>
-  <a class="side-link" href="search.html">Private Search</a>
-</div>
+<div class="game-window" id="gameWindow">
+  <div class="title-bar" id="dragBar">
+    <div class="title-text">Games — OnlineGames.io</div>
 
-
-<div class="terminal">
-  <h1 class="title">GAMES<span class="cursor">_</span></h1>
-  <pre class="welcome">
-Click any game to launch it in fullscreen mode.
-  </pre>
-
-  <div class="grid">
-
-    <!-- Each card now has a data-url attribute -->
-
-    <div class="card" data-url="https://www.onlinegames.io/drift-king/">
-      <div class="card-title">Drift King</div>
+    <div class="window-btns">
+      <div class="btn minimize" onclick="minimizeWindow()"></div>
+      <div class="btn fullscreen" onclick="toggleFullscreen()"></div>
+      <div class="btn close" onclick="closeWindow()"></div>
     </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/real-flight-simulator/">
-      <div class="card-title">Real Flight Simulator</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/cs-online/">
-      <div class="card-title">CS Online</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/get-on-top/">
-      <div class="card-title">Get On Top</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/basket-hoop/">
-      <div class="card-title">Basket Hoop</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/police-chase-drifter/">
-      <div class="card-title">Police Chase Drifter</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/gta-simulator/">
-      <div class="card-title">GTA Simulator</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/dta-6/">
-      <div class="card-title">DTA 6</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/tank-stars/">
-      <div class="card-title">Tank Stars</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/a-small-world-cup/">
-      <div class="card-title">A Small World Cup</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/geometry-vibes-x-arrow/">
-      <div class="card-title">Geometry Vibes X Arrow</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/basketball-stars-2026/">
-      <div class="card-title">Basketball Stars 2026</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/stick-fighter-3d/">
-      <div class="card-title">Stick Fighter 3D</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/football-legends/">
-      <div class="card-title">Football Legends</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/rooftop-snipers/">
-      <div class="card-title">Rooftop Snipers</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/fnaf-shooter/">
-      <div class="card-title">FNAF Shooter</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/bloxd-io/">
-      <div class="card-title">Bloxd.io</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/obby-football-soccer-3d/">
-      <div class="card-title">Obby Football Soccer 3D</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/steal-brainrot-original-3d/">
-      <div class="card-title">Steal Brainrot Original 3D</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/dublix/">
-      <div class="card-title">Dublix</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/steal-car-duel/">
-      <div class="card-title">Steal Car Duel</div>
-    </div>
-
-    <div class="card" data-url="https://www.onlinegames.io/obby-but-you-re-on-a-bike/">
-      <div class="card-title">Obby But You're On A Bike</div>
-    </div>
-
   </div>
-</div>
 
-<!-- FULLSCREEN GAME VIEWER -->
-<div id="game-viewer" class="game-viewer hidden">
-  <button id="close-game" class="close-btn">CLOSE</button>
-  <iframe id="game-frame" src="" frameborder="0"></iframe>
+  <iframe src="https://www.onlinegames.io"></iframe>
 </div>
-
-<script src="sidebar.js"></script>
 
 <script>
-// Fullscreen game viewer logic
-document.querySelectorAll(".card").forEach(card => {
-  card.addEventListener("click", () => {
-    const url = card.getAttribute("data-url");
-    document.getElementById("game-frame").src = url;
-    document.getElementById("game-viewer").classList.remove("hidden");
-  });
-});
+  /* Dragging logic */
+  const win = document.getElementById("gameWindow");
+  const dragBar = document.getElementById("dragBar");
+  let offsetX, offsetY, isDown = false;
 
-document.getElementById("close-game").addEventListener("click", () => {
-  document.getElementById("game-viewer").classList.add("hidden");
-  document.getElementById("game-frame").src = "";
-});
+  dragBar.addEventListener("mousedown", e => {
+    isDown = true;
+    offsetX = e.clientX - win.offsetLeft;
+    offsetY = e.clientY - win.offsetTop;
+  });
+
+  document.addEventListener("mouseup", () => isDown = false);
+
+  document.addEventListener("mousemove", e => {
+    if (!isDown) return;
+    win.style.left = `${e.clientX - offsetX}px`;
+    win.style.top = `${e.clientY - offsetY}px`;
+  });
+
+  /* Close window */
+  function closeWindow() {
+    win.style.display = "none";
+  }
+
+  /* Minimize window */
+  function minimizeWindow() {
+    win.style.transform = "translate(-50%, -50%) scale(0.1)";
+    win.style.opacity = "0";
+    setTimeout(() => win.style.display = "none", 200);
+  }
+
+  /* Fullscreen toggle */
+  let full = false;
+  function toggleFullscreen() {
+    full = !full;
+    win.style.width = full ? "100vw" : "85vw";
+    win.style.height = full ? "100vh" : "85vh";
+    win.style.left = "50%";
+    win.style.top = "50%";
+    win.style.transform = "translate(-50%, -50%)";
+  }
 </script>
 
 </body>
 </html>
-
-
 
