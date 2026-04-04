@@ -1,1 +1,1 @@
-ts still v1 so dont hate
+Not ai was used for this project,Microsoft copilot was used to help design and build it,but Microsoft copilot can design build or create websites,so the site is 99% Human made,it was put effort into it,and pls dont even enter the discord or website if your going to hate on it,just enjoy it
