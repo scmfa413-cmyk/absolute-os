@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Absolute OS V2</title>
+
   <style>
     body {
       margin: 0;
@@ -12,14 +13,17 @@
       color: white;
       overflow-x: hidden;
     }
+
+    /* Particle background */
     .particles {
       position: fixed;
       width: 100%;
       height: 100%;
-      background: transparent;
       pointer-events: none;
       z-index: 0;
     }
+
+    /* HERO SECTION */
     .hero {
       text-align: center;
       padding: 100px 20px 40px;
@@ -55,68 +59,58 @@
     .buttons button:hover {
       transform: scale(1.05);
     }
-    .app-icons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 40px;
-      gap: 20px;
-    }
-    .app-icons div {
-      width: 80px;
-      height: 80px;
-      background: #1a1a1a;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 6px #b86eff;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .app-icons div:hover {
-      transform: scale(1.1);
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 20px;
-      padding: 40px;
-      z-index: 1;
-      position: relative;
-    }
-    .grid img {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 0 6px #b86eff;
-      transition: transform 0.2s;
-    }
-    .grid img:hover {
-      transform: scale(1.05);
-    }
-    .sidebar {
+
+    /* Modern Sidebar V2 */
+    .sidebar-v2 {
       position: fixed;
-      left: 0;
-      top: 0;
-      width: 60px;
-      height: 100%;
-      background: rgba(20, 20, 20, 0.8);
-      backdrop-filter: blur(10px);
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 70px;
+      padding: 20px 10px;
+      background: rgba(20, 20, 20, 0.55);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
       display: flex;
       flex-direction: column;
+      gap: 18px;
+      box-shadow: 0 0 18px #b86eff;
+      z-index: 999;
+    }
+
+    .side-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 14px;
+      display: flex;
       align-items: center;
-      padding-top: 20px;
-      z-index: 2;
-    }
-    .sidebar div {
-      width: 40px;
-      height: 40px;
-      margin: 10px 0;
-      background: #1a1a1a;
-      border-radius: 8px;
-      box-shadow: 0 0 6px #b86eff;
+      justify-content: center;
+      font-size: 22px;
       cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: 0 0 6px #b86eff55;
     }
+
+    .side-icon:hover {
+      transform: scale(1.12);
+      box-shadow: 0 0 12px #b86eff;
+    }
+
+    .side-icon.active {
+      background: #b86eff33;
+      box-shadow: 0 0 14px #b86eff;
+      transform: scale(1.15);
+    }
+
+    .side-bottom {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Notification */
     .notification {
       position: fixed;
       bottom: 20px;
@@ -130,49 +124,45 @@
     }
   </style>
 </head>
+
 <body>
+
+  <!-- Particle Background -->
   <div class="particles"></div>
 
-  <div class="sidebar">
-    <div title="Home"></div>
-    <div title="Movies"></div>
-    <div title="Games"></div>
-    <div title="Apps"></div>
-    <div title="Assistant"></div>
-    <div title="Settings"></div>
+  <!-- Modern Sidebar -->
+  <div class="sidebar-v2">
+    <div class="side-icon" title="Home">🏠</div>
+    <div class="side-icon" title="Movies">🎬</div>
+    <div class="side-icon" title="Games">🎮</div>
+    <div class="side-icon" title="Apps">📱</div>
+    <div class="side-icon" title="Proxy">🛡️</div>
+    <div class="side-icon" title="Assistant">🤖</div>
+
+    <div class="side-bottom">
+      <div class="side-icon" title="Settings">⚙️</div>
+      <div class="side-icon" title="Profile">👤</div>
+    </div>
   </div>
 
+  <!-- HERO -->
   <div class="hero">
     <h1>Absolute OS is evolving.</h1>
     <p>The next generation of web systems, built for speed, style, and full control.</p>
+
     <div class="buttons">
-      <button>Launch System</button>
-      <button>Enter OS</button>
-    </div>
-    <div class="app-icons">
-      <div title="Movies">🎬</div>
-      <div title="Games">🎮</div>
-      <div title="Apps">📱</div>
-      <div title="Assistant">🤖</div>
-      <div title="Proxy">🛡️</div>
-      <div title="Settings">⚙️</div>
+      <button>Start Playing</button>
+      <button>Enter the Cinema</button>
     </div>
   </div>
 
-  <div class="grid">
-    <img src="https://via.placeholder.com/120x120?text=Game1" alt="Game 1" />
-    <img src="https://via.placeholder.com/120x120?text=Game2" alt="Game 2" />
-    <img src="https://via.placeholder.com/120x120?text=Game3" alt="Game 3" />
-    <img src="https://via.placeholder.com/120x120?text=Game4" alt="Game 4" />
-    <img src="https://via.placeholder.com/120x120?text=Game5" alt="Game 5" />
-  </div>
-
+  <!-- Notification -->
   <div class="notification">
     Message from System — Absolute OS V2 is live!
   </div>
 
+  <!-- Particle Script -->
   <script>
-    // Simple particle animation
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -201,93 +191,7 @@
     }
     drawParticles();
   </script>
+
 </body>
-  <!-- Modern Minimal Sidebar -->
-<div class="sidebar-v2">
-  <div class="side-icon" title="Home">🏠</div>
-  <div class="side-icon" title="Movies">🎬</div>
-  <div class="side-icon" title="Games">🎮</div>
-  <div class="side-icon" title="Apps">📱</div>
-  <div class="side-icon" title="Proxy">🛡️</div>
-  <div class="side-icon" title="Assistant">🤖</div>
-
-  <div class="side-bottom">
-    <div class="side-icon" title="Settings">⚙️</div>
-    <div class="side-icon" title="Profile">👤</div>
-  </div>
-</div>
-
-<style>
-/* Sidebar container */
-.sidebar-v2 {
-  position: fixed;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 70px;
-  height: auto;
-  padding: 20px 10px;
-  background: rgba(20, 20, 20, 0.55);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  box-shadow: 0 0 18px #b86eff;
-  z-index: 999;
-}
-
-/* Sidebar icons */
-.side-icon {
-  width: 50px;
-  height: 50px;
-  background: rgba(30, 30, 30, 0.8);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  cursor: pointer;
-  transition: 0.25s ease;
-  box-shadow: 0 0 6px #b86eff55;
-}
-
-/* Hover glow */
-.side-icon:hover {
-  transform: scale(1.12);
-  box-shadow: 0 0 12px #b86eff;
-}
-
-/* Active icon */
-.side-icon.active {
-  background: #b86eff33;
-  box-shadow: 0 0 14px #b86eff;
-  transform: scale(1.15);
-}
-
-/* Bottom section */
-.side-bottom {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-</style>
-
-<script>
-// Example: Set active icon when clicked
-document.querySelectorAll('.side-icon').forEach(icon => {
-  icon.addEventListener('click', () => {
-    document.querySelectorAll('.side-icon').forEach(i => i.classList.remove('active'));
-    icon.classList.add('active');
-  });
-});
-</script>
-
 </html>
-<div id="window-movies" class="os-window hidden">...</div>
-<div id="window-games" class="os-window hidden">...</div>
-<div id="window-apps" class="os-window hidden">...</div>
-<div id="window-assistant" class="os-window hidden">...</div>
-<div id="window-proxy" class="os-window hidden">...</div>
-<div id="window-settings" class="os-window hidden">...</div>
+
