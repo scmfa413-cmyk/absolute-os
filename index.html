@@ -71,7 +71,7 @@
       font-size: 13px;
     }
 
-    /* FIXED SIDEBAR (A2 – 120px) */
+    /* FIXED SIDEBAR (120px) */
     .sidebar {
       position: fixed;
       top: 0;
@@ -424,7 +424,7 @@
       border-radius: 3px;
     }
 
-    /* ---------- MOBILE CINEMA OVERLAY ---------- */
+    /* MOBILE CINEMA OVERLAY */
     .mobile-cinema-window {
       position: fixed;
       top: 0;
@@ -476,7 +476,7 @@
       height: 100%;
     }
 
-    /* ---------- HERO BUTTON SWITCH (DESKTOP vs MOBILE) ---------- */
+    /* HERO BUTTON SWITCH (DESKTOP vs MOBILE) */
     #enter-cinema-btn { display: inline-block; }
     #mobile-cinema-btn { display: none; }
 
@@ -628,411 +628,6 @@
     </div>
   </div>
 
-  <!-- Other windows (apps, proxy, assistant, settings, profile, cinehub, etc.) go here -->
-
-  <!-- Part 2 & 3: scripts will be added after this -->
-  <script>
-    // JS will be provided in Part 2 / Part 3
-  </script>
-</body>
-  <script>
-/* ============================================================
-   WINDOW SYSTEM
-============================================================ */
-function openWindow(name) {
-  // Close all windows
-  document.querySelectorAll('.window, .mobile-cinema-window').forEach(w => {
-    w.style.display = 'none';
-  });
-
-  const win = document.getElementById('window-' + name);
-  if (win) {
-    win.style.display = 'flex';
-
-    // Initialize cinema only once
-    if (name === 'cinema') initCinemaOnce();
-
-    // Mobile Cinema overlay (full screen)
-    if (name === 'mobilecinema') {
-      document.body.style.overflow = 'hidden';
-    }
-  }
-}
-
-function closeWindow(name) {
-  const win = document.getElementById('window-' + name);
-  if (win) win.style.display = 'none';
-
-  if (name === 'mobilecinema') {
-    document.body.style.overflow = 'auto';
-  }
-}
-
-/* ============================================================
-   DRAGGING WINDOWS (DESKTOP ONLY)
-============================================================ */
-let dragData = null;
-
-function startDrag(e, win) {
-  if (window.innerWidth <= 768) return; // disable dragging on mobile
-
-  const rect = win.getBoundingClientRect();
-  dragData = {
-    win,
-    offsetX: e.clientX - rect.left,
-    offsetY: e.clientY - rect.top
-  };
-
-  document.addEventListener('mousemove', onDragMove);
-  document.addEventListener('mouseup', stopDrag);
-}
-
-function onDragMove(e) {
-  if (!dragData) return;
-  dragData.win.style.left = (e.clientX - dragData.offsetX) + 'px';
-  dragData.win.style.top = (e.clientY - dragData.offsetY) + 'px';
-}
-
-function stopDrag() {
-  document.removeEventListener('mousemove', onDragMove);
-  document.removeEventListener('mouseup', stopDrag);
-  dragData = null;
-}
-
-/* ============================================================
-   WEBVIEW BROWSER ENGINE (REPL WEBVIEW)
-============================================================ */
-const BROWSER_BASE = "https://webview.unblockproject.repl.co/?url=";
-
-function browserUrl(target) {
-  return BROWSER_BASE + encodeURIComponent(target);
-}
-
-function buildProxyTarget(raw) {
-  const value = raw.trim();
-  if (!value) return null;
-
-  const looksLikeUrl =
-    value.startsWith("http://") ||
-    value.startsWith("https://") ||
-    value.includes(".");
-
-  if (looksLikeUrl) {
-    const url = value.startsWith("http") ? value : "https://" + value;
-    return url;
-  }
-
-  const query = encodeURIComponent(value);
-  return "https://www.google.com/search?q=" + query;
-}
-
-function handleProxySubmit(event) {
-  event.preventDefault();
-  const input = document.getElementById("proxy-url-input");
-  const iframe = document.getElementById("proxy-browser-iframe");
-  if (!input || !iframe) return false;
-
-  const target = buildProxyTarget(input.value);
-  if (!target) return false;
-
-  iframe.src = browserUrl(target);
-  return false;
-}
-
-/* ============================================================
-   APPS LOADER (USING WEBVIEW)
-============================================================ */
-function loadApp(app) {
-  let target = "";
-
-  switch (app) {
-    case 'roblox': target = "https://www.roblox.com"; break;
-    case 'geforce': target = "https://play.geforcenow.com"; break;
-    case 'xbox': target = "https://www.xbox.com/play"; break;
-    case 'tiktok': target = "https://www.tiktok.com"; break;
-    case 'instagram': target = "https://www.instagram.com"; break;
-    case 'twitter': target = "https://x.com"; break;
-    case 'reddit': target = "https://www.reddit.com"; break;
-    case 'youtube': target = "https://www.youtube.com"; break;
-    case 'spotify': target = "https://open.spotify.com"; break;
-    case 'twitch': target = "https://www.twitch.tv"; break;
-  }
-
-  const container = document.getElementById('apps-iframe-container');
-  if (!container) return;
-
-  if (!container.querySelector('iframe')) {
-    container.innerHTML = '';
-    const iframe = document.createElement('iframe');
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    container.appendChild(iframe);
-  }
-
-  const iframe = container.querySelector('iframe');
-  iframe.src = browserUrl(target);
-}
-
-/* ============================================================
-   CINEMA LOGIC (TRENDING / MOVIES / SERIES)
-============================================================ */
-const TMDB_BASE = "https://image.tmdb.org/t/p/w300";
-
-// TEMP SAMPLE DATA (replace with your real arrays)
-const allMovies = [
-  { id: 27205, t: "Inception", g: "Sci-Fi, Action", d: "2010", posterPath: "/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg" },
-  { id: 603, t: "The Matrix", g: "Sci-Fi, Action", d: "1999", posterPath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" }
-];
-
-const allSeries = [
-  { id: 1399, t: "Game of Thrones", g: "Fantasy, Drama", d: "2011", posterPath: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg" }
-];
-
-let cinemaInitialized = false;
-let currentItem = null;
-let currentType = 'movie';
-let libraryTab = 'movies';
-let moviesLoaded = 0;
-let seriesLoaded = 0;
-const PAGE_SIZE = 24;
-
-function initCinemaOnce() {
-  if (cinemaInitialized) return;
-  cinemaInitialized = true;
-
-  buildTrending();
-  buildLibraryInitial();
-
-  const scrollEl = document.getElementById('cinema-scroll');
-  scrollEl.addEventListener('scroll', onLibraryScroll);
-}
-
-function createPosterThumb(item) {
-  const div = document.createElement('div');
-  div.className = 'poster-thumb';
-
-  if (item.posterPath) {
-    const img = document.createElement('img');
-    img.src = TMDB_BASE + item.posterPath;
-    img.alt = item.t;
-    div.appendChild(img);
-  }
-
-  return div;
-}
-
-function buildTrending() {
-  const row = document.getElementById('trending-row');
-  row.innerHTML = '';
-
-  const trendingItems = allMovies.slice(0, 12);
-  trendingItems.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'poster-card';
-    card.onclick = () => playItem(item, 'movie');
-
-    const thumb = createPosterThumb(item);
-    const title = document.createElement('div');
-    title.className = 'poster-meta-title';
-    title.innerText = item.t;
-
-    const sub = document.createElement('div');
-    sub.className = 'poster-meta-sub';
-    sub.innerText = item.g;
-
-    card.appendChild(thumb);
-    card.appendChild(title);
-    card.appendChild(sub);
-    row.appendChild(card);
-  });
-}
-
-function buildLibraryInitial() {
-  moviesLoaded = 0;
-  seriesLoaded = 0;
-  document.getElementById('library-grid').innerHTML = '';
-  loadMoreLibrary();
-}
-
-function onLibraryScroll(e) {
-  const el = e.target;
-  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 80) {
-    loadMoreLibrary();
-  }
-}
-
-function setLibraryTab(tab) {
-  libraryTab = tab;
-
-  document.getElementById('tab-movies').classList.toggle('active', tab === 'movies');
-  document.getElementById('tab-series').classList.toggle('active', tab === 'series');
-
-  buildLibraryInitial();
-}
-
-function loadMoreLibrary() {
-  const grid = document.getElementById('library-grid');
-  let source, loaded, setLoaded;
-
-  if (libraryTab === 'movies') {
-    source = allMovies;
-    loaded = moviesLoaded;
-    setLoaded = v => moviesLoaded = v;
-  } else {
-    source = allSeries;
-    loaded = seriesLoaded;
-    setLoaded = v => seriesLoaded = v;
-  }
-
-  if (loaded >= source.length) {
-    document.getElementById('load-more-label').innerText = 'All titles loaded.';
-    return;
-  }
-
-  const next = source.slice(loaded, loaded + PAGE_SIZE);
-  next.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'grid-poster-card';
-    card.onclick = () => playItem(item, libraryTab === 'movies' ? 'movie' : 'tv');
-
-    const thumb = createPosterThumb(item);
-    const title = document.createElement('div');
-    title.className = 'poster-meta-title';
-    title.innerText = item.t;
-
-    const sub = document.createElement('div');
-    sub.className = 'poster-meta-sub';
-    sub.innerText = item.g;
-
-    card.appendChild(thumb);
-    card.appendChild(title);
-    card.appendChild(sub);
-    grid.appendChild(card);
-  });
-
-  setLoaded(loaded + next.length);
-
-  if (loaded + next.length >= source.length) {
-    document.getElementById('load-more-label').innerText = 'All titles loaded.';
-  } else {
-    document.getElementById('load-more-label').innerText = 'Scroll to load more…';
-  }
-}
-
-function playItem(item, type) {
-  currentItem = item;
-  currentType = type;
-
-  const serverKey = document.getElementById('server-select').value;
-  const server = servers[serverKey] || servers.vidsrc;
-
-  const url = type === 'movie'
-    ? server.movie(item.id)
-    : server.tv(item.id);
-
-  document.getElementById('cinema-player').src = url;
-
-  document.getElementById('info-title').innerText = item.t;
-  document.getElementById('info-meta').innerText =
-    `${type === 'movie' ? 'Movie' : 'Series'} • ${item.g} • ${item.d}`;
-  document.getElementById('info-desc').innerText =
-    'Streaming via ' + server.label + ' using TMDB ID ' + item.id + '.';
-
-  const chips = document.getElementById('info-chips');
-  chips.innerHTML = '';
-
-  item.g.split(',').map(s => s.trim()).forEach(g => {
-    const chip = document.createElement('div');
-    chip.className = 'chip';
-    chip.innerText = g;
-    chips.appendChild(chip);
-  });
-
-  const idChip = document.createElement('div');
-  idChip.className = 'chip';
-  idChip.innerText = 'TMDB: ' + item.id;
-  chips.appendChild(idChip);
-}
-
-function changeServer() {
-  if (!currentItem) return;
-  playItem(currentItem, currentType);
-}
-
-/* ============================================================
-   MOBILE CINEMA LOGIC
-============================================================ */
-function mobileCinemaShowTrending() {
-  document.getElementById('mobile-cinema-iframe').src =
-    "https://cine-hub-blocked.netlify.app";
-
-  setMobileTabActive('trending');
-}
-
-function mobileCinemaShowMovies() {
-  document.getElementById('mobile-cinema-iframe').src =
-    browserUrl("https://cine-hub-blocked.netlify.app/movies");
-
-  setMobileTabActive('movies');
-}
-
-function mobileCinemaShowSeries() {
-  document.getElementById('mobile-cinema-iframe').src =
-    browserUrl("https://cine-hub-blocked.netlify.app/series");
-
-  setMobileTabActive('series');
-}
-
-function setMobileTabActive(tab) {
-  document.getElementById('mobile-tab-trending').classList.remove('active');
-  document.getElementById('mobile-tab-movies').classList.remove('active');
-  document.getElementById('mobile-tab-series').classList.remove('active');
-
-  document.getElementById('mobile-tab-' + tab).classList.add('active');
-}
-
-/* ============================================================
-   PARTICLES (BACKGROUND)
-============================================================ */
-const canvas = document.createElement('canvas');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-document.querySelector('.particles').appendChild(canvas);
-
-const ctx = canvas.getContext('2d');
-const particlesArr = Array.from({ length: 100 }, () => ({
-  x: Math.random() * canvas.width,
-  y: Math.random() * canvas.height,
-  r: Math.random() * 2 + 1,
-  d: Math.random() * 1 + 0.5
-}));
-
-function drawParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#b86eff';
-
-  particlesArr.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fill();
-
-    p.y += p.d;
-    if (p.y > canvas.height) {
-      p.y = 0;
-      p.x = Math.random() * canvas.width;
-    }
-  });
-
-  requestAnimationFrame(drawParticles);
-}
-
-drawParticles();
-
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
   <!-- Apps Window -->
   <div id="window-apps" class="window">
     <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
@@ -1171,6 +766,443 @@ window.addEventListener('resize', () => {
       </div>
     </div>
   </div>
-</script>
 
+  <script>
+  /* ============================================================
+     WINDOW SYSTEM
+  ============================================================ */
+  function openWindow(name) {
+    // Close all windows
+    document.querySelectorAll('.window, .mobile-cinema-window').forEach(w => {
+      w.style.display = 'none';
+    });
+
+    const win = document.getElementById('window-' + name);
+    if (win) {
+      win.style.display = 'flex';
+
+      // Initialize cinema only once
+      if (name === 'cinema') initCinemaOnce();
+
+      // Mobile Cinema overlay (full screen)
+      if (name === 'mobilecinema') {
+        document.body.style.overflow = 'hidden';
+      }
+    }
+  }
+
+  function closeWindow(name) {
+    const win = document.getElementById('window-' + name);
+    if (win) win.style.display = 'none';
+
+    if (name === 'mobilecinema') {
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  /* ============================================================
+     DRAGGING WINDOWS (DESKTOP ONLY)
+  ============================================================ */
+  let dragData = null;
+
+  function startDrag(e, win) {
+    if (window.innerWidth <= 768) return; // disable dragging on mobile
+
+    const rect = win.getBoundingClientRect();
+    dragData = {
+      win,
+      offsetX: e.clientX - rect.left,
+      offsetY: e.clientY - rect.top
+    };
+
+    document.addEventListener('mousemove', onDragMove);
+    document.addEventListener('mouseup', stopDrag);
+  }
+
+  function onDragMove(e) {
+    if (!dragData) return;
+    dragData.win.style.left = (e.clientX - dragData.offsetX) + 'px';
+    dragData.win.style.top = (e.clientY - dragData.offsetY) + 'px';
+  }
+
+  function stopDrag() {
+    document.removeEventListener('mousemove', onDragMove);
+    document.removeEventListener('mouseup', stopDrag);
+    dragData = null;
+  }
+
+  /* ============================================================
+     WEBVIEW BROWSER ENGINE (REPL WEBVIEW)
+  ============================================================ */
+  const BROWSER_BASE = "https://webview.unblockproject.repl.co/?url=";
+
+  function browserUrl(target) {
+    return BROWSER_BASE + encodeURIComponent(target);
+  }
+
+  function buildProxyTarget(raw) {
+    const value = raw.trim();
+    if (!value) return null;
+
+    const looksLikeUrl =
+      value.startsWith("http://") ||
+      value.startsWith("https://") ||
+      value.includes(".");
+
+    if (looksLikeUrl) {
+      const url = value.startsWith("http") ? value : "https://" + value;
+      return url;
+    }
+
+    const query = encodeURIComponent(value);
+    return "https://www.google.com/search?q=" + query;
+  }
+
+  function handleProxySubmit(event) {
+    event.preventDefault();
+    const input = document.getElementById("proxy-url-input");
+    const iframe = document.getElementById("proxy-browser-iframe");
+    if (!input || !iframe) return false;
+
+    const target = buildProxyTarget(input.value);
+    if (!target) return false;
+
+    iframe.src = browserUrl(target);
+    return false;
+  }
+
+  /* ============================================================
+     APPS LOADER (USING WEBVIEW)
+  ============================================================ */
+  function loadApp(app) {
+    let target = "";
+
+    switch (app) {
+      case 'roblox': target = "https://www.roblox.com"; break;
+      case 'geforce': target = "https://play.geforcenow.com"; break;
+      case 'xbox': target = "https://www.xbox.com/play"; break;
+      case 'tiktok': target = "https://www.tiktok.com"; break;
+      case 'instagram': target = "https://www.instagram.com"; break;
+      case 'twitter': target = "https://x.com"; break;
+      case 'reddit': target = "https://www.reddit.com"; break;
+      case 'youtube': target = "https://www.youtube.com"; break;
+      case 'spotify': target = "https://open.spotify.com"; break;
+      case 'twitch': target = "https://www.twitch.tv"; break;
+    }
+
+    const container = document.getElementById('apps-iframe-container');
+    if (!container) return;
+
+    if (!container.querySelector('iframe')) {
+      container.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      container.appendChild(iframe);
+    }
+
+    const iframe = container.querySelector('iframe');
+    iframe.src = browserUrl(target);
+  }
+
+  /* ============================================================
+     CINEMA LOGIC (TRENDING / MOVIES / SERIES)
+  ============================================================ */
+  const TMDB_BASE = "https://image.tmdb.org/t/p/w300";
+
+  // SAMPLE DATA (replace with your real arrays)
+  const allMovies = [
+    { id: 27205, t: "Inception", g: "Sci-Fi, Action", d: "2010", posterPath: "/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg" },
+    { id: 603, t: "The Matrix", g: "Sci-Fi, Action", d: "1999", posterPath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" }
+  ];
+
+  const allSeries = [
+    { id: 1399, t: "Game of Thrones", g: "Fantasy, Drama", d: "2011", posterPath: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg" }
+  ];
+
+  let cinemaInitialized = false;
+  let currentItem = null;
+  let currentType = 'movie';
+  let libraryTab = 'movies';
+  let moviesLoaded = 0;
+  let seriesLoaded = 0;
+  const PAGE_SIZE = 24;
+
+  const servers = {
+    vidsrc: {
+      label: "VidSrc",
+      movie: id => `https://vidsrc.to/embed/movie/${id}`,
+      tv: id => `https://vidsrc.to/embed/tv/${id}`
+    },
+    autoembed: {
+      label: "AutoEmbed",
+      movie: id => `https://autoembed.to/movie/tmdb/${id}`,
+      tv: id => `https://autoembed.to/tv/tmdb/${id}`
+    },
+    superembed: {
+      label: "SuperEmbed",
+      movie: id => `https://multiembed.mov/?video_id=${id}&tmdb=1`,
+      tv: id => `https://multiembed.mov/?video_id=${id}&tmdb=1&tv=1`
+    },
+    vidlink: {
+      label: "VidLink",
+      movie: id => `https://vidlink.org/embed/movie/${id}`,
+      tv: id => `https://vidlink.org/embed/tv/${id}`
+    },
+    moviekex: {
+      label: "MovieKex",
+      movie: id => `https://moviekex.com/embed/movie/${id}`,
+      tv: id => `https://moviekex.com/embed/tv/${id}`
+    },
+    vidsrccc: {
+      label: "VidSrc CC",
+      movie: id => `https://vidsrc.cc/v2/embed/movie/${id}`,
+      tv: id => `https://vidsrc.cc/v2/embed/tv/${id}`
+    },
+    embedsu: {
+      label: "EmbedSu",
+      movie: id => `https://embed.su/embed/movie/${id}`,
+      tv: id => `https://embed.su/embed/tv/${id}`
+    }
+  };
+
+  function initCinemaOnce() {
+    if (cinemaInitialized) return;
+    cinemaInitialized = true;
+
+    buildTrending();
+    buildLibraryInitial();
+
+    const scrollEl = document.getElementById('cinema-scroll');
+    scrollEl.addEventListener('scroll', onLibraryScroll);
+  }
+
+  function createPosterThumb(item) {
+    const div = document.createElement('div');
+    div.className = 'poster-thumb';
+
+    if (item.posterPath) {
+      const img = document.createElement('img');
+      img.src = TMDB_BASE + item.posterPath;
+      img.alt = item.t;
+      div.appendChild(img);
+    }
+
+    return div;
+  }
+
+  function buildTrending() {
+    const row = document.getElementById('trending-row');
+    row.innerHTML = '';
+
+    const trendingItems = allMovies.slice(0, 12);
+    trendingItems.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'poster-card';
+      card.onclick = () => playItem(item, 'movie');
+
+      const thumb = createPosterThumb(item);
+      const title = document.createElement('div');
+      title.className = 'poster-meta-title';
+      title.innerText = item.t;
+
+      const sub = document.createElement('div');
+      sub.className = 'poster-meta-sub';
+      sub.innerText = item.g;
+
+      card.appendChild(thumb);
+      card.appendChild(title);
+      card.appendChild(sub);
+      row.appendChild(card);
+    });
+  }
+
+  function buildLibraryInitial() {
+    moviesLoaded = 0;
+    seriesLoaded = 0;
+    document.getElementById('library-grid').innerHTML = '';
+    loadMoreLibrary();
+  }
+
+  function onLibraryScroll(e) {
+    const el = e.target;
+    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 80) {
+      loadMoreLibrary();
+    }
+  }
+
+  function setLibraryTab(tab) {
+    libraryTab = tab;
+
+    document.getElementById('tab-movies').classList.toggle('active', tab === 'movies');
+    document.getElementById('tab-series').classList.toggle('active', tab === 'series');
+
+    buildLibraryInitial();
+  }
+
+  function loadMoreLibrary() {
+    const grid = document.getElementById('library-grid');
+    let source, loaded, setLoaded;
+
+    if (libraryTab === 'movies') {
+      source = allMovies;
+      loaded = moviesLoaded;
+      setLoaded = v => moviesLoaded = v;
+    } else {
+      source = allSeries;
+      loaded = seriesLoaded;
+      setLoaded = v => seriesLoaded = v;
+    }
+
+    if (loaded >= source.length) {
+      document.getElementById('load-more-label').innerText = 'All titles loaded.';
+      return;
+    }
+
+    const next = source.slice(loaded, loaded + PAGE_SIZE);
+    next.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'grid-poster-card';
+      card.onclick = () => playItem(item, libraryTab === 'movies' ? 'movie' : 'tv');
+
+      const thumb = createPosterThumb(item);
+      const title = document.createElement('div');
+      title.className = 'poster-meta-title';
+      title.innerText = item.t;
+
+      const sub = document.createElement('div');
+      sub.className = 'poster-meta-sub';
+      sub.innerText = item.g;
+
+      card.appendChild(thumb);
+      card.appendChild(title);
+      card.appendChild(sub);
+      grid.appendChild(card);
+    });
+
+    setLoaded(loaded + next.length);
+
+    if (loaded + next.length >= source.length) {
+      document.getElementById('load-more-label').innerText = 'All titles loaded.';
+    } else {
+      document.getElementById('load-more-label').innerText = 'Scroll to load more…';
+    }
+  }
+
+  function playItem(item, type) {
+    currentItem = item;
+    currentType = type;
+
+    const serverKey = document.getElementById('server-select').value;
+    const server = servers[serverKey] || servers.vidsrc;
+
+    const url = type === 'movie'
+      ? server.movie(item.id)
+      : server.tv(item.id);
+
+    document.getElementById('cinema-player').src = url;
+
+    document.getElementById('info-title').innerText = item.t;
+    document.getElementById('info-meta').innerText =
+      `${type === 'movie' ? 'Movie' : 'Series'} • ${item.g} • ${item.d}`;
+    document.getElementById('info-desc').innerText =
+      'Streaming via ' + server.label + ' using TMDB ID ' + item.id + '.';
+
+    const chips = document.getElementById('info-chips');
+    chips.innerHTML = '';
+
+    item.g.split(',').map(s => s.trim()).forEach(g => {
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.innerText = g;
+      chips.appendChild(chip);
+    });
+
+    const idChip = document.createElement('div');
+    idChip.className = 'chip';
+    idChip.innerText = 'TMDB: ' + item.id;
+    chips.appendChild(idChip);
+  }
+
+  function changeServer() {
+    if (!currentItem) return;
+    playItem(currentItem, currentType);
+  }
+
+  /* ============================================================
+     MOBILE CINEMA LOGIC
+  ============================================================ */
+  function mobileCinemaShowTrending() {
+    document.getElementById('mobile-cinema-iframe').src =
+      "https://cine-hub-blocked.netlify.app";
+
+    setMobileTabActive('trending');
+  }
+
+  function mobileCinemaShowMovies() {
+    document.getElementById('mobile-cinema-iframe').src =
+      browserUrl("https://cine-hub-blocked.netlify.app/movies");
+
+    setMobileTabActive('movies');
+  }
+
+  function mobileCinemaShowSeries() {
+    document.getElementById('mobile-cinema-iframe').src =
+      browserUrl("https://cine-hub-blocked.netlify.app/series");
+
+    setMobileTabActive('series');
+  }
+
+  function setMobileTabActive(tab) {
+    document.getElementById('mobile-tab-trending').classList.remove('active');
+    document.getElementById('mobile-tab-movies').classList.remove('active');
+    document.getElementById('mobile-tab-series').classList.remove('active');
+
+    document.getElementById('mobile-tab-' + tab).classList.add('active');
+  }
+
+  /* ============================================================
+     PARTICLES (BACKGROUND)
+  ============================================================ */
+  const canvas = document.createElement('canvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.querySelector('.particles').appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  const particlesArr = Array.from({ length: 100 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2 + 1,
+    d: Math.random() * 1 + 0.5
+  }));
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#b86eff';
+
+    particlesArr.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+
+      p.y += p.d;
+      if (p.y > canvas.height) {
+        p.y = 0;
+        p.x = Math.random() * canvas.width;
+      }
+    });
+
+    requestAnimationFrame(drawParticles);
+  }
+
+  drawParticles();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+  </script>
+</body>
 </html>
