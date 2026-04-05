@@ -1112,54 +1112,57 @@
     }
 
     /* ---------- APPS LOGIC ---------- */
-    function openDiscord() {
-      window.open('https://discord.com/invite/wSBXKbGepr', '_blank');
-    }
-    function loadApp(app) {
-      const container = document.getElementById('apps-iframe-container');
-      if (!container) return;
-      if (!container.querySelector('iframe')) {
-        container.innerHTML = '';
-        const iframe = document.createElement('iframe');
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = 'none';
-        container.appendChild(iframe);
-      }
-      const iframe = container.querySelector('iframe');
-      switch (app) {
-        case 'roblox':
-          iframe.src = 'https://www.roblox.com';
-          break;
-        case 'geforce':
-          iframe.src = 'https://play.geforcenow.com';
-          break;
-        case 'xbox':
-          iframe.src = 'https://www.xbox.com/play';
-          break;
-        case 'tiktok':
-          iframe.src = 'https://www.tiktok.com';
-          break;
-        case 'instagram':
-          iframe.src = 'https://www.instagram.com';
-          break;
-        case 'twitter':
-          iframe.src = 'https://x.com';
-          break;
-        case 'reddit':
-          iframe.src = 'https://www.reddit.com';
-          break;
-        case 'youtube':
-          iframe.src = 'https://www.youtube.com';
-          break;
-        case 'spotify':
-          iframe.src = 'https://open.spotify.com';
-          break;
-        case 'twitch':
-          iframe.src = 'https://www.twitch.tv';
-          break;
-      }
-    }
+  const PROXY = "https://6106577d-9273-44c1-86ae-168d855b2964-00-1inb12x2cdh3m.janeway.replit.dev";
+
+function loadApp(app) {
+  const container = document.getElementById('apps-iframe-container');
+  if (!container) return;
+
+  if (!container.querySelector('iframe')) {
+    container.innerHTML = '';
+    const iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    container.appendChild(iframe);
+  }
+
+  const iframe = container.querySelector('iframe');
+
+  switch (app) {
+    case 'roblox':
+      iframe.src = PROXY + "/proxy/https://www.roblox.com";
+      break;
+    case 'geforce':
+      iframe.src = PROXY + "/proxy/https://play.geforcenow.com";
+      break;
+    case 'xbox':
+      iframe.src = PROXY + "/proxy/https://www.xbox.com/play";
+      break;
+    case 'tiktok':
+      iframe.src = PROXY + "/proxy/https://www.tiktok.com";
+      break;
+    case 'instagram':
+      iframe.src = PROXY + "/proxy/https://www.instagram.com";
+      break;
+    case 'twitter':
+      iframe.src = PROXY + "/proxy/https://x.com";
+      break;
+    case 'reddit':
+      iframe.src = PROXY + "/proxy/https://www.reddit.com";
+      break;
+    case 'youtube':
+      iframe.src = PROXY + "/proxy/https://www.youtube.com";
+      break;
+    case 'spotify':
+      iframe.src = PROXY + "/proxy/https://open.spotify.com";
+      break;
+    case 'twitch':
+      iframe.src = PROXY + "/proxy/https://www.twitch.tv";
+      break;
+  }
+}
+
 
     /* ---------- PARTICLES ---------- */
     const canvas = document.createElement('canvas');
