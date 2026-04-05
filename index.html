@@ -70,12 +70,12 @@
       font-size: 13px;
     }
 
-    /* Animated sidebar */
+    /* FIXED SIDEBAR (A2 – 120px) */
     .sidebar {
       position: fixed;
       top: 0;
-      left: -80px;
-      width: 80px;
+      left: 0;
+      width: 120px;
       height: 100%;
       background: radial-gradient(circle at top, #2a1540 0, #090910 55%, #050509 100%);
       backdrop-filter: blur(14px);
@@ -83,20 +83,15 @@
       flex-direction: column;
       align-items: center;
       padding-top: 18px;
-      transition: left 0.3s ease, transform 0.25s ease;
       z-index: 1000;
       border-right: 1px solid #2b1b3f;
     }
-    .sidebar:hover {
-      left: 0;
-      transform: scale(1.03);
-    }
     .icon {
-      width: 50px;
-      height: 50px;
-      margin: 8px 0;
+      width: 70px;
+      height: 70px;
+      margin: 10px 0;
       background: rgba(10, 10, 18, 0.95);
-      border-radius: 16px;
+      border-radius: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -106,21 +101,24 @@
       border: 1px solid #2f1b4a;
     }
     .icon:hover {
-      transform: scale(1.15) translateY(-2px);
+      transform: scale(1.12) translateY(-2px);
       box-shadow: 0 0 18px #b86eff;
       background: radial-gradient(circle at top, #3b1f63, #12091f);
     }
     .icon svg {
-      width: 24px;
-      height: 24px;
+      width: 30px;
+      height: 30px;
       fill: #d29bff;
     }
 
+    .hero {
+      margin-left: 120px;
+    }
     .window {
       position: absolute;
       top: 120px;
-      left: 100px;
-      width: 80%;
+      left: 150px;
+      width: calc(100% - 180px);
       height: 70%;
       background: radial-gradient(circle at top left, #1b102b 0, #090812 55%, #050509 100%);
       border-radius: 16px;
@@ -669,145 +667,226 @@
   </div>
 
   <script>
-    /* ---------- DATA (with poster placeholders) ---------- */
+    /* ---------- DATA (TMDB poster support) ---------- */
+    const TMDB_BASE = 'https://image.tmdb.org/t/p/w500';
+
+    // Example: some real posterPath values for big titles.
+    // You can add more posterPath fields as you like.
     const movies = [
-      { t:'Dune: Part Two', id:'693134', g:'Sci-Fi, Adventure', d:'166 min', poster:'/dune2.jpg' },
-      { t:'Kung Fu Panda 4', id:'1011985', g:'Animation, Family', d:'94 min', poster:'/kfp4.jpg' },
-      { t:'Godzilla x Kong: The New Empire', id:'823464', g:'Action, Sci-Fi', d:'115 min', poster:'/gzkong.jpg' },
-      { t:'Aquaman and the Lost Kingdom', id:'572802', g:'Action, Adventure', d:'124 min', poster:'/aquaman2.jpg' },
-      { t:'The Zone of Interest', id:'467244', g:'War, Drama', d:'105 min', poster:'/zoneofinterest.jpg' },
-      { t:'Oppenheimer', id:'872585', g:'Drama, History', d:'180 min', poster:'/oppenheimer.jpg' },
-      { t:'Poor Things', id:'792307', g:'Sci-Fi, Romance', d:'141 min', poster:'/poorthings.jpg' },
-      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min', poster:'/napoleon.jpg' },
-      { t:'Migration', id:'940551', g:'Animation, Comedy', d:'83 min', poster:'/migration.jpg' },
-      { t:'Road House', id:'335977', g:'Action, Thriller', d:'121 min', poster:'/roadhouse.jpg' },
-      { t:'The Iron Claw', id:'848538', g:'Drama, Sport', d:'132 min', poster:'/ironclaw.jpg' },
-      { t:'Wonka', id:'787699', g:'Comedy, Family', d:'116 min', poster:'/wonka.jpg' },
-      { t:'Anyone But You', id:'1072790', g:'Romance, Comedy', d:'103 min', poster:'/anyonebutyou.jpg' },
-      { t:'Wish', id:'1022789', g:'Animation, Family', d:'95 min', poster:'/wish.jpg' },
-      { t:'Killers of the Flower Moon', id:'466420', g:'Crime, History', d:'206 min', poster:'/killersflower.jpg' },
-      { t:'The Beekeeper', id:'866398', g:'Action, Thriller', d:'105 min', poster:'/beekeeper.jpg' },
-      { t:'Argylle', id:'848538', g:'Action, Comedy', d:'139 min', poster:'/argylle.jpg' },
-      { t:'Society of the Snow', id:'85552', g:'Adventure, Drama', d:'144 min', poster:'/societyofthesnow.jpg' },
-      { t:'Madame Web', id:'507089', g:'Action, Sci-Fi', d:'116 min', poster:'/madameweb.jpg' },
-      { t:'Bob Marley: One Love', id:'850165', g:'Music, History', d:'107 min', poster:'/bobmarley.jpg' },
-      { t:'The Marvels', id:'609681', g:'Sci-Fi, Action', d:'105 min', poster:'/themarvels.jpg' },
-      { t:'Godzilla Minus One', id:'1096197', g:'Sci-Fi, Kaiju', d:'124 min', poster:'/godzillaminusone.jpg' },
-      { t:'Spider-Man: Across the Spider-Verse', id:'569094', g:'Animation, Action', d:'140 min', poster:'/acrossthespiderverse.jpg' },
-      { t:'Guardians of the Galaxy Vol. 3', id:'447365', g:'Sci-Fi, Adventure', d:'150 min', poster:'/gotg3.jpg' },
-      { t:'John Wick: Chapter 4', id:'603692', g:'Action, Thriller', d:'169 min', poster:'/johnwick4.jpg' }
+      { t:'Dune: Part Two', id:'693134', g:'Sci-Fi, Adventure', d:'166 min', posterPath:'/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg' },
+      { t:'Kung Fu Panda 4', id:'1011985', g:'Animation, Family', d:'94 min', posterPath:'/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg' },
+      { t:'Godzilla x Kong: The New Empire', id:'823464', g:'Action, Sci-Fi', d:'115 min', posterPath:'/tMefBSflR6PGQLv7WvFPpKLZkyk.jpg' },
+      { t:'Aquaman and the Lost Kingdom', id:'572802', g:'Action, Adventure', d:'124 min', posterPath:'/8xV47NDrjdZDpkVcCFqkdHa3T0C.jpg' },
+      { t:'Oppenheimer', id:'872585', g:'Drama, History', d:'180 min', posterPath:'/ptpr0kGAckfQkJeJIt8st5dglvd.jpg' },
+      { t:'Poor Things', id:'792307', g:'Sci-Fi, Romance', d:'141 min', posterPath:'/kCGlIMHnOm8JPXq3rXM6c5wMxcT.jpg' },
+      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min', posterPath:'/vcZWJGvB5xydWuUO1vaTLI82tGi.jpg' },
+      { t:'Migration', id:'940551', g:'Animation, Comedy', d:'83 min', posterPath:'/ldfCF9RhR40mppkzmftxapaHeTo.jpg' },
+      { t:'Road House', id:'335977', g:'Action, Thriller', d:'121 min', posterPath:'/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg' },
+      { t:'Wonka', id:'787699', g:'Comedy, Family', d:'116 min', posterPath:'/qhb1qOilapbapxWQn9jtRCMwXJF.jpg' },
+      { t:'Anyone But You', id:'1072790', g:'Romance, Comedy', d:'103 min', posterPath:'/yRt7MGBElkLQOYRvLTT1b3B1rcp.jpg' },
+      { t:'Wish', id:'1022789', g:'Animation, Family', d:'95 min', posterPath:'/AcoVfiv1rrWOmAdpnAMnM56ki19.jpg' },
+      { t:'Killers of the Flower Moon', id:'466420', g:'Crime, History', d:'206 min', posterPath:'/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg' },
+      { t:'The Beekeeper', id:'866398', g:'Action, Thriller', d:'105 min', posterPath:'/A7EByudX0eOzlkQ2FIbogzyazm2.jpg' },
+      { t:'Argylle', id:'848538', g:'Action, Comedy', d:'139 min', posterPath:'/95VlSEfLMqeX36UVcHJuNlWEpwf.jpg' },
+      { t:'Madame Web', id:'507089', g:'Action, Sci-Fi', d:'116 min', posterPath:'/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg' },
+      { t:'Bob Marley: One Love', id:'850165', g:'Music, History', d:'107 min', posterPath:'/mKWalirPreEdCKDJjc5TKeOP2xi.jpg' },
+      { t:'The Marvels', id:'609681', g:'Sci-Fi, Action', d:'105 min', posterPath:'/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg' },
+      { t:'Godzilla Minus One', id:'940551', g:'Sci-Fi, Kaiju', d:'124 min' }, // example without posterPath
+      { t:'Spider-Man: Across the Spider-Verse', id:'569094', g:'Animation, Action', d:'140 min', posterPath:'/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg' },
+      { t:'Guardians of the Galaxy Vol. 3', id:'447365', g:'Sci-Fi, Adventure', d:'150 min', posterPath:'/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg' },
+      { t:'John Wick: Chapter 4', id:'603692', g:'Action, Thriller', d:'169 min', posterPath:'/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg' }
     ];
 
     const moviesPart2 = [
-      { t:'Terrifier 3', id:'1100782', g:'Horror, Slasher', d:'125 min', poster:'/terrifier3.jpg' },
-      { t:'Smile 2', id:'1100785', g:'Horror, Thriller', d:'127 min', poster:'/smile2.jpg' },
-      { t:'Conclave', id:'974950', g:'Thriller, Drama', d:'120 min', poster:'/conclave.jpg' },
-      { t:'The Substance', id:'933260', g:'Horror, Drama', d:'140 min', poster:'/substance.jpg' },
-      { t:'Heretic', id:'1114513', g:'Horror, Thriller', d:'110 min', poster:'/heretic.jpg' },
-      { t:'Red One', id:'802219', g:'Action, Fantasy', d:'123 min', poster:'/redone.jpg' },
-      { t:'Kraven the Hunter', id:'76669', g:'Action, Adventure', d:'127 min', poster:'/kraven.jpg' },
-      { t:'Better Man', id:'812225', g:'Drama, Music', d:'134 min', poster:'/betterman.jpg' },
-      { t:'The Amateur', id:'1058574', g:'Thriller, Action', d:'115 min', poster:'/amateur.jpg' },
-      { t:'In the Grey', id:'1129598', g:'Action, Crime', d:'120 min', poster:'/inthegrey.jpg' },
-      { t:'Ballerina', id:'1003580', g:'Action, Thriller', d:'110 min', poster:'/ballerina.jpg' },
-      { t:'Wolfs', id:'877817', g:'Thriller, Comedy', d:'108 min', poster:'/wolfs.jpg' },
-      { t:'High Forces', id:'1344132', g:'Action, Thriller', d:'115 min', poster:'/highforces.jpg' },
-      { t:'Transformers One', id:'698687', g:'Animation, Action', d:'104 min', poster:'/transformersone.jpg' },
-      { t:'The Old Guard 2', id:'714277', g:'Action, Fantasy', d:'125 min', poster:'/oldguard2.jpg' },
-      { t:'Havoc', id:'801002', g:'Action, Thriller', d:'118 min', poster:'/havoc.jpg' },
-      { t:'Constantine 2', id:'1025555', g:'Fantasy, Horror', d:'130 min', poster:'/constantine2.jpg' },
-      { t:'I Am Legend 2', id:'945657', g:'Sci-Fi, Drama', d:'125 min', poster:'/iamlegend2.jpg' },
-      { t:'28 Years Later', id:'1222411', g:'Horror, Sci-Fi', d:'115 min', poster:'/28yearslater.jpg' },
-      { t:'Now You See Me 3', id:'393624', g:'Thriller, Crime', d:'110 min', poster:'/nysm3.jpg' },
-      { t:'The Woman in the Yard', id:'1231920', g:'Horror, Thriller', d:'95 min', poster:'/womanintheyard.jpg' },
-      { t:'Drop', id:'1241154', g:'Thriller, Mystery', d:'102 min', poster:'/drop.jpg' },
-      { t:'The Monkey', id:'1144962', g:'Horror, Supernatural', d:'105 min', poster:'/monkey.jpg' },
-      { t:'The Running Man', id:'1101547', g:'Sci-Fi, Action', d:'120 min', poster:'/runningman.jpg' },
-      { t:'Flow', id:'1281826', g:'Animation, Adventure', d:'84 min', poster:'/flow.jpg' },
-      { t:'The Brutalist', id:'742784', g:'Drama, History', d:'215 min', poster:'/brutalist.jpg' },
-      { t:'Anora', id:'1064213', g:'Comedy, Drama', d:'139 min', poster:'/anora.jpg' },
-      { t:'Emilia Pérez', id:'974950', g:'Musical, Crime', d:'130 min', poster:'/emiliaperez.jpg' },
-      { t:'The Piano Lesson', id:'1111873', g:'Drama, Music', d:'125 min', poster:'/pianolesson.jpg' },
-      { t:'A Real Pain', id:'1131755', g:'Comedy, Drama', d:'90 min', poster:'/realpain.jpg' },
-      { t:'Presence', id:'1165415', g:'Horror, Thriller', d:'85 min', poster:'/presence.jpg' },
-      { t:'The End', id:'927421', g:'Musical, Drama', d:'148 min', poster:'/theend.jpg' },
-      { t:'Nightbitch', id:'973652', g:'Comedy, Horror', d:'103 min', poster:'/nightbitch.jpg' },
-      { t:'Carry-On', id:'1011114', g:'Thriller, Action', d:'119 min', poster:'/carryon.jpg' },
-      { t:'Back in Action', id:'1002185', g:'Action, Comedy', d:'110 min', poster:'/backinaction.jpg' },
-      { t:'The Gorge', id:'961019', g:'Romance, Action', d:'126 min', poster:'/gorge.jpg' },
-      { t:'The Electric State', id:'714125', g:'Sci-Fi, Adventure', d:'135 min', poster:'/electricstate.jpg' },
-      { t:'Black Bag', id:'1231245', g:'Thriller, Drama', d:'110 min', poster:'/blackbag.jpg' },
-      { t:'The Battle of Baktan Cross', id:'1213456', g:'Drama, Action', d:'140 min', poster:'/baktancross.jpg' },
-      { t:'Frankenstein', id:'1115545', g:'Horror, Sci-Fi', d:'130 min', poster:'/frankenstein.jpg' },
-      { t:'Dracula: A Love Tale', id:'1200114', g:'Horror, Romance', d:'125 min', poster:'/dracula.jpg' },
-      { t:'Cliffs of Freedom', id:'1055566', g:'Drama, History', d:'137 min', poster:'/cliffsoffreedom.jpg' },
-      { t:'The Unholy', id:'632357', g:'Horror, Mystery', d:'99 min', poster:'/unholy.jpg' },
-      { t:'The Ritual', id:'433808', g:'Horror, Mystery', d:'94 min', poster:'/ritual.jpg' },
-      { t:'Apostle', id:'471474', g:'Horror, Thriller', d:'130 min', poster:'/apostle.jpg' },
-      { t:'No One Will Save You', id:'883107', g:'Sci-Fi, Thriller', d:'93 min', poster:'/noonewillsaveyou.jpg' },
-      { t:'Barbarian', id:'927339', g:'Horror, Thriller', d:'102 min', poster:'/barbarian.jpg' },
-      { t:'Pearl', id:'985939', g:'Horror, Drama', d:'102 min', poster:'/pearl.jpg' },
-      { t:'X', id:'760104', g:'Horror, Slasher', d:'105 min', poster:'/xmovie.jpg' },
-      { t:'Talk to Me', id:'1008042', g:'Horror, Thriller', d:'95 min', poster:'/talktome.jpg' }
+      { t:'Terrifier 3', id:'1100782', g:'Horror, Slasher', d:'125 min' },
+      { t:'Smile 2', id:'1100785', g:'Horror, Thriller', d:'127 min' },
+      { t:'Conclave', id:'974950', g:'Thriller, Drama', d:'120 min' },
+      { t:'The Substance', id:'933260', g:'Horror, Drama', d:'140 min' },
+      { t:'Heretic', id:'1114513', g:'Horror, Thriller', d:'110 min' },
+      { t:'Red One', id:'802219', g:'Action, Fantasy', d:'123 min' },
+      { t:'Kraven the Hunter', id:'76669', g:'Action, Adventure', d:'127 min' },
+      { t:'Better Man', id:'812225', g:'Drama, Music', d:'134 min' },
+      { t:'The Amateur', id:'1058574', g:'Thriller, Action', d:'115 min' },
+      { t:'In the Grey', id:'1129598', g:'Action, Crime', d:'120 min' },
+      { t:'Ballerina', id:'1003580', g:'Action, Thriller', d:'110 min' },
+      { t:'Wolfs', id:'877817', g:'Thriller, Comedy', d:'108 min' },
+      { t:'High Forces', id:'1344132', g:'Action, Thriller', d:'115 min' },
+      { t:'Transformers One', id:'698687', g:'Animation, Action', d:'104 min' },
+      { t:'The Old Guard 2', id:'714277', g:'Action, Fantasy', d:'125 min' },
+      { t:'Havoc', id:'801002', g:'Action, Thriller', d:'118 min' },
+      { t:'Constantine 2', id:'1025555', g:'Fantasy, Horror', d:'130 min' },
+      { t:'I Am Legend 2', id:'945657', g:'Sci-Fi, Drama', d:'125 min' },
+      { t:'28 Years Later', id:'1222411', g:'Horror, Sci-Fi', d:'115 min' },
+      { t:'Now You See Me 3', id:'393624', g:'Thriller, Crime', d:'110 min' },
+      { t:'The Woman in the Yard', id:'1231920', g:'Horror, Thriller', d:'95 min' },
+      { t:'Drop', id:'1241154', g:'Thriller, Mystery', d:'102 min' },
+      { t:'The Monkey', id:'1144962', g:'Horror, Supernatural', d:'105 min' },
+      { t:'The Running Man', id:'1101547', g:'Sci-Fi, Action', d:'120 min' },
+      { t:'Flow', id:'1281826', g:'Animation, Adventure', d:'84 min' },
+      { t:'The Brutalist', id:'742784', g:'Drama, History', d:'215 min' },
+      { t:'Anora', id:'1064213', g:'Comedy, Drama', d:'139 min' },
+      { t:'Emilia Pérez', id:'974950', g:'Musical, Crime', d:'130 min' },
+      { t:'The Piano Lesson', id:'1111873', g:'Drama, Music', d:'125 min' },
+      { t:'A Real Pain', id:'1131755', g:'Comedy, Drama', d:'90 min' },
+      { t:'Presence', id:'1165415', g:'Horror, Thriller', d:'85 min' },
+      { t:'The End', id:'927421', g:'Musical, Drama', d:'148 min' },
+      { t:'Nightbitch', id:'973652', g:'Comedy, Horror', d:'103 min' },
+      { t:'Carry-On', id:'1011114', g:'Thriller, Action', d:'119 min' },
+      { t:'Back in Action', id:'1002185', g:'Action, Comedy', d:'110 min' },
+      { t:'The Gorge', id:'961019', g:'Romance, Action', d:'126 min' },
+      { t:'The Electric State', id:'714125', g:'Sci-Fi, Adventure', d:'135 min' },
+      { t:'Black Bag', id:'1231245', g:'Thriller, Drama', d:'110 min' },
+      { t:'The Battle of Baktan Cross', id:'1213456', g:'Drama, Action', d:'140 min' },
+      { t:'Frankenstein', id:'1115545', g:'Horror, Sci-Fi', d:'130 min' },
+      { t:'Dracula: A Love Tale', id:'1200114', g:'Horror, Romance', d:'125 min' },
+      { t:'Cliffs of Freedom', id:'1055566', g:'Drama, History', d:'137 min' },
+      { t:'The Unholy', id:'632357', g:'Horror, Mystery', d:'99 min' },
+      { t:'The Ritual', id:'433808', g:'Horror, Mystery', d:'94 min' },
+      { t:'Apostle', id:'471474', g:'Horror, Thriller', d:'130 min' },
+      { t:'No One Will Save You', id:'883107', g:'Sci-Fi, Thriller', d:'93 min' },
+      { t:'Barbarian', id:'927339', g:'Horror, Thriller', d:'102 min' },
+      { t:'Pearl', id:'985939', g:'Horror, Drama', d:'102 min' },
+      { t:'X', id:'760104', g:'Horror, Slasher', d:'105 min' },
+      { t:'Talk to Me', id:'1008042', g:'Horror, Thriller', d:'95 min' }
     ];
 
     const moviesPart3 = [
-      { t:'The Menu', id:'593643', g:'Horror, Comedy', d:'107 min', poster:'/menu.jpg' },
-      { t:'Bullet Train', id:'718930', g:'Action, Comedy', d:'126 min', poster:'/bullettrain.jpg' },
-      { t:'The Northman', id:'634649', g:'Action, Adventure', d:'137 min', poster:'/northman.jpg' },
-      { t:'Everything Everywhere All at Once', id:'505642', g:'Action, Sci-Fi', d:'139 min', poster:'/eeaao.jpg' },
-      { t:'Top Gun: Maverick', id:'361743', g:'Action, Drama', d:'130 min', poster:'/topgunmaverick.jpg' },
-      { t:'The Batman', id:'414906', g:'Crime, Mystery', d:'176 min', poster:'/thebatman.jpg' },
-      { t:'The Whale', id:'785084', g:'Drama', d:'117 min', poster:'/whale.jpg' },
-      { t:'Aftersun', id:'965150', g:'Drama', d:'102 min', poster:'/aftersun.jpg' },
-      { t:'Tár', id:'817758', g:'Drama, Music', d:'158 min', poster:'/tar.jpg' },
-      { t:'Babylon', id:'615777', g:'Drama, Comedy', d:'189 min', poster:'/babylon.jpg' },
-      { t:'Beau Is Afraid', id:'798286', g:'Adventure, Comedy', d:'179 min', poster:'/beauisafraid.jpg' },
-      { t:'Asteroid City', id:'747188', g:'Comedy, Sci-Fi', d:'105 min', poster:'/asteroidcity.jpg' },
-      { t:'Saltburn', id:'930564', g:'Drama, Thriller', d:'131 min', poster:'/saltburn.jpg' },
-      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min', poster:'/napoleon2.jpg' },
-      { t:'The Killer', id:'800158', g:'Crime, Thriller', d:'118 min', poster:'/thekiller.jpg' },
-      { t:'Extraction 2', id:'697843', g:'Action, Thriller', d:'123 min', poster:'/extraction2.jpg' },
-      { t:'Society of the Snow', id:'85552', g:'Adventure, Drama', d:'144 min', poster:'/societyofthesnow2.jpg' },
-      { t:'Rebel Moon - Part One', id:'848326', g:'Sci-Fi, Action', d:'134 min', poster:'/rebelmoon1.jpg' },
-      { t:'Leave the World Behind', id:'726209', g:'Thriller, Drama', d:'141 min', poster:'/leavetheworldbehind.jpg' },
-      { t:'The Holdovers', id:'840430', g:'Drama, Comedy', d:'133 min', poster:'/holdovers.jpg' },
-      { t:'Past Lives', id:'666277', g:'Drama, Romance', d:'106 min', poster:'/pastlives.jpg' },
-      { t:'Society of the Snow', id:'85552', g:'Drama, History', d:'144 min', poster:'/societyofthesnow3.jpg' },
-      { t:'Dream Scenario', id:'1016084', g:'Comedy, Fantasy', d:'102 min', poster:'/dreamscenario.jpg' },
-      { t:'Iron Claw', id:'848538', g:'Drama, Sport', d:'132 min', poster:'/ironclaw2.jpg' },
-      { t:'The Flash', id:'298618', g:'Action, Adventure', d:'144 min', poster:'/theflash.jpg' }
+      { t:'The Menu', id:'593643', g:'Horror, Comedy', d:'107 min' },
+      { t:'Bullet Train', id:'718930', g:'Action, Comedy', d:'126 min', posterPath:'/jJF4t9vWZP9F1QX8uXkMlnPpKkF.jpg' },
+      { t:'The Northman', id:'639933', g:'Action, Adventure', d:'137 min', posterPath:'/zhLKlUaF1SEpO58ppHIAyENkwgw.jpg' },
+      { t:'Everything Everywhere All at Once', id:'545611', g:'Action, Sci-Fi', d:'139 min', posterPath:'/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg' },
+      { t:'Top Gun: Maverick', id:'361743', g:'Action, Drama', d:'130 min', posterPath:'/62HCnUTziyWcpDaBO2i1DX17ljH.jpg' },
+      { t:'The Batman', id:'414906', g:'Crime, Mystery', d:'176 min', posterPath:'/74xTEgt7R36Fpooo50r9T25onhq.jpg' },
+      { t:'The Whale', id:'785084', g:'Drama', d:'117 min', posterPath:'/jQ0gylJMxWSL490sy0RrPj1Lj7e.jpg' },
+      { t:'Aftersun', id:'965150', g:'Drama', d:'102 min', posterPath:'/hYhZ8Qk8q6Z9QnT0y1gXkGumZ3C.jpg' },
+      { t:'Tár', id:'817758', g:'Drama, Music', d:'158 min', posterPath:'/dRVAlaU0vbG6hMf2K45NSiIyoUe.jpg' },
+      { t:'Babylon', id:'615777', g:'Drama, Comedy', d:'189 min', posterPath:'/wjOHjWCUE0YzDiEzKv8AfqHj3ir.jpg' },
+      { t:'Beau Is Afraid', id:'798286', g:'Adventure, Comedy', d:'179 min', posterPath:'/zXk3fF5sZ0ZxZqVQSWXKqHcIu7C.jpg' },
+      { t:'Asteroid City', id:'747188', g:'Comedy, Sci-Fi', d:'105 min', posterPath:'/qdq40gRS8xKnpFt5V75t6lUHgpx.jpg' },
+      { t:'Saltburn', id:'930564', g:'Drama, Thriller', d:'131 min', posterPath:'/qjhahNLSZ705B5JP92YMEYPocPz.jpg' },
+      { t:'The Killer', id:'800158', g:'Crime, Thriller', d:'118 min', posterPath:'/e7olqFmF8GftkEd7k5Cw0U2y0Jd.jpg' },
+      { t:'Extraction 2', id:'697843', g:'Action, Thriller', d:'123 min', posterPath:'/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg' },
+      { t:'Rebel Moon - Part One', id:'848326', g:'Sci-Fi, Action', d:'134 min', posterPath:'/ui4DrH1cKk2vkHshcUcGt2lKxCm.jpg' },
+      { t:'Leave the World Behind', id:'726209', g:'Thriller, Drama', d:'141 min', posterPath:'/29rhl1xopxA7JlGVVsf1UHfYPvN.jpg' },
+      { t:'The Holdovers', id:'840430', g:'Drama, Comedy', d:'133 min', posterPath:'/jLLtx3nTRSLGPAKl4RoIv1FbEBr.jpg' },
+      { t:'Past Lives', id:'666277', g:'Drama, Romance', d:'106 min', posterPath:'/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg' },
+      { t:'Dream Scenario', id:'1016084', g:'Comedy, Fantasy', d:'102 min', posterPath:'/9u6HEtZJdZDjPGGJq6YEuhPnoan.jpg' },
+      { t:'The Flash', id:'298618', g:'Action, Adventure', d:'144 min', posterPath:'/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg' }
+    ];
+
+    const moviesPart4 = [
+      { t:'Inception', id:'27205', g:'Sci-Fi, Action', d:'148 min', posterPath:'/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg' },
+      { t:'Interstellar', id:'157336', g:'Sci-Fi, Drama', d:'169 min', posterPath:'/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg' },
+      { t:'The Dark Knight', id:'155', g:'Action, Crime', d:'152 min', posterPath:'/qJ2tW6WMUDux911r6m7haRef0WH.jpg' },
+      { t:'Pulp Fiction', id:'680', g:'Thriller, Crime', d:'154 min', posterPath:'/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg' },
+      { t:'Fight Club', id:'550', g:'Drama', d:'139 min', posterPath:'/a26cQPRhJPX6GbWfQbvZdrrp9j9.jpg' },
+      { t:'Forrest Gump', id:'13', g:'Drama, Romance', d:'142 min', posterPath:'/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg' },
+      { t:'The Matrix', id:'603', g:'Sci-Fi, Action', d:'136 min', posterPath:'/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg' },
+      { t:'Spider-Man: No Way Home', id:'634649', g:'Action, Adventure', d:'148 min', posterPath:'/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg' },
+      { t:'Avengers: Endgame', id:'299534', g:'Action, Adventure', d:'181 min', posterPath:'/or06FN3Dka5tukK1e9sl16pB3iy.jpg' },
+      { t:'Parasite', id:'496243', g:'Thriller, Drama', d:'132 min', posterPath:'/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg' },
+      { t:'Joker', id:'475557', g:'Crime, Drama', d:'122 min', posterPath:'/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg' },
+      { t:'The Wolf of Wall Street', id:'106646', g:'Comedy, Crime', d:'180 min', posterPath:'/34m2tygAYBGqA9MXKhRDtzYd4MR.jpg' },
+      { t:'Blade Runner 2049', id:'335984', g:'Sci-Fi, Drama', d:'164 min', posterPath:'/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg' },
+      { t:'Arrival', id:'329865', g:'Sci-Fi, Mystery', d:'116 min', posterPath:'/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg' },
+      { t:'Mad Max: Fury Road', id:'76341', g:'Action, Adventure', d:'120 min', posterPath:'/kqjL17yufvn9OVLyXYpvtyrFfak.jpg' },
+      { t:'Coco', id:'354912', g:'Animation, Family', d:'105 min', posterPath:'/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg' },
+      { t:'The Lion King', id:'8587', g:'Animation, Family', d:'89 min', posterPath:'/sKCr78MXSLixwmZ8DyJLrpMsd15.jpg' },
+      { t:'Gladiator', id:'98', g:'Action, Drama', d:'155 min', posterPath:'/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg' },
+      { t:'Shrek', id:'808', g:'Animation, Comedy', d:'90 min', posterPath:'/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg' },
+      { t:'Toy Story', id:'862', g:'Animation, Family', d:'81 min', posterPath:'/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg' },
+      { t:'The Godfather', id:'238', g:'Drama, Crime', d:'175 min', posterPath:'/3bhkrj58Vtu7enYsRolD1fZdja1.jpg' },
+      { t:'Scarface', id:'111', g:'Action, Crime', d:'170 min', posterPath:'/iQ5ztdjvteGeboxtmRdXEChJOHh.jpg' },
+      { t:'Goodfellas', id:'769', g:'Drama, Crime', d:'145 min', posterPath:'/aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg' },
+      { t:'The Green Mile', id:'497', g:'Drama, Fantasy', d:'189 min', posterPath:'/8VG8fDNiy50H4FedGwdSVUPoaJe.jpg' },
+      { t:'Se7en', id:'807', g:'Thriller, Mystery', d:'127 min', posterPath:'/6yoghtyTpznpBik8EngEmJskVUO.jpg' },
+      { t:'The Silence of the Lambs', id:'274', g:'Thriller, Horror', d:'118 min', posterPath:'/uS9m8OBk1A8eM9I042bx8XXpqAq.jpg' },
+      { t:'The Shining', id:'694', g:'Horror, Thriller', d:'146 min', posterPath:'/9fgh3Ns1iRzlQNYuJyK0ARQZU7w.jpg' },
+      { t:'Alien', id:'348', g:'Horror, Sci-Fi', d:'117 min', posterPath:'/vfrQk5IPloGg1v9Rzbh2Eg3VGyM.jpg' },
+      { t:'Psycho', id:'539', g:'Horror, Thriller', d:'109 min', posterPath:'/yz4QVuxbWZpLCSfu5ZrjYV7xZ7z.jpg' },
+      { t:'Halloween', id:'948', g:'Horror, Thriller', d:'91 min', posterPath:'/wjiG7hGw1rX0Z8H1rG0h0uT1w3l.jpg' },
+      { t:'Scream', id:'4232', g:'Horror, Mystery', d:'111 min', posterPath:'/aXAByjBN8UhaYjQkZx7Kc2VYNYO.jpg' },
+      { t:'The Conjuring', id:'138843', g:'Horror, Thriller', d:'112 min', posterPath:'/wVYREutTvI2tmxr6ujrHT704wGF.jpg' },
+      { t:'Hereditary', id:'493922', g:'Horror, Mystery', d:'127 min', posterPath:'/lHV8HHlhwNup2VbpiACtlKzaGIQ.jpg' },
+      { t:'Midsommar', id:'530385', g:'Horror, Drama', d:'148 min', posterPath:'/7LEI8ulZzO5gy9Ww2NVCrKmHeDZ.jpg' },
+      { t:'Get Out', id:'419430', g:'Horror, Thriller', d:'104 min', posterPath:'/1SwAVYpuLj8KsHxllTF8Dt9dSSX.jpg' },
+      { t:'A Quiet Place', id:'447332', g:'Horror, Sci-Fi', d:'90 min', posterPath:'/nAU74GmpUk7t5iklEp3bufwDq4n.jpg' },
+      { t:'The Invisible Man', id:'570670', g:'Horror, Sci-Fi', d:'124 min', posterPath:'/5EufsDwXdY2CVttYOk2WtYhgKpa.jpg' },
+      { t:'Saw', id:'176', g:'Horror, Mystery', d:'103 min', posterPath:'/dHYvIgsax8ZFgkz1OslE4V6Pnf5.jpg' },
+      { t:'Insidious', id:'49018', g:'Horror, Thriller', d:'103 min', posterPath:'/2lXxVJzxY3p4rK0uQqz3gq8QW3U.jpg' },
+      { t:'Smile', id:'882598', g:'Horror, Mystery', d:'115 min', posterPath:'/aPqcQwu4VGEewPhagWNncDbJ9Xp.jpg' }
     ];
 
     const tvSeries = [
-      { t:'The Last of Us', id:'121622', g:'Drama, Sci-Fi', d:'50-80 min', poster:'/lastofus.jpg' },
-      { t:'Shōgun', id:'111451', g:'Drama, War', d:'60 min', poster:'/shogun.jpg' },
-      { t:'Fallout', id:'123456', g:'Sci-Fi, Action', d:'55 min', poster:'/fallout.jpg' },
-      { t:'The Bear', id:'139305', g:'Drama, Comedy', d:'30 min', poster:'/thebear.jpg' },
-      { t:'The Boys', id:'76479', g:'Action, Sci-Fi', d:'60 min', poster:'/theboys.jpg' },
-      { t:'House of the Dragon', id:'94997', g:'Fantasy, Drama', d:'60 min', poster:'/hotd.jpg' },
-      { t:'Succession', id:'76331', g:'Drama', d:'60 min', poster:'/succession.jpg' },
-      { t:'Severance', id:'95396', g:'Sci-Fi, Thriller', d:'50 min', poster:'/severance.jpg' },
-      { t:'The White Lotus', id:'111110', g:'Comedy, Drama', d:'60 min', poster:'/whitelotus.jpg' },
-      { t:'Beef', id:'154385', g:'Comedy, Drama', d:'35 min', poster:'/beef.jpg' },
-      { t:'Yellowstone', id:'73586', g:'Western, Drama', d:'50 min', poster:'/yellowstone.jpg' },
-      { t:'Stranger Things', id:'66732', g:'Sci-Fi, Horror', d:'50-90 min', poster:'/strangerthings.jpg' },
-      { t:'The Mandalorian', id:'82856', g:'Sci-Fi, Action', d:'40 min', poster:'/mandalorian.jpg' },
-      { t:'The Crown', id:'65494', g:'Drama, History', d:'60 min', poster:'/thecrown.jpg' },
-      { t:'Bridgerton', id:'94605', g:'Romance, Drama', d:'60 min', poster:'/bridgerton.jpg' },
-      { t:'Euphoria', id:'85552', g:'Drama', d:'55 min', poster:'/euphoria.jpg' },
-      { t:'Squid Game', id:'115036', g:'Thriller, Drama', d:'50 min', poster:'/squidgame.jpg' },
-      { t:'Dark', id:'70523', g:'Sci-Fi, Mystery', d:'60 min', poster:'/dark.jpg' },
-      { t:'Breaking Bad', id:'1396', g:'Drama, Crime', d:'45 min', poster:'/breakingbad.jpg' },
-      { t:'Game of Thrones', id:'1399', g:'Fantasy, Drama', d:'60 min', poster:'/got.jpg' },
-      { t:'Better Call Saul', id:'60625', g:'Crime, Drama', d:'50 min', poster:'/bcs.jpg' },
-      { t:'Cobra Kai', id:'77169', g:'Action, Comedy', d:'35 min', poster:'/cobrakai.jpg' },
-      { t:'Wednesday', id:'119051', g:'Fantasy, Comedy', d:'50 min', poster:'/wednesday.jpg' },
-      { t:'Loki', id:'85271', g:'Action, Sci-Fi', d:'50 min', poster:'/loki.jpg' },
-      { t:'Arcane', id:'94603', g:'Animation, Sci-Fi', d:'40 min', poster:'/arcane.jpg' }
+      { t:'The Last of Us', id:'100088', g:'Drama, Sci-Fi', d:'50-80 min', posterPath:'/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg' },
+      { t:'Shōgun', id:'111451', g:'Drama, War', d:'60 min', posterPath:'/7O4iVfOMQmdCSxhOg1WnzG1AgYT.jpg' },
+      { t:'Fallout', id:'123012', g:'Sci-Fi, Action', d:'55 min', posterPath:'/AnsSKR9LuK0T9bAOcPVA3PUvyWj.jpg' },
+      { t:'The Bear', id:'139305', g:'Drama, Comedy', d:'30 min', posterPath:'/o9PSd0Y1WgPbqLzS9vZsM9iZq8U.jpg' },
+      { t:'The Boys', id:'76479', g:'Action, Sci-Fi', d:'60 min', posterPath:'/mY7SeH4HFFxW1hiI6cWuwCRKptN.jpg' },
+      { t:'House of the Dragon', id:'94997', g:'Fantasy, Drama', d:'60 min', posterPath:'/1X4h40fcB4WWUmIBK0auT4zRBAV.jpg' },
+      { t:'Succession', id:'76331', g:'Drama', d:'60 min', posterPath:'/7HW47XbkNQ5fiwQFYGWdw9gs144.jpg' },
+      { t:'Severance', id:'95396', g:'Sci-Fi, Thriller', d:'50 min', posterPath:'/pGx6O6IwqADOsgmqWzPysmWnOyr.jpg' },
+      { t:'The White Lotus', id:'110316', g:'Comedy, Drama', d:'60 min', posterPath:'/oqP1qEZccq5AD9TVTIaO6IGUj7o.jpg' },
+      { t:'Beef', id:'154385', g:'Comedy, Drama', d:'35 min', posterPath:'/5QNaG0reQfQWp5rYHjdYqZkZ3PA.jpg' },
+      { t:'Yellowstone', id:'73586', g:'Western, Drama', d:'50 min', posterPath:'/iqWCUwLcjkVgtpsDLs8xx8kscg6.jpg' },
+      { t:'Stranger Things', id:'66732', g:'Sci-Fi, Horror', d:'50-90 min', posterPath:'/x2LSRK2Cm7MZhjluni1msVJ3wDF.jpg' },
+      { t:'The Mandalorian', id:'82856', g:'Sci-Fi, Action', d:'40 min', posterPath:'/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg' },
+      { t:'The Crown', id:'65494', g:'Drama, History', d:'60 min', posterPath:'/uK1OqfH1Z1vK2xVqQ3i4KpQ9h9H.jpg' },
+      { t:'Bridgerton', id:'110316', g:'Romance, Drama', d:'60 min' },
+      { t:'Euphoria', id:'85552', g:'Drama', d:'55 min', posterPath:'/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg' },
+      { t:'Squid Game', id:'110316', g:'Thriller, Drama', d:'50 min' },
+      { t:'Dark', id:'70523', g:'Sci-Fi, Mystery', d:'60 min', posterPath:'/apbrvFWUG7T8RQUOL0Z3gBVQ8aG.jpg' },
+      { t:'Breaking Bad', id:'1396', g:'Drama, Crime', d:'45 min', posterPath:'/ggFHVNu6YYI5L9pCfOacjizRGt.jpg' },
+      { t:'Game of Thrones', id:'1399', g:'Fantasy, Drama', d:'60 min', posterPath:'/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg' },
+      { t:'Better Call Saul', id:'60059', g:'Crime, Drama', d:'50 min', posterPath:'/fC2HDm5t0kHl7mTm7jxMR31b7by.jpg' },
+      { t:'Cobra Kai', id:'77169', g:'Action, Comedy', d:'35 min', posterPath:'/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg' },
+      { t:'Wednesday', id:'119051', g:'Fantasy, Comedy', d:'50 min', posterPath:'/9PFonBhy4cQy7Jz20NpMygczOkv.jpg' },
+      { t:'Loki', id:'84958', g:'Action, Sci-Fi', d:'50 min', posterPath:'/voHUmluYmKyleFkTu3lOXQG702u.jpg' },
+      { t:'Arcane', id:'94605', g:'Animation, Sci-Fi', d:'40 min', posterPath:'/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg' }
     ];
 
-    const allMovies = [...movies, ...moviesPart2, ...moviesPart3];
+    const tvSeriesPart2 = [
+      { t:'The Office', id:'2316', g:'Comedy', d:'22 min', posterPath:'/qWnJzyZhyy74gjpSjIXWmuk0ifX.jpg' },
+      { t:'Friends', id:'1668', g:'Comedy', d:'22 min', posterPath:'/f496cm9enuEsZkSPzCwnTESEK5s.jpg' },
+      { t:'The Big Bang Theory', id:'1418', g:'Comedy', d:'22 min', posterPath:'/ooBGRQBdbGzBxAVfExiO8r7kloA.jpg' },
+      { t:'How I Met Your Mother', id:'1100', g:'Comedy, Romance', d:'22 min', posterPath:'/b34jPzmB0wZy7EjUZoleXOl2RRI.jpg' },
+      { t:'Brooklyn Nine-Nine', id:'48891', g:'Comedy, Crime', d:'22 min', posterPath:'/mKq0v2v1ZkqQfQAtF5NCzlyNNLA.jpg' },
+      { t:'Modern Family', id:'1421', g:'Comedy', d:'22 min', posterPath:'/nSxr2Cq3lH1J0Yx9qv2vNhbbX6J.jpg' },
+      { t:'Peaky Blinders', id:'60574', g:'Drama, Crime', d:'60 min', posterPath:'/pE8CScObQURsFZ723PSW1K9EGYp.jpg' },
+      { t:'The Witcher', id:'71912', g:'Fantasy, Adventure', d:'60 min', posterPath:'/7vjaCdMw15FEbXyLQTVa04URsPm.jpg' },
+      { t:'The Umbrella Academy', id:'75006', g:'Action, Sci-Fi', d:'50 min', posterPath:'/uYHdIs5O8tiU5p6MvUPd2jElOH6.jpg' },
+      { t:'Money Heist (La Casa de Papel)', id:'71446', g:'Crime, Thriller', d:'50 min', posterPath:'/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg' },
+      { t:'Narcos', id:'63351', g:'Crime, Drama', d:'50 min', posterPath:'/rTmal9fDbwh5F0waol2hq35U4ah.jpg' },
+      { t:'Ozark', id:'69740', g:'Crime, Drama', d:'60 min', posterPath:'/w4lN7ygc2kZpQvVvY5CzC9K4p1p.jpg' },
+      { t:'Mindhunter', id:'67744', g:'Crime, Drama', d:'50 min', posterPath:'/fbKE87mojpIETWepSbD5Qt741fp.jpg' },
+      { t:'Sherlock', id:'19885', g:'Crime, Mystery', d:'90 min', posterPath:'/f9zGxLHGyQB10cMDZNY5ZcGKhZi.jpg' },
+      { t:'Lupin', id:'96677', g:'Crime, Mystery', d:'45 min', posterPath:'/sgxawbFB5Vi5OkPWQLNfl3dvkNJ.jpg' },
+      { t:'The Queen\'s Gambit', id:'87739', g:'Drama', d:'50 min', posterPath:'/zU0htwkhNvBQdVSIKB9s6hgVeFK.jpg' },
+      { t:'Chernobyl', id:'87108', g:'Drama, History', d:'60 min', posterPath:'/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg' },
+      { t:'Ted Lasso', id:'97546', g:'Comedy, Sport', d:'30 min', posterPath:'/5V4QFvJxR2Q0uJqZ2nYlZ3WZ2qE.jpg' },
+      { t:'The Morning Show', id:'91599', g:'Drama', d:'55 min', posterPath:'/gL8ZDtAYni-wHcLxPQYQ2w1xkQ.jpg' },
+      { t:'Yellowjackets', id:'117488', g:'Drama, Mystery', d:'60 min', posterPath:'/zq8Cl3PNIDGU3iWNRoc5nEZ6pCe.jpg' },
+      { t:'House', id:'1408', g:'Drama, Mystery', d:'45 min', posterPath:'/3Cz7yJXxv8qk1Z3n6zGyFVR7fs2.jpg' },
+      { t:'Grey\'s Anatomy', id:'1416', g:'Drama, Romance', d:'43 min', posterPath:'/zPIug5giU8oug6Xes5K1sTfQJxY.jpg' },
+      { t:'The Good Doctor', id:'71712', g:'Drama', d:'43 min', posterPath:'/53P8oHo9cfOsgb1cLxBi4pFY0ja.jpg' },
+      { t:'Suits', id:'37680', g:'Drama', d:'44 min', posterPath:'/vQiryp6LioFxQThywxbC6TuoDjy.jpg' },
+      { t:'Vikings', id:'44217', g:'Action, Drama', d:'45 min', posterPath:'/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg' },
+      { t:'The Walking Dead', id:'1402', g:'Horror, Action', d:'45 min', posterPath:'/xf9wuDcqlUPWABZNeDKPbZUjWx0.jpg' },
+      { t:'The 100', id:'48866', g:'Sci-Fi, Drama', d:'43 min', posterPath:'/wcaDIAG1QdXQLRaj4vC1EFdBT2.jpg' },
+      { t:'Black Mirror', id:'42009', g:'Sci-Fi, Thriller', d:'60 min', posterPath:'/pXeuSwsWYJpzpo1hOSvfQgdmrSV.jpg' },
+      { t:'Westworld', id:'63247', g:'Sci-Fi, Western', d:'60 min', posterPath:'/y55oBgf6bVMI7sFNXwJDrSIxPQt.jpg' },
+      { t:'The Expanse', id:'63639', g:'Sci-Fi, Mystery', d:'50 min', posterPath:'/q3y0j7Z9E9Qn6i8r6t0p1TGVtC5.jpg' },
+      { t:'Foundation', id:'93740', g:'Sci-Fi, Drama', d:'50 min', posterPath:'/A1fXGFxDifQzj08OlaGTVcnXHyd.jpg' },
+      { t:'The Handmaid\'s Tale', id:'69478', g:'Drama, Sci-Fi', d:'50 min', posterPath:'/oIkxqt6ug5zT5ZSUUyc1Iqopf02.jpg' },
+      { t:'You', id:'78191', g:'Thriller, Drama', d:'45 min', posterPath:'/7bEYwjUvlJW7GerM8GYmqwl4oS3.jpg' },
+      { t:'Killing Eve', id:'72750', g:'Thriller, Drama', d:'43 min', posterPath:'/zU0htwkhNvBQdVSIKB9s6hgVeFK.jpg' },
+      { t:'Elite', id:'76669', g:'Crime, Drama', d:'50 min', posterPath:'/3NTAbAiao4JLzFQw6YxP1YZppM8.jpg' },
+      { t:'Sintonia', id:'91535', g:'Drama, Music', d:'40 min', posterPath:'/p6pZqW0UuZkqQ0uJqZ2nYlZ3WZ2.jpg' },
+      { t:'Sense8', id:'62858', g:'Sci-Fi, Drama', d:'55 min', posterPath:'/gZ8X8Z8KKrkaI0s5momkGLwZ5qX.jpg' }
+    ];
+
+    const allMovies = [...movies, ...moviesPart2, ...moviesPart3, ...moviesPart4];
+    const allSeries = [...tvSeries, ...tvSeriesPart2];
 
     /* ---------- WINDOW LOGIC ---------- */
     function openWindow(name) {
@@ -815,8 +894,6 @@
       const win = document.getElementById('window-' + name);
       if (win) {
         win.style.display = 'flex';
-        win.style.top = '120px';
-        win.style.left = '100px';
         if (name === 'cinema') initCinemaOnce();
       }
     }
@@ -907,10 +984,9 @@
     function createPosterThumb(item) {
       const div = document.createElement('div');
       div.className = 'poster-thumb';
-      if (item.poster) {
+      if (item.posterPath) {
         const img = document.createElement('img');
-        // If you plug TMDB, use: img.src = 'https://image.tmdb.org/t/p/w500' + item.poster;
-        img.src = item.poster; // currently placeholder path
+        img.src = TMDB_BASE + item.posterPath;
         img.alt = item.t;
         div.appendChild(img);
       }
@@ -968,7 +1044,7 @@
         loaded = moviesLoaded;
         setLoaded = v => moviesLoaded = v;
       } else {
-        source = tvSeries;
+        source = allSeries;
         loaded = seriesLoaded;
         setLoaded = v => seriesLoaded = v;
       }
