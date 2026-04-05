@@ -9,7 +9,7 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #0d0d0d;
+      background: #050509;
       color: white;
       overflow: hidden;
     }
@@ -50,63 +50,70 @@
       border-radius: 8px;
       cursor: pointer;
       box-shadow: 0 0 10px #b86eff;
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .buttons button:hover { transform: scale(1.05); }
+    .buttons button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 16px #d29bff;
+    }
 
     .notification {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #1a1a1a;
+      background: #11111a;
       color: white;
       padding: 12px 20px;
       border-radius: 8px;
       box-shadow: 0 0 10px #b86eff;
       z-index: 3;
+      font-size: 13px;
     }
 
-    /* Animated auto-hide sidebar */
+    /* Animated sidebar */
     .sidebar {
       position: fixed;
       top: 0;
       left: -80px;
       width: 80px;
       height: 100%;
-      background: rgba(20, 20, 20, 0.6);
-      backdrop-filter: blur(10px);
+      background: radial-gradient(circle at top, #2a1540 0, #090910 55%, #050509 100%);
+      backdrop-filter: blur(14px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 20px;
+      padding-top: 18px;
       transition: left 0.3s ease, transform 0.25s ease;
       z-index: 1000;
+      border-right: 1px solid #2b1b3f;
     }
     .sidebar:hover {
       left: 0;
-      transform: scale(1.05);
+      transform: scale(1.03);
     }
     .icon {
       width: 50px;
       height: 50px;
-      margin: 10px 0;
-      background: rgba(30, 30, 30, 0.8);
-      border-radius: 12px;
+      margin: 8px 0;
+      background: rgba(10, 10, 18, 0.95);
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 6px #b86eff55;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 0 8px #b86eff33;
+      border: 1px solid #2f1b4a;
     }
     .icon:hover {
       transform: scale(1.15) translateY(-2px);
-      box-shadow: 0 0 14px #b86eff;
+      box-shadow: 0 0 18px #b86eff;
+      background: radial-gradient(circle at top, #3b1f63, #12091f);
     }
     .icon svg {
       width: 24px;
       height: 24px;
-      fill: #b86eff;
+      fill: #d29bff;
     }
 
     .window {
@@ -115,34 +122,39 @@
       left: 100px;
       width: 80%;
       height: 70%;
-      background: rgba(20, 20, 20, 0.9);
-      border-radius: 12px;
-      box-shadow: 0 0 20px #b86eff;
-      backdrop-filter: blur(10px);
+      background: radial-gradient(circle at top left, #1b102b 0, #090812 55%, #050509 100%);
+      border-radius: 16px;
+      box-shadow: 0 0 24px #b86effaa;
+      backdrop-filter: blur(14px);
       display: none;
       flex-direction: column;
       overflow: hidden;
       z-index: 999;
+      border: 1px solid #2f1b4a;
     }
     .window-header {
-      background: #1a1a1a;
-      padding: 10px;
+      background: linear-gradient(90deg, #140b22, #1f102f);
+      padding: 10px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: move;
+      border-bottom: 1px solid #2f1b4a;
     }
     .window-header span {
-      font-weight: bold;
-      color: #b86eff;
+      font-weight: 600;
+      color: #e3c4ff;
+      font-size: 14px;
+      letter-spacing: 0.04em;
     }
     .close-btn {
       background: #b86eff;
       border: none;
       color: white;
-      padding: 4px 10px;
-      border-radius: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
       cursor: pointer;
+      font-size: 12px;
     }
     .window-body {
       flex: 1;
@@ -164,29 +176,30 @@
       overflow: hidden;
     }
     .cinema-left {
-      flex: 2;
+      flex: 2.2;
       display: flex;
       flex-direction: column;
       padding: 16px;
-      gap: 12px;
+      gap: 14px;
       overflow: hidden;
     }
     .cinema-right {
-      flex: 1.5;
+      flex: 1.3;
       padding: 16px;
-      border-left: 1px solid #333;
+      border-left: 1px solid #2b1b3f;
       overflow-y: auto;
+      background: radial-gradient(circle at top, #12091f 0, #07050c 60%);
     }
     .player-container {
       background: #000;
-      border-radius: 10px;
+      border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 0 12px #b86eff55;
+      box-shadow: 0 0 16px #b86eff55;
       flex-shrink: 0;
     }
     .player-container iframe {
       width: 100%;
-      height: 320px;
+      height: 340px;
     }
     .server-bar {
       display: flex;
@@ -194,132 +207,103 @@
       gap: 10px;
       margin-top: 10px;
       flex-wrap: wrap;
+      font-size: 13px;
+      color: #ccc;
     }
     .server-bar select {
-      background: #1a1a1a;
+      background: #12091f;
       color: white;
-      border-radius: 8px;
-      border: 1px solid #444;
-      padding: 6px 10px;
-      outline: none;
-    }
-    .server-bar span {
-      font-size: 14px;
-      color: #ccc;
-    }
-    .hero-info-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin-top: 10px;
-    }
-    .hero-info-meta {
-      font-size: 13px;
-      color: #aaa;
-      margin-top: 4px;
-    }
-    .hero-info-desc {
-      font-size: 14px;
-      color: #ddd;
-      margin-top: 8px;
-    }
-    .section-title {
-      font-size: 16px;
-      font-weight: 600;
-      margin-top: 16px;
-      margin-bottom: 8px;
-    }
-    .chips-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .chip {
-      background: #1a1a1a;
       border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 12px;
-      color: #ccc;
-      border: 1px solid #333;
+      border: 1px solid #3a245a;
+      padding: 6px 12px;
+      outline: none;
+      font-size: 13px;
     }
     .cinema-scroll {
       flex: 1;
       overflow-y: auto;
-      margin-top: 10px;
+      margin-top: 8px;
       padding-right: 4px;
     }
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 10px 0 6px;
+      color: #e3c4ff;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Poster cards */
     .card-row {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       overflow-x: auto;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
     }
-    .media-card {
-      min-width: 140px;
-      max-width: 140px;
-      background: #151515;
-      border-radius: 10px;
-      padding: 8px;
+    .poster-card {
+      min-width: 150px;
+      max-width: 150px;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 6px #000;
     }
-    .media-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 12px #b86eff55;
+    .poster-thumb {
+      width: 100%;
+      height: 220px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #2b1b3f, #12091f);
+      box-shadow: 0 0 10px #000;
+      overflow: hidden;
     }
-    .media-title {
+    .poster-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .poster-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 0 18px #b86effaa;
+    }
+    .poster-meta-title {
       font-size: 13px;
       font-weight: 500;
-      margin-bottom: 4px;
+      margin-top: 6px;
+      color: #f5e9ff;
     }
-    .media-meta {
+    .poster-meta-sub {
       font-size: 11px;
-      color: #aaa;
+      color: #a8a0c0;
+      margin-top: 2px;
     }
+
     .grid-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 10px;
+      gap: 14px;
+      margin-top: 6px;
     }
-    .grid-card {
-      background: #151515;
-      border-radius: 10px;
-      padding: 8px;
+    .grid-poster-card {
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 6px #000;
     }
-    .grid-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 12px #b86eff55;
+    .grid-poster-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 0 18px #b86effaa;
     }
-    .grid-title {
-      font-size: 13px;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-    .grid-meta {
-      font-size: 11px;
-      color: #aaa;
-    }
-    .load-more {
-      text-align: center;
-      padding: 10px 0 20px;
-      font-size: 13px;
-      color: #888;
-    }
+
     .tab-row {
       display: flex;
       gap: 8px;
-      margin-top: 10px;
-      margin-bottom: 6px;
+      margin-top: 8px;
+      margin-bottom: 4px;
     }
     .tab-btn {
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 999px;
-      border: 1px solid #333;
-      background: #151515;
-      color: #ccc;
+      border: 1px solid #3a245a;
+      background: #12091f;
+      color: #cbb4ff;
       font-size: 12px;
       cursor: pointer;
       transition: background 0.2s, color 0.2s, border-color 0.2s;
@@ -330,36 +314,89 @@
       border-color: #b86eff;
     }
 
+    .load-more {
+      text-align: center;
+      padding: 10px 0 18px;
+      font-size: 12px;
+      color: #8f84b0;
+    }
+
+    .hero-info-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 4px;
+      color: #f5e9ff;
+    }
+    .hero-info-meta {
+      font-size: 12px;
+      color: #b3a6d6;
+      margin-top: 4px;
+    }
+    .hero-info-desc {
+      font-size: 13px;
+      color: #d0c6f0;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    .chips-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .chip {
+      background: #12091f;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: #cbb4ff;
+      border: 1px solid #3a245a;
+    }
+
     /* Apps layout */
     .apps-body {
       display: flex;
       height: 100%;
     }
     .apps-sidebar {
-      width: 220px;
-      border-right: 1px solid #333;
+      width: 230px;
+      border-right: 1px solid #2b1b3f;
       padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      background: #141414;
+      background: radial-gradient(circle at top, #1b102b 0, #07050c 60%);
+    }
+    .apps-group-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9f8ad0;
+      margin-top: 4px;
+      margin-bottom: 4px;
     }
     .app-tile {
-      background: #1a1a1a;
-      border-radius: 10px;
-      padding: 10px;
+      background: #12091f;
+      border-radius: 12px;
+      padding: 9px 10px;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 6px #000;
-      font-size: 13px;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 0 8px #000;
+      font-size: 12px;
+      border: 1px solid #2f1b4a;
     }
     .app-tile:hover {
       transform: translateY(-3px);
-      box-shadow: 0 0 12px #b86eff55;
+      box-shadow: 0 0 16px #b86eff55;
+      background: radial-gradient(circle at top, #3b1f63, #12091f);
+    }
+    .app-tile strong {
+      color: #f5e9ff;
+      font-size: 13px;
     }
     .apps-main {
       flex: 1;
-      background: #050505;
+      background: #050509;
       display: flex;
       flex-direction: column;
     }
@@ -374,8 +411,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #777;
+      color: #77729a;
       font-size: 14px;
+      padding: 20px;
+      text-align: center;
     }
 
     /* Scrollbars */
@@ -385,7 +424,7 @@
     }
     .cinema-scroll::-webkit-scrollbar-thumb,
     .cinema-right::-webkit-scrollbar-thumb {
-      background: #444;
+      background: #3a245a;
       border-radius: 3px;
     }
   </style>
@@ -399,11 +438,11 @@
     <div class="icon" onclick="openWindow('home')">
       <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     </div>
-    <!-- Absolute Cinema (custom) -->
+    <!-- Absolute Cinema -->
     <div class="icon" onclick="openWindow('cinema')">
       <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-4l2 4h-3l-2-4H6l2 4H5l-2-4H2v16h20V4z"/></svg>
     </div>
-    <!-- Cine-Hub Mode -->
+    <!-- Cine-Hub -->
     <div class="icon" onclick="openWindow('cinehub')">
       <svg viewBox="0 0 24 24"><path d="M3 5h18v4H3V5zm0 6h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
     </div>
@@ -445,7 +484,7 @@
 
   <!-- Notification -->
   <div class="notification">
-    Message from System — Absolute OS V2 is live!
+    System: Absolute OS V2 — Sidebar, Cinema, Apps and more are now live.
   </div>
 
   <!-- Games Window -->
@@ -457,7 +496,7 @@
     <iframe src="https://www.onlinegames.io"></iframe>
   </div>
 
-  <!-- Absolute Cinema (custom) -->
+  <!-- Absolute Cinema -->
   <div id="window-cinema" class="window">
     <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
       <span>Absolute Cinema</span>
@@ -470,7 +509,7 @@
             <iframe id="cinema-player" src="" allowfullscreen></iframe>
           </div>
           <div class="server-bar">
-            <span>Select server:</span>
+            <span>Server:</span>
             <select id="server-select" onchange="changeServer()">
               <option value="vidsrc">VidSrc</option>
               <option value="autoembed">AutoEmbed</option>
@@ -480,6 +519,7 @@
               <option value="vidsrccc">VidSrc CC</option>
               <option value="embedsu">EmbedSu</option>
             </select>
+            <span>• Click any poster to play.</span>
           </div>
           <div class="cinema-scroll" id="cinema-scroll">
             <div class="section-title">Trending Now</div>
@@ -526,18 +566,54 @@
     </div>
     <div class="window-body apps-body">
       <div class="apps-sidebar">
-        <div class="section-title" style="margin-top:0;">Apps</div>
+        <div class="apps-group-title">Social</div>
         <div class="app-tile" onclick="openDiscord()">
           <strong>Discord</strong><br>
           Open Absolute OS server
         </div>
+        <div class="app-tile" onclick="loadApp('tiktok')">
+          <strong>TikTok</strong><br>
+          Scroll short videos
+        </div>
+        <div class="app-tile" onclick="loadApp('instagram')">
+          <strong>Instagram</strong><br>
+          Feed & reels
+        </div>
+        <div class="app-tile" onclick="loadApp('twitter')">
+          <strong>X (Twitter)</strong><br>
+          Timeline & posts
+        </div>
+        <div class="app-tile" onclick="loadApp('reddit')">
+          <strong>Reddit</strong><br>
+          Communities & threads
+        </div>
+
+        <div class="apps-group-title">Gaming</div>
         <div class="app-tile" onclick="loadApp('roblox')">
           <strong>Roblox</strong><br>
-          Play Roblox in browser
+          Play in browser
+        </div>
+        <div class="app-tile" onclick="loadApp('geforce')">
+          <strong>GeForce NOW</strong><br>
+          Cloud gaming
         </div>
         <div class="app-tile" onclick="loadApp('xbox')">
           <strong>Xbox Cloud</strong><br>
-          Xbox Cloud - Nexora
+          Xbox streaming
+        </div>
+
+        <div class="apps-group-title">Media</div>
+        <div class="app-tile" onclick="loadApp('youtube')">
+          <strong>YouTube</strong><br>
+          Videos & streams
+        </div>
+        <div class="app-tile" onclick="loadApp('spotify')">
+          <strong>Spotify</strong><br>
+          Music & playlists
+        </div>
+        <div class="app-tile" onclick="loadApp('twitch')">
+          <strong>Twitch</strong><br>
+          Live streams
         </div>
       </div>
       <div class="apps-main">
@@ -593,142 +669,142 @@
   </div>
 
   <script>
-    /* ---------- DATA ---------- */
+    /* ---------- DATA (with poster placeholders) ---------- */
     const movies = [
-      { t:'Dune: Part Two', id:'693134', g:'Sci-Fi, Adventure', d:'166 min' },
-      { t:'Kung Fu Panda 4', id:'1011985', g:'Animation, Family', d:'94 min' },
-      { t:'Godzilla x Kong: The New Empire', id:'823464', g:'Action, Sci-Fi', d:'115 min' },
-      { t:'Aquaman and the Lost Kingdom', id:'572802', g:'Action, Adventure', d:'124 min' },
-      { t:'The Zone of Interest', id:'467244', g:'War, Drama', d:'105 min' },
-      { t:'Oppenheimer', id:'872585', g:'Drama, History', d:'180 min' },
-      { t:'Poor Things', id:'792307', g:'Sci-Fi, Romance', d:'141 min' },
-      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min' },
-      { t:'Migration', id:'940551', g:'Animation, Comedy', d:'83 min' },
-      { t:'Road House', id:'335977', g:'Action, Thriller', d:'121 min' },
-      { t:'The Iron Claw', id:'848538', g:'Drama, Sport', d:'132 min' },
-      { t:'Wonka', id:'787699', g:'Comedy, Family', d:'116 min' },
-      { t:'Anyone But You', id:'1072790', g:'Romance, Comedy', d:'103 min' },
-      { t:'Wish', id:'1022789', g:'Animation, Family', d:'95 min' },
-      { t:'Killers of the Flower Moon', id:'466420', g:'Crime, History', d:'206 min' },
-      { t:'The Beekeeper', id:'866398', g:'Action, Thriller', d:'105 min' },
-      { t:'Argylle', id:'848538', g:'Action, Comedy', d:'139 min' },
-      { t:'Society of the Snow', id:'85552', g:'Adventure, Drama', d:'144 min' },
-      { t:'Madame Web', id:'507089', g:'Action, Sci-Fi', d:'116 min' },
-      { t:'Bob Marley: One Love', id:'850165', g:'Music, History', d:'107 min' },
-      { t:'The Marvels', id:'609681', g:'Sci-Fi, Action', d:'105 min' },
-      { t:'Godzilla Minus One', id:'1096197', g:'Sci-Fi, Kaiju', d:'124 min' },
-      { t:'Spider-Man: Across the Spider-Verse', id:'569094', g:'Animation, Action', d:'140 min' },
-      { t:'Guardians of the Galaxy Vol. 3', id:'447365', g:'Sci-Fi, Adventure', d:'150 min' },
-      { t:'John Wick: Chapter 4', id:'603692', g:'Action, Thriller', d:'169 min' }
+      { t:'Dune: Part Two', id:'693134', g:'Sci-Fi, Adventure', d:'166 min', poster:'/dune2.jpg' },
+      { t:'Kung Fu Panda 4', id:'1011985', g:'Animation, Family', d:'94 min', poster:'/kfp4.jpg' },
+      { t:'Godzilla x Kong: The New Empire', id:'823464', g:'Action, Sci-Fi', d:'115 min', poster:'/gzkong.jpg' },
+      { t:'Aquaman and the Lost Kingdom', id:'572802', g:'Action, Adventure', d:'124 min', poster:'/aquaman2.jpg' },
+      { t:'The Zone of Interest', id:'467244', g:'War, Drama', d:'105 min', poster:'/zoneofinterest.jpg' },
+      { t:'Oppenheimer', id:'872585', g:'Drama, History', d:'180 min', poster:'/oppenheimer.jpg' },
+      { t:'Poor Things', id:'792307', g:'Sci-Fi, Romance', d:'141 min', poster:'/poorthings.jpg' },
+      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min', poster:'/napoleon.jpg' },
+      { t:'Migration', id:'940551', g:'Animation, Comedy', d:'83 min', poster:'/migration.jpg' },
+      { t:'Road House', id:'335977', g:'Action, Thriller', d:'121 min', poster:'/roadhouse.jpg' },
+      { t:'The Iron Claw', id:'848538', g:'Drama, Sport', d:'132 min', poster:'/ironclaw.jpg' },
+      { t:'Wonka', id:'787699', g:'Comedy, Family', d:'116 min', poster:'/wonka.jpg' },
+      { t:'Anyone But You', id:'1072790', g:'Romance, Comedy', d:'103 min', poster:'/anyonebutyou.jpg' },
+      { t:'Wish', id:'1022789', g:'Animation, Family', d:'95 min', poster:'/wish.jpg' },
+      { t:'Killers of the Flower Moon', id:'466420', g:'Crime, History', d:'206 min', poster:'/killersflower.jpg' },
+      { t:'The Beekeeper', id:'866398', g:'Action, Thriller', d:'105 min', poster:'/beekeeper.jpg' },
+      { t:'Argylle', id:'848538', g:'Action, Comedy', d:'139 min', poster:'/argylle.jpg' },
+      { t:'Society of the Snow', id:'85552', g:'Adventure, Drama', d:'144 min', poster:'/societyofthesnow.jpg' },
+      { t:'Madame Web', id:'507089', g:'Action, Sci-Fi', d:'116 min', poster:'/madameweb.jpg' },
+      { t:'Bob Marley: One Love', id:'850165', g:'Music, History', d:'107 min', poster:'/bobmarley.jpg' },
+      { t:'The Marvels', id:'609681', g:'Sci-Fi, Action', d:'105 min', poster:'/themarvels.jpg' },
+      { t:'Godzilla Minus One', id:'1096197', g:'Sci-Fi, Kaiju', d:'124 min', poster:'/godzillaminusone.jpg' },
+      { t:'Spider-Man: Across the Spider-Verse', id:'569094', g:'Animation, Action', d:'140 min', poster:'/acrossthespiderverse.jpg' },
+      { t:'Guardians of the Galaxy Vol. 3', id:'447365', g:'Sci-Fi, Adventure', d:'150 min', poster:'/gotg3.jpg' },
+      { t:'John Wick: Chapter 4', id:'603692', g:'Action, Thriller', d:'169 min', poster:'/johnwick4.jpg' }
     ];
 
     const moviesPart2 = [
-      { t:'Terrifier 3', id:'1100782', g:'Horror, Slasher', d:'125 min' },
-      { t:'Smile 2', id:'1100785', g:'Horror, Thriller', d:'127 min' },
-      { t:'Conclave', id:'974950', g:'Thriller, Drama', d:'120 min' },
-      { t:'The Substance', id:'933260', g:'Horror, Drama', d:'140 min' },
-      { t:'Heretic', id:'1114513', g:'Horror, Thriller', d:'110 min' },
-      { t:'Red One', id:'802219', g:'Action, Fantasy', d:'123 min' },
-      { t:'Kraven the Hunter', id:'76669', g:'Action, Adventure', d:'127 min' },
-      { t:'Better Man', id:'812225', g:'Drama, Music', d:'134 min' },
-      { t:'The Amateur', id:'1058574', g:'Thriller, Action', d:'115 min' },
-      { t:'In the Grey', id:'1129598', g:'Action, Crime', d:'120 min' },
-      { t:'Ballerina', id:'1003580', g:'Action, Thriller', d:'110 min' },
-      { t:'Wolfs', id:'877817', g:'Thriller, Comedy', d:'108 min' },
-      { t:'High Forces', id:'1344132', g:'Action, Thriller', d:'115 min' },
-      { t:'Transformers One', id:'698687', g:'Animation, Action', d:'104 min' },
-      { t:'The Old Guard 2', id:'714277', g:'Action, Fantasy', d:'125 min' },
-      { t:'Havoc', id:'801002', g:'Action, Thriller', d:'118 min' },
-      { t:'Constantine 2', id:'1025555', g:'Fantasy, Horror', d:'130 min' },
-      { t:'I Am Legend 2', id:'945657', g:'Sci-Fi, Drama', d:'125 min' },
-      { t:'28 Years Later', id:'1222411', g:'Horror, Sci-Fi', d:'115 min' },
-      { t:'Now You See Me 3', id:'393624', g:'Thriller, Crime', d:'110 min' },
-      { t:'The Woman in the Yard', id:'1231920', g:'Horror, Thriller', d:'95 min' },
-      { t:'Drop', id:'1241154', g:'Thriller, Mystery', d:'102 min' },
-      { t:'The Monkey', id:'1144962', g:'Horror, Supernatural', d:'105 min' },
-      { t:'The Running Man', id:'1101547', g:'Sci-Fi, Action', d:'120 min' },
-      { t:'Flow', id:'1281826', g:'Animation, Adventure', d:'84 min' },
-      { t:'The Brutalist', id:'742784', g:'Drama, History', d:'215 min' },
-      { t:'Anora', id:'1064213', g:'Comedy, Drama', d:'139 min' },
-      { t:'Emilia Pérez', id:'974950', g:'Musical, Crime', d:'130 min' },
-      { t:'The Piano Lesson', id:'1111873', g:'Drama, Music', d:'125 min' },
-      { t:'A Real Pain', id:'1131755', g:'Comedy, Drama', d:'90 min' },
-      { t:'Presence', id:'1165415', g:'Horror, Thriller', d:'85 min' },
-      { t:'The End', id:'927421', g:'Musical, Drama', d:'148 min' },
-      { t:'Nightbitch', id:'973652', g:'Comedy, Horror', d:'103 min' },
-      { t:'Carry-On', id:'1011114', g:'Thriller, Action', d:'119 min' },
-      { t:'Back in Action', id:'1002185', g:'Action, Comedy', d:'110 min' },
-      { t:'The Gorge', id:'961019', g:'Romance, Action', d:'126 min' },
-      { t:'The Electric State', id:'714125', g:'Sci-Fi, Adventure', d:'135 min' },
-      { t:'Black Bag', id:'1231245', g:'Thriller, Drama', d:'110 min' },
-      { t:'The Battle of Baktan Cross', id:'1213456', g:'Drama, Action', d:'140 min' },
-      { t:'Frankenstein', id:'1115545', g:'Horror, Sci-Fi', d:'130 min' },
-      { t:'Dracula: A Love Tale', id:'1200114', g:'Horror, Romance', d:'125 min' },
-      { t:'Cliffs of Freedom', id:'1055566', g:'Drama, History', d:'137 min' },
-      { t:'The Unholy', id:'632357', g:'Horror, Mystery', d:'99 min' },
-      { t:'The Ritual', id:'433808', g:'Horror, Mystery', d:'94 min' },
-      { t:'Apostle', id:'471474', g:'Horror, Thriller', d:'130 min' },
-      { t:'No One Will Save You', id:'883107', g:'Sci-Fi, Thriller', d:'93 min' },
-      { t:'Barbarian', id:'927339', g:'Horror, Thriller', d:'102 min' },
-      { t:'Pearl', id:'985939', g:'Horror, Drama', d:'102 min' },
-      { t:'X', id:'760104', g:'Horror, Slasher', d:'105 min' },
-      { t:'Talk to Me', id:'1008042', g:'Horror, Thriller', d:'95 min' }
+      { t:'Terrifier 3', id:'1100782', g:'Horror, Slasher', d:'125 min', poster:'/terrifier3.jpg' },
+      { t:'Smile 2', id:'1100785', g:'Horror, Thriller', d:'127 min', poster:'/smile2.jpg' },
+      { t:'Conclave', id:'974950', g:'Thriller, Drama', d:'120 min', poster:'/conclave.jpg' },
+      { t:'The Substance', id:'933260', g:'Horror, Drama', d:'140 min', poster:'/substance.jpg' },
+      { t:'Heretic', id:'1114513', g:'Horror, Thriller', d:'110 min', poster:'/heretic.jpg' },
+      { t:'Red One', id:'802219', g:'Action, Fantasy', d:'123 min', poster:'/redone.jpg' },
+      { t:'Kraven the Hunter', id:'76669', g:'Action, Adventure', d:'127 min', poster:'/kraven.jpg' },
+      { t:'Better Man', id:'812225', g:'Drama, Music', d:'134 min', poster:'/betterman.jpg' },
+      { t:'The Amateur', id:'1058574', g:'Thriller, Action', d:'115 min', poster:'/amateur.jpg' },
+      { t:'In the Grey', id:'1129598', g:'Action, Crime', d:'120 min', poster:'/inthegrey.jpg' },
+      { t:'Ballerina', id:'1003580', g:'Action, Thriller', d:'110 min', poster:'/ballerina.jpg' },
+      { t:'Wolfs', id:'877817', g:'Thriller, Comedy', d:'108 min', poster:'/wolfs.jpg' },
+      { t:'High Forces', id:'1344132', g:'Action, Thriller', d:'115 min', poster:'/highforces.jpg' },
+      { t:'Transformers One', id:'698687', g:'Animation, Action', d:'104 min', poster:'/transformersone.jpg' },
+      { t:'The Old Guard 2', id:'714277', g:'Action, Fantasy', d:'125 min', poster:'/oldguard2.jpg' },
+      { t:'Havoc', id:'801002', g:'Action, Thriller', d:'118 min', poster:'/havoc.jpg' },
+      { t:'Constantine 2', id:'1025555', g:'Fantasy, Horror', d:'130 min', poster:'/constantine2.jpg' },
+      { t:'I Am Legend 2', id:'945657', g:'Sci-Fi, Drama', d:'125 min', poster:'/iamlegend2.jpg' },
+      { t:'28 Years Later', id:'1222411', g:'Horror, Sci-Fi', d:'115 min', poster:'/28yearslater.jpg' },
+      { t:'Now You See Me 3', id:'393624', g:'Thriller, Crime', d:'110 min', poster:'/nysm3.jpg' },
+      { t:'The Woman in the Yard', id:'1231920', g:'Horror, Thriller', d:'95 min', poster:'/womanintheyard.jpg' },
+      { t:'Drop', id:'1241154', g:'Thriller, Mystery', d:'102 min', poster:'/drop.jpg' },
+      { t:'The Monkey', id:'1144962', g:'Horror, Supernatural', d:'105 min', poster:'/monkey.jpg' },
+      { t:'The Running Man', id:'1101547', g:'Sci-Fi, Action', d:'120 min', poster:'/runningman.jpg' },
+      { t:'Flow', id:'1281826', g:'Animation, Adventure', d:'84 min', poster:'/flow.jpg' },
+      { t:'The Brutalist', id:'742784', g:'Drama, History', d:'215 min', poster:'/brutalist.jpg' },
+      { t:'Anora', id:'1064213', g:'Comedy, Drama', d:'139 min', poster:'/anora.jpg' },
+      { t:'Emilia Pérez', id:'974950', g:'Musical, Crime', d:'130 min', poster:'/emiliaperez.jpg' },
+      { t:'The Piano Lesson', id:'1111873', g:'Drama, Music', d:'125 min', poster:'/pianolesson.jpg' },
+      { t:'A Real Pain', id:'1131755', g:'Comedy, Drama', d:'90 min', poster:'/realpain.jpg' },
+      { t:'Presence', id:'1165415', g:'Horror, Thriller', d:'85 min', poster:'/presence.jpg' },
+      { t:'The End', id:'927421', g:'Musical, Drama', d:'148 min', poster:'/theend.jpg' },
+      { t:'Nightbitch', id:'973652', g:'Comedy, Horror', d:'103 min', poster:'/nightbitch.jpg' },
+      { t:'Carry-On', id:'1011114', g:'Thriller, Action', d:'119 min', poster:'/carryon.jpg' },
+      { t:'Back in Action', id:'1002185', g:'Action, Comedy', d:'110 min', poster:'/backinaction.jpg' },
+      { t:'The Gorge', id:'961019', g:'Romance, Action', d:'126 min', poster:'/gorge.jpg' },
+      { t:'The Electric State', id:'714125', g:'Sci-Fi, Adventure', d:'135 min', poster:'/electricstate.jpg' },
+      { t:'Black Bag', id:'1231245', g:'Thriller, Drama', d:'110 min', poster:'/blackbag.jpg' },
+      { t:'The Battle of Baktan Cross', id:'1213456', g:'Drama, Action', d:'140 min', poster:'/baktancross.jpg' },
+      { t:'Frankenstein', id:'1115545', g:'Horror, Sci-Fi', d:'130 min', poster:'/frankenstein.jpg' },
+      { t:'Dracula: A Love Tale', id:'1200114', g:'Horror, Romance', d:'125 min', poster:'/dracula.jpg' },
+      { t:'Cliffs of Freedom', id:'1055566', g:'Drama, History', d:'137 min', poster:'/cliffsoffreedom.jpg' },
+      { t:'The Unholy', id:'632357', g:'Horror, Mystery', d:'99 min', poster:'/unholy.jpg' },
+      { t:'The Ritual', id:'433808', g:'Horror, Mystery', d:'94 min', poster:'/ritual.jpg' },
+      { t:'Apostle', id:'471474', g:'Horror, Thriller', d:'130 min', poster:'/apostle.jpg' },
+      { t:'No One Will Save You', id:'883107', g:'Sci-Fi, Thriller', d:'93 min', poster:'/noonewillsaveyou.jpg' },
+      { t:'Barbarian', id:'927339', g:'Horror, Thriller', d:'102 min', poster:'/barbarian.jpg' },
+      { t:'Pearl', id:'985939', g:'Horror, Drama', d:'102 min', poster:'/pearl.jpg' },
+      { t:'X', id:'760104', g:'Horror, Slasher', d:'105 min', poster:'/xmovie.jpg' },
+      { t:'Talk to Me', id:'1008042', g:'Horror, Thriller', d:'95 min', poster:'/talktome.jpg' }
     ];
 
     const moviesPart3 = [
-      { t:'The Menu', id:'593643', g:'Horror, Comedy', d:'107 min' },
-      { t:'Bullet Train', id:'718930', g:'Action, Comedy', d:'126 min' },
-      { t:'The Northman', id:'634649', g:'Action, Adventure', d:'137 min' },
-      { t:'Everything Everywhere All at Once', id:'505642', g:'Action, Sci-Fi', d:'139 min' },
-      { t:'Top Gun: Maverick', id:'361743', g:'Action, Drama', d:'130 min' },
-      { t:'The Batman', id:'414906', g:'Crime, Mystery', d:'176 min' },
-      { t:'The Whale', id:'785084', g:'Drama', d:'117 min' },
-      { t:'Aftersun', id:'965150', g:'Drama', d:'102 min' },
-      { t:'Tár', id:'817758', g:'Drama, Music', d:'158 min' },
-      { t:'Babylon', id:'615777', g:'Drama, Comedy', d:'189 min' },
-      { t:'Beau Is Afraid', id:'798286', g:'Adventure, Comedy', d:'179 min' },
-      { t:'Asteroid City', id:'747188', g:'Comedy, Sci-Fi', d:'105 min' },
-      { t:'Saltburn', id:'930564', g:'Drama, Thriller', d:'131 min' },
-      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min' },
-      { t:'The Killer', id:'800158', g:'Crime, Thriller', d:'118 min' },
-      { t:'Extraction 2', id:'697843', g:'Action, Thriller', d:'123 min' },
-      { t:'Society of the Snow', id:'85552', g:'Adventure, Drama', d:'144 min' },
-      { t:'Rebel Moon - Part One', id:'848326', g:'Sci-Fi, Action', d:'134 min' },
-      { t:'Leave the World Behind', id:'726209', g:'Thriller, Drama', d:'141 min' },
-      { t:'The Holdovers', id:'840430', g:'Drama, Comedy', d:'133 min' },
-      { t:'Past Lives', id:'666277', g:'Drama, Romance', d:'106 min' },
-      { t:'Society of the Snow', id:'85552', g:'Drama, History', d:'144 min' },
-      { t:'Dream Scenario', id:'1016084', g:'Comedy, Fantasy', d:'102 min' },
-      { t:'Iron Claw', id:'848538', g:'Drama, Sport', d:'132 min' },
-      { t:'The Flash', id:'298618', g:'Action, Adventure', d:'144 min' }
+      { t:'The Menu', id:'593643', g:'Horror, Comedy', d:'107 min', poster:'/menu.jpg' },
+      { t:'Bullet Train', id:'718930', g:'Action, Comedy', d:'126 min', poster:'/bullettrain.jpg' },
+      { t:'The Northman', id:'634649', g:'Action, Adventure', d:'137 min', poster:'/northman.jpg' },
+      { t:'Everything Everywhere All at Once', id:'505642', g:'Action, Sci-Fi', d:'139 min', poster:'/eeaao.jpg' },
+      { t:'Top Gun: Maverick', id:'361743', g:'Action, Drama', d:'130 min', poster:'/topgunmaverick.jpg' },
+      { t:'The Batman', id:'414906', g:'Crime, Mystery', d:'176 min', poster:'/thebatman.jpg' },
+      { t:'The Whale', id:'785084', g:'Drama', d:'117 min', poster:'/whale.jpg' },
+      { t:'Aftersun', id:'965150', g:'Drama', d:'102 min', poster:'/aftersun.jpg' },
+      { t:'Tár', id:'817758', g:'Drama, Music', d:'158 min', poster:'/tar.jpg' },
+      { t:'Babylon', id:'615777', g:'Drama, Comedy', d:'189 min', poster:'/babylon.jpg' },
+      { t:'Beau Is Afraid', id:'798286', g:'Adventure, Comedy', d:'179 min', poster:'/beauisafraid.jpg' },
+      { t:'Asteroid City', id:'747188', g:'Comedy, Sci-Fi', d:'105 min', poster:'/asteroidcity.jpg' },
+      { t:'Saltburn', id:'930564', g:'Drama, Thriller', d:'131 min', poster:'/saltburn.jpg' },
+      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min', poster:'/napoleon2.jpg' },
+      { t:'The Killer', id:'800158', g:'Crime, Thriller', d:'118 min', poster:'/thekiller.jpg' },
+      { t:'Extraction 2', id:'697843', g:'Action, Thriller', d:'123 min', poster:'/extraction2.jpg' },
+      { t:'Society of the Snow', id:'85552', g:'Adventure, Drama', d:'144 min', poster:'/societyofthesnow2.jpg' },
+      { t:'Rebel Moon - Part One', id:'848326', g:'Sci-Fi, Action', d:'134 min', poster:'/rebelmoon1.jpg' },
+      { t:'Leave the World Behind', id:'726209', g:'Thriller, Drama', d:'141 min', poster:'/leavetheworldbehind.jpg' },
+      { t:'The Holdovers', id:'840430', g:'Drama, Comedy', d:'133 min', poster:'/holdovers.jpg' },
+      { t:'Past Lives', id:'666277', g:'Drama, Romance', d:'106 min', poster:'/pastlives.jpg' },
+      { t:'Society of the Snow', id:'85552', g:'Drama, History', d:'144 min', poster:'/societyofthesnow3.jpg' },
+      { t:'Dream Scenario', id:'1016084', g:'Comedy, Fantasy', d:'102 min', poster:'/dreamscenario.jpg' },
+      { t:'Iron Claw', id:'848538', g:'Drama, Sport', d:'132 min', poster:'/ironclaw2.jpg' },
+      { t:'The Flash', id:'298618', g:'Action, Adventure', d:'144 min', poster:'/theflash.jpg' }
     ];
 
     const tvSeries = [
-      { t:'The Last of Us', id:'121622', g:'Drama, Sci-Fi', d:'50-80 min' },
-      { t:'Shōgun', id:'111451', g:'Drama, War', d:'60 min' },
-      { t:'Fallout', id:'123456', g:'Sci-Fi, Action', d:'55 min' },
-      { t:'The Bear', id:'139305', g:'Drama, Comedy', d:'30 min' },
-      { t:'The Boys', id:'76479', g:'Action, Sci-Fi', d:'60 min' },
-      { t:'House of the Dragon', id:'94997', g:'Fantasy, Drama', d:'60 min' },
-      { t:'Succession', id:'76331', g:'Drama', d:'60 min' },
-      { t:'Severance', id:'95396', g:'Sci-Fi, Thriller', d:'50 min' },
-      { t:'The White Lotus', id:'111110', g:'Comedy, Drama', d:'60 min' },
-      { t:'Beef', id:'154385', g:'Comedy, Drama', d:'35 min' },
-      { t:'Yellowstone', id:'73586', g:'Western, Drama', d:'50 min' },
-      { t:'Stranger Things', id:'66732', g:'Sci-Fi, Horror', d:'50-90 min' },
-      { t:'The Mandalorian', id:'82856', g:'Sci-Fi, Action', d:'40 min' },
-      { t:'The Crown', id:'65494', g:'Drama, History', d:'60 min' },
-      { t:'Bridgerton', id:'94605', g:'Romance, Drama', d:'60 min' },
-      { t:'Euphoria', id:'85552', g:'Drama', d:'55 min' },
-      { t:'Squid Game', id:'115036', g:'Thriller, Drama', d:'50 min' },
-      { t:'Dark', id:'70523', g:'Sci-Fi, Mystery', d:'60 min' },
-      { t:'Breaking Bad', id:'1396', g:'Drama, Crime', d:'45 min' },
-      { t:'Game of Thrones', id:'1399', g:'Fantasy, Drama', d:'60 min' },
-      { t:'Better Call Saul', id:'60625', g:'Crime, Drama', d:'50 min' },
-      { t:'Cobra Kai', id:'77169', g:'Action, Comedy', d:'35 min' },
-      { t:'Wednesday', id:'119051', g:'Fantasy, Comedy', d:'50 min' },
-      { t:'Loki', id:'85271', g:'Action, Sci-Fi', d:'50 min' },
-      { t:'Arcane', id:'94603', g:'Animation, Sci-Fi', d:'40 min' }
+      { t:'The Last of Us', id:'121622', g:'Drama, Sci-Fi', d:'50-80 min', poster:'/lastofus.jpg' },
+      { t:'Shōgun', id:'111451', g:'Drama, War', d:'60 min', poster:'/shogun.jpg' },
+      { t:'Fallout', id:'123456', g:'Sci-Fi, Action', d:'55 min', poster:'/fallout.jpg' },
+      { t:'The Bear', id:'139305', g:'Drama, Comedy', d:'30 min', poster:'/thebear.jpg' },
+      { t:'The Boys', id:'76479', g:'Action, Sci-Fi', d:'60 min', poster:'/theboys.jpg' },
+      { t:'House of the Dragon', id:'94997', g:'Fantasy, Drama', d:'60 min', poster:'/hotd.jpg' },
+      { t:'Succession', id:'76331', g:'Drama', d:'60 min', poster:'/succession.jpg' },
+      { t:'Severance', id:'95396', g:'Sci-Fi, Thriller', d:'50 min', poster:'/severance.jpg' },
+      { t:'The White Lotus', id:'111110', g:'Comedy, Drama', d:'60 min', poster:'/whitelotus.jpg' },
+      { t:'Beef', id:'154385', g:'Comedy, Drama', d:'35 min', poster:'/beef.jpg' },
+      { t:'Yellowstone', id:'73586', g:'Western, Drama', d:'50 min', poster:'/yellowstone.jpg' },
+      { t:'Stranger Things', id:'66732', g:'Sci-Fi, Horror', d:'50-90 min', poster:'/strangerthings.jpg' },
+      { t:'The Mandalorian', id:'82856', g:'Sci-Fi, Action', d:'40 min', poster:'/mandalorian.jpg' },
+      { t:'The Crown', id:'65494', g:'Drama, History', d:'60 min', poster:'/thecrown.jpg' },
+      { t:'Bridgerton', id:'94605', g:'Romance, Drama', d:'60 min', poster:'/bridgerton.jpg' },
+      { t:'Euphoria', id:'85552', g:'Drama', d:'55 min', poster:'/euphoria.jpg' },
+      { t:'Squid Game', id:'115036', g:'Thriller, Drama', d:'50 min', poster:'/squidgame.jpg' },
+      { t:'Dark', id:'70523', g:'Sci-Fi, Mystery', d:'60 min', poster:'/dark.jpg' },
+      { t:'Breaking Bad', id:'1396', g:'Drama, Crime', d:'45 min', poster:'/breakingbad.jpg' },
+      { t:'Game of Thrones', id:'1399', g:'Fantasy, Drama', d:'60 min', poster:'/got.jpg' },
+      { t:'Better Call Saul', id:'60625', g:'Crime, Drama', d:'50 min', poster:'/bcs.jpg' },
+      { t:'Cobra Kai', id:'77169', g:'Action, Comedy', d:'35 min', poster:'/cobrakai.jpg' },
+      { t:'Wednesday', id:'119051', g:'Fantasy, Comedy', d:'50 min', poster:'/wednesday.jpg' },
+      { t:'Loki', id:'85271', g:'Action, Sci-Fi', d:'50 min', poster:'/loki.jpg' },
+      { t:'Arcane', id:'94603', g:'Animation, Sci-Fi', d:'40 min', poster:'/arcane.jpg' }
     ];
 
     const allMovies = [...movies, ...moviesPart2, ...moviesPart3];
@@ -828,18 +904,37 @@
       scrollEl.addEventListener('scroll', onLibraryScroll);
     }
 
+    function createPosterThumb(item) {
+      const div = document.createElement('div');
+      div.className = 'poster-thumb';
+      if (item.poster) {
+        const img = document.createElement('img');
+        // If you plug TMDB, use: img.src = 'https://image.tmdb.org/t/p/w500' + item.poster;
+        img.src = item.poster; // currently placeholder path
+        img.alt = item.t;
+        div.appendChild(img);
+      }
+      return div;
+    }
+
     function buildTrending() {
       const row = document.getElementById('trending-row');
       row.innerHTML = '';
-      const trendingItems = allMovies.slice(0, 10);
+      const trendingItems = allMovies.slice(0, 12);
       trendingItems.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'media-card';
+        card.className = 'poster-card';
         card.onclick = () => playItem(item, 'movie');
-        card.innerHTML = `
-          <div class="media-title">${item.t}</div>
-          <div class="media-meta">${item.g}<br>${item.d}</div>
-        `;
+        const thumb = createPosterThumb(item);
+        const title = document.createElement('div');
+        title.className = 'poster-meta-title';
+        title.innerText = item.t;
+        const sub = document.createElement('div');
+        sub.className = 'poster-meta-sub';
+        sub.innerText = item.g;
+        card.appendChild(thumb);
+        card.appendChild(title);
+        card.appendChild(sub);
         row.appendChild(card);
       });
     }
@@ -886,12 +981,18 @@
       const next = source.slice(loaded, loaded + PAGE_SIZE);
       next.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'grid-card';
+        card.className = 'grid-poster-card';
         card.onclick = () => playItem(item, libraryTab === 'movies' ? 'movie' : 'tv');
-        card.innerHTML = `
-          <div class="grid-title">${item.t}</div>
-          <div class="grid-meta">${item.g}<br>${item.d}</div>
-        `;
+        const thumb = createPosterThumb(item);
+        const title = document.createElement('div');
+        title.className = 'poster-meta-title';
+        title.innerText = item.t;
+        const sub = document.createElement('div');
+        sub.className = 'poster-meta-sub';
+        sub.innerText = item.g;
+        card.appendChild(thumb);
+        card.appendChild(title);
+        card.appendChild(sub);
         grid.appendChild(card);
       });
 
@@ -950,10 +1051,37 @@
         container.appendChild(iframe);
       }
       const iframe = container.querySelector('iframe');
-      if (app === 'roblox') {
-        iframe.src = 'https://www.roblox.com';
-      } else if (app === 'xbox') {
-        iframe.src = 'https://noterplusfire25.firebaseapp.com';
+      switch (app) {
+        case 'roblox':
+          iframe.src = 'https://www.roblox.com';
+          break;
+        case 'geforce':
+          iframe.src = 'https://play.geforcenow.com';
+          break;
+        case 'xbox':
+          iframe.src = 'https://www.xbox.com/play';
+          break;
+        case 'tiktok':
+          iframe.src = 'https://www.tiktok.com';
+          break;
+        case 'instagram':
+          iframe.src = 'https://www.instagram.com';
+          break;
+        case 'twitter':
+          iframe.src = 'https://x.com';
+          break;
+        case 'reddit':
+          iframe.src = 'https://www.reddit.com';
+          break;
+        case 'youtube':
+          iframe.src = 'https://www.youtube.com';
+          break;
+        case 'spotify':
+          iframe.src = 'https://open.spotify.com';
+          break;
+        case 'twitch':
+          iframe.src = 'https://www.twitch.tv';
+          break;
       }
     }
 
