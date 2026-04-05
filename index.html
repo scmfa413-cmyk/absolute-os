@@ -632,31 +632,44 @@
       AI Assistant coming soon. This will be your built-in copilot for Absolute OS.
     </div>
   </div>
-
-<!-- Proxy -->
+<!-- Proxy (Cyberpunk Browser) -->
 <div id="window-proxy" class="window">
   <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-    <span>Proxy Browser (Ultraviolet)</span>
+    <span style="color:#b36bff;">Cyber Browser</span>
     <button class="close-btn" onclick="closeWindow('proxy')">Close</button>
   </div>
-  <div class="proxy-browser">
-    <form id="proxy-form" class="proxy-bar" onsubmit="return handleProxySubmit(event)">
-      <input
-        id="proxy-url-input"
+
+  <div class="proxy-browser" style="height:100%;display:flex;flex-direction:column;background:rgba(10,0,20,0.6);backdrop-filter:blur(12px);border:1px solid #6a00ff;box-shadow:0 0 20px #6a00ff;">
+    
+    <!-- Cyberpunk URL Bar -->
+    <form id="proxy-form" onsubmit="return handleProxySubmit(event)" 
+      style="display:flex;gap:8px;padding:12px;background:rgba(20,0,40,0.6);border-bottom:1px solid #6a00ff;">
+      
+      <input id="proxy-url-input"
         type="text"
-        placeholder="Enter URL or search (e.g. youtube.com or funny cat videos)"
+        placeholder="Enter URL or search..."
         autocomplete="off"
-      />
-      <button type="submit">Go</button>
+        style="flex:1;padding:10px;border:none;border-radius:8px;
+        background:rgba(50,0,100,0.4);color:#e0b3ff;
+        outline:none;box-shadow:0 0 10px #6a00ff inset;">
+      
+      <button type="submit"
+        style="padding:10px 16px;border:none;border-radius:8px;
+        background:#6a00ff;color:white;font-weight:bold;
+        cursor:pointer;box-shadow:0 0 12px #6a00ff;">
+        Go
+      </button>
     </form>
-    <div class="proxy-iframe-wrapper">
-      <iframe
-        id="proxy-browser-iframe"
-        style="width:100%;height:100%;border:none;background:#050510;"
-      ></iframe>
-    </div>
+
+    <!-- Browser iframe -->
+    <iframe id="proxy-browser-iframe"
+      style="flex:1;width:100%;border:none;background:#050010;"
+      allow="fullscreen; autoplay; clipboard-read; clipboard-write;">
+    </iframe>
+
   </div>
 </div>
+
 
 
   <!-- Settings -->
