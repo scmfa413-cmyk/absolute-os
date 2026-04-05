@@ -633,10 +633,10 @@
     </div>
   </div>
 
- <!-- Proxy -->
+<!-- Proxy -->
 <div id="window-proxy" class="window">
   <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-    <span>Proxy Browser</span>
+    <span>Proxy Browser (Ultraviolet)</span>
     <button class="close-btn" onclick="closeWindow('proxy')">Close</button>
   </div>
   <div class="proxy-browser">
@@ -657,6 +657,7 @@
     </div>
   </div>
 </div>
+
 
   <!-- Settings -->
   <div id="window-settings" class="window">
@@ -1124,17 +1125,19 @@
       if (!currentItem) return;
       playItem(currentItem, currentType);
     }
+/* ---------- APPS LOGIC ---------- */
 
-    /* ---------- APPS LOGIC ---------- */
-const PROXY = "https://web-proxy-service--scmfa413.replit.app/proxy/";
+const UV_BASE = "https://uv.holyubofficial.net/service/";
 
+function uvUrl(target) {
+  return UV_BASE + encodeURIComponent(target);
+}
 
 function loadApp(app) {
  function buildProxyTarget(raw) {
   const value = raw.trim();
   if (!value) return null;
 
-  // If it looks like a URL, normalize it
   const looksLikeUrl =
     value.startsWith("http://") ||
     value.startsWith("https://") ||
@@ -1145,7 +1148,6 @@ function loadApp(app) {
     return url;
   }
 
-  // Otherwise treat as Google search
   const query = encodeURIComponent(value);
   return "https://www.google.com/search?q=" + query;
 }
@@ -1159,7 +1161,7 @@ function handleProxySubmit(event) {
   const target = buildProxyTarget(input.value);
   if (!target) return false;
 
-  iframe.src = PROXY + target;
+  iframe.src = uvUrl(target);
   return false;
 }
 
@@ -1179,37 +1181,38 @@ function handleProxySubmit(event) {
 
   switch (app) {
     case 'roblox':
-      iframe.src = PROXY + "/proxy/https://www.roblox.com";
+      iframe.src = uvUrl("https://www.roblox.com");
       break;
     case 'geforce':
-      iframe.src = PROXY + "/proxy/https://play.geforcenow.com";
+      iframe.src = uvUrl("https://play.geforcenow.com");
       break;
     case 'xbox':
-      iframe.src = PROXY + "/proxy/https://www.xbox.com/play";
+      iframe.src = uvUrl("https://www.xbox.com/play");
       break;
     case 'tiktok':
-      iframe.src = PROXY + "/proxy/https://www.tiktok.com";
+      iframe.src = uvUrl("https://www.tiktok.com");
       break;
     case 'instagram':
-      iframe.src = PROXY + "/proxy/https://www.instagram.com";
+      iframe.src = uvUrl("https://www.instagram.com");
       break;
     case 'twitter':
-      iframe.src = PROXY + "/proxy/https://x.com";
+      iframe.src = uvUrl("https://x.com");
       break;
     case 'reddit':
-      iframe.src = PROXY + "/proxy/https://www.reddit.com";
+      iframe.src = uvUrl("https://www.reddit.com");
       break;
     case 'youtube':
-      iframe.src = PROXY + "/proxy/https://www.youtube.com";
+      iframe.src = uvUrl("https://www.youtube.com");
       break;
     case 'spotify':
-      iframe.src = PROXY + "/proxy/https://open.spotify.com";
+      iframe.src = uvUrl("https://open.spotify.com");
       break;
     case 'twitch':
-      iframe.src = PROXY + "/proxy/https://www.twitch.tv";
+      iframe.src = uvUrl("https://www.twitch.tv");
       break;
   }
 }
+
 
 
     /* ---------- PARTICLES ---------- */
