@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Absolute OS V2</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -75,6 +77,7 @@
       z-index: 3;
     }
 
+    /* Animated auto-hide sidebar */
     .sidebar {
       position: fixed;
       top: 0;
@@ -87,12 +90,13 @@
       flex-direction: column;
       align-items: center;
       padding-top: 20px;
-      transition: left 0.3s ease;
+      transition: left 0.3s ease, transform 0.25s ease;
       z-index: 1000;
     }
 
     .sidebar:hover {
       left: 0;
+      transform: scale(1.05);
     }
 
     .icon {
@@ -110,8 +114,8 @@
     }
 
     .icon:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 12px #b86eff;
+      transform: scale(1.15) translateY(-2px);
+      box-shadow: 0 0 14px #b86eff;
     }
 
     .icon svg {
@@ -159,22 +163,243 @@
       cursor: pointer;
     }
 
+    .window-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Games window iframe */
     .window iframe {
       flex: 1;
       border: none;
       width: 100%;
       height: 100%;
     }
+
+    /* Cinema layout */
+    .cinema-layout {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .cinema-left {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .cinema-right {
+      flex: 1.5;
+      padding: 16px;
+      border-left: 1px solid #333;
+      overflow-y: auto;
+    }
+
+    .player-container {
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 12px #b86eff55;
+      flex-shrink: 0;
+    }
+
+    .player-container iframe {
+      width: 100%;
+      height: 320px;
+    }
+
+    .server-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .server-bar select {
+      background: #1a1a1a;
+      color: white;
+      border-radius: 8px;
+      border: 1px solid #444;
+      padding: 6px 10px;
+      outline: none;
+    }
+
+    .server-bar span {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .hero-info-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .hero-info-meta {
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    .hero-info-desc {
+      font-size: 14px;
+      color: #ddd;
+      margin-top: 8px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: #1a1a1a;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #ccc;
+      border: 1px solid #333;
+    }
+
+    .cinema-scroll {
+      flex: 1;
+      overflow-y: auto;
+      margin-top: 10px;
+      padding-right: 4px;
+    }
+
+    .card-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+
+    .media-card {
+      min-width: 140px;
+      max-width: 140px;
+      background: #151515;
+      border-radius: 10px;
+      padding: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 6px #000;
+    }
+
+    .media-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 12px #b86eff55;
+    }
+
+    .media-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .media-meta {
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    .grid-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .grid-card {
+      background: #151515;
+      border-radius: 10px;
+      padding: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 6px #000;
+    }
+
+    .grid-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 12px #b86eff55;
+    }
+
+    .grid-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .grid-meta {
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    .load-more {
+      text-align: center;
+      padding: 10px 0 20px;
+      font-size: 13px;
+      color: #888;
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+
+    .tab-btn {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #333;
+      background: #151515;
+      color: #ccc;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .tab-btn.active {
+      background: #b86eff;
+      color: #fff;
+      border-color: #b86eff;
+    }
+
+    /* Scrollbars */
+    .cinema-scroll::-webkit-scrollbar,
+    .cinema-right::-webkit-scrollbar {
+      width: 6px;
+    }
+    .cinema-scroll::-webkit-scrollbar-thumb,
+    .cinema-right::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 3px;
+    }
   </style>
 </head>
 <body>
   <div class="particles"></div>
 
+  <!-- Animated Sidebar -->
   <div class="sidebar">
     <div class="icon" onclick="openWindow('home')">
       <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     </div>
-    <div class="icon" onclick="openWindow('movies')">
+    <div class="icon" onclick="openWindow('cinema')">
       <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-4l2 4h-3l-2-4H6l2 4H5l-2-4H2v16h20V4z"/></svg>
     </div>
     <div class="icon" onclick="openWindow('games')">
@@ -197,40 +422,276 @@
     </div>
   </div>
 
-  <div class="hero">
+  <!-- HERO -->
+  <div class="hero" id="home-hero">
     <h1>Absolute OS is evolving.</h1>
     <p>The next generation of web systems, built for speed, style, and full control.</p>
     <div class="buttons">
       <button onclick="openWindow('games')">Start Playing</button>
-      <button onclick="openWindow('movies')">Enter the Cinema</button>
+      <button onclick="openWindow('cinema')">Enter the Cinema</button>
     </div>
   </div>
 
+  <!-- Notification -->
   <div class="notification">
     Message from System — Absolute OS V2 is live!
   </div>
 
+  <!-- Games Window -->
   <div id="window-games" class="window">
-    <div class="window-header">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
       <span>Games</span>
       <button class="close-btn" onclick="closeWindow('games')">Close</button>
     </div>
     <iframe src="https://www.onlinegames.io"></iframe>
   </div>
 
-  <div id="window-movies" class="window">
-    <div class="window-header">
-      <span>Movies</span>
-      <button class="close-btn" onclick="closeWindow('movies')">Close</button>
+  <!-- Cinema Window -->
+  <div id="window-cinema" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Absolute Cinema</span>
+      <button class="close-btn" onclick="closeWindow('cinema')">Close</button>
     </div>
-    <iframe src="https://cine-hub-blocked.netlify.app"></iframe>
+    <div class="window-body">
+      <div class="cinema-layout">
+        <div class="cinema-left">
+          <div class="player-container">
+            <iframe id="cinema-player" src="" allowfullscreen></iframe>
+          </div>
+          <div class="server-bar">
+            <span>Select server:</span>
+            <select id="server-select" onchange="changeServer()">
+              <option value="vidsrc">VidSrc</option>
+              <option value="autoembed">AutoEmbed</option>
+              <option value="superembed">SuperEmbed</option>
+              <option value="vidlink">VidLink</option>
+              <option value="moviekex">MovieKex</option>
+              <option value="vidsrccc">VidSrc CC</option>
+              <option value="embedsu">EmbedSu</option>
+            </select>
+          </div>
+          <div class="cinema-scroll" id="cinema-scroll">
+            <div class="section-title">Trending Now</div>
+            <div class="card-row" id="trending-row"></div>
+
+            <div class="section-title">Browse Library</div>
+            <div class="tab-row">
+              <button class="tab-btn active" id="tab-movies" onclick="setLibraryTab('movies')">Movies</button>
+              <button class="tab-btn" id="tab-series" onclick="setLibraryTab('series')">Series</button>
+            </div>
+            <div class="grid-list" id="library-grid"></div>
+            <div class="load-more" id="load-more-label">Scroll to load more…</div>
+          </div>
+        </div>
+        <div class="cinema-right">
+          <div class="section-title">Now Playing</div>
+          <div class="hero-info-title" id="info-title">Select a title to start</div>
+          <div class="hero-info-meta" id="info-meta"></div>
+          <div class="hero-info-desc" id="info-desc">
+            Choose any movie or series from Trending or the Library to load it into the player using your selected server.
+          </div>
+
+          <div class="section-title">Details</div>
+          <div class="chips-row" id="info-chips"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Placeholder windows for other icons -->
+  <div id="window-apps" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Apps</span>
+      <button class="close-btn" onclick="closeWindow('apps')">Close</button>
+    </div>
+    <div style="padding:16px;font-size:14px;color:#ccc;">Apps window placeholder.</div>
+  </div>
+
+  <div id="window-assistant" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Assistant</span>
+      <button class="close-btn" onclick="closeWindow('assistant')">Close</button>
+    </div>
+    <div style="padding:16px;font-size:14px;color:#ccc;">Assistant window placeholder.</div>
+  </div>
+
+  <div id="window-proxy" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Proxy</span>
+      <button class="close-btn" onclick="closeWindow('proxy')">Close</button>
+    </div>
+    <div style="padding:16px;font-size:14px;color:#ccc;">Proxy window placeholder.</div>
+  </div>
+
+  <div id="window-settings" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Settings</span>
+      <button class="close-btn" onclick="closeWindow('settings')">Close</button>
+    </div>
+    <div style="padding:16px;font-size:14px;color:#ccc;">Settings window placeholder.</div>
+  </div>
+
+  <div id="window-profile" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Profile</span>
+      <button class="close-btn" onclick="closeWindow('profile')">Close</button>
+    </div>
+    <div style="padding:16px;font-size:14px;color:#ccc;">Profile window placeholder.</div>
   </div>
 
   <script>
+    /* ---------- DATA ---------- */
+    const movies = [
+      { t:'Dune: Part Two', id:'693134', g:'Sci-Fi, Adventure', d:'166 min' },
+      { t:'Kung Fu Panda 4', id:'1011985', g:'Animation, Family', d:'94 min' },
+      { t:'Godzilla x Kong: The New Empire', id:'823464', g:'Action, Sci-Fi', d:'115 min' },
+      { t:'Aquaman and the Lost Kingdom', id:'572802', g:'Action, Adventure', d:'124 min' },
+      { t:'The Zone of Interest', id:'467244', g:'War, Drama', d:'105 min' },
+      { t:'Oppenheimer', id:'872585', g:'Drama, History', d:'180 min' },
+      { t:'Poor Things', id:'792307', g:'Sci-Fi, Romance', d:'141 min' },
+      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min' },
+      { t:'Migration', id:'940551', g:'Animation, Comedy', d:'83 min' },
+      { t:'Road House', id:'335977', g:'Action, Thriller', d:'121 min' },
+      { t:'The Iron Claw', id:'848538', g:'Drama, Sport', d:'132 min' },
+      { t:'Wonka', id:'787699', g:'Comedy, Family', d:'116 min' },
+      { t:'Anyone But You', id:'1072790', g:'Romance, Comedy', d:'103 min' },
+      { t:'Wish', id:'1022789', g:'Animation, Family', d:'95 min' },
+      { t:'Killers of the Flower Moon', id:'466420', g:'Crime, History', d:'206 min' },
+      { t:'The Beekeeper', id:'866398', g:'Action, Thriller', d:'105 min' },
+      { t:'Argylle', id:'848538', g:'Action, Comedy', d:'139 min' },
+      { t:'Society of the Snow', id:'85552', g:'Adventure, Drama', d:'144 min' },
+      { t:'Madame Web', id:'507089', g:'Action, Sci-Fi', d:'116 min' },
+      { t:'Bob Marley: One Love', id:'850165', g:'Music, History', d:'107 min' },
+      { t:'The Marvels', id:'609681', g:'Sci-Fi, Action', d:'105 min' },
+      { t:'Godzilla Minus One', id:'1096197', g:'Sci-Fi, Kaiju', d:'124 min' },
+      { t:'Spider-Man: Across the Spider-Verse', id:'569094', g:'Animation, Action', d:'140 min' },
+      { t:'Guardians of the Galaxy Vol. 3', id:'447365', g:'Sci-Fi, Adventure', d:'150 min' },
+      { t:'John Wick: Chapter 4', id:'603692', g:'Action, Thriller', d:'169 min' }
+    ];
+
+    const moviesPart2 = [
+      { t:'Terrifier 3', id:'1100782', g:'Horror, Slasher', d:'125 min' },
+      { t:'Smile 2', id:'1100785', g:'Horror, Thriller', d:'127 min' },
+      { t:'Conclave', id:'974950', g:'Thriller, Drama', d:'120 min' },
+      { t:'The Substance', id:'933260', g:'Horror, Drama', d:'140 min' },
+      { t:'Heretic', id:'1114513', g:'Horror, Thriller', d:'110 min' },
+      { t:'Red One', id:'802219', g:'Action, Fantasy', d:'123 min' },
+      { t:'Kraven the Hunter', id:'76669', g:'Action, Adventure', d:'127 min' },
+      { t:'Better Man', id:'812225', g:'Drama, Music', d:'134 min' },
+      { t:'The Amateur', id:'1058574', g:'Thriller, Action', d:'115 min' },
+      { t:'In the Grey', id:'1129598', g:'Action, Crime', d:'120 min' },
+      { t:'Ballerina', id:'1003580', g:'Action, Thriller', d:'110 min' },
+      { t:'Wolfs', id:'877817', g:'Thriller, Comedy', d:'108 min' },
+      { t:'High Forces', id:'1344132', g:'Action, Thriller', d:'115 min' },
+      { t:'Transformers One', id:'698687', g:'Animation, Action', d:'104 min' },
+      { t:'The Old Guard 2', id:'714277', g:'Action, Fantasy', d:'125 min' },
+      { t:'Havoc', id:'801002', g:'Action, Thriller', d:'118 min' },
+      { t:'Constantine 2', id:'1025555', g:'Fantasy, Horror', d:'130 min' },
+      { t:'I Am Legend 2', id:'945657', g:'Sci-Fi, Drama', d:'125 min' },
+      { t:'28 Years Later', id:'1222411', g:'Horror, Sci-Fi', d:'115 min' },
+      { t:'Now You See Me 3', id:'393624', g:'Thriller, Crime', d:'110 min' },
+      { t:'The Woman in the Yard', id:'1231920', g:'Horror, Thriller', d:'95 min' },
+      { t:'Drop', id:'1241154', g:'Thriller, Mystery', d:'102 min' },
+      { t:'The Monkey', id:'1144962', g:'Horror, Supernatural', d:'105 min' },
+      { t:'The Running Man', id:'1101547', g:'Sci-Fi, Action', d:'120 min' },
+      { t:'Flow', id:'1281826', g:'Animation, Adventure', d:'84 min' },
+      { t:'The Brutalist', id:'742784', g:'Drama, History', d:'215 min' },
+      { t:'Anora', id:'1064213', g:'Comedy, Drama', d:'139 min' },
+      { t:'Emilia Pérez', id:'974950', g:'Musical, Crime', d:'130 min' },
+      { t:'The Piano Lesson', id:'1111873', g:'Drama, Music', d:'125 min' },
+      { t:'A Real Pain', id:'1131755', g:'Comedy, Drama', d:'90 min' },
+      { t:'Presence', id:'1165415', g:'Horror, Thriller', d:'85 min' },
+      { t:'The End', id:'927421', g:'Musical, Drama', d:'148 min' },
+      { t:'Nightbitch', id:'973652', g:'Comedy, Horror', d:'103 min' },
+      { t:'Carry-On', id:'1011114', g:'Thriller, Action', d:'119 min' },
+      { t:'Back in Action', id:'1002185', g:'Action, Comedy', d:'110 min' },
+      { t:'The Gorge', id:'961019', g:'Romance, Action', d:'126 min' },
+      { t:'The Electric State', id:'714125', g:'Sci-Fi, Adventure', d:'135 min' },
+      { t:'Black Bag', id:'1231245', g:'Thriller, Drama', d:'110 min' },
+      { t:'The Battle of Baktan Cross', id:'1213456', g:'Drama, Action', d:'140 min' },
+      { t:'Frankenstein', id:'1115545', g:'Horror, Sci-Fi', d:'130 min' },
+      { t:'Dracula: A Love Tale', id:'1200114', g:'Horror, Romance', d:'125 min' },
+      { t:'Cliffs of Freedom', id:'1055566', g:'Drama, History', d:'137 min' },
+      { t:'The Unholy', id:'632357', g:'Horror, Mystery', d:'99 min' },
+      { t:'The Ritual', id:'433808', g:'Horror, Mystery', d:'94 min' },
+      { t:'Apostle', id:'471474', g:'Horror, Thriller', d:'130 min' },
+      { t:'No One Will Save You', id:'883107', g:'Sci-Fi, Thriller', d:'93 min' },
+      { t:'Barbarian', id:'927339', g:'Horror, Thriller', d:'102 min' },
+      { t:'Pearl', id:'985939', g:'Horror, Drama', d:'102 min' },
+      { t:'X', id:'760104', g:'Horror, Slasher', d:'105 min' },
+      { t:'Talk to Me', id:'1008042', g:'Horror, Thriller', d:'95 min' }
+    ];
+
+    const moviesPart3 = [
+      { t:'The Menu', id:'593643', g:'Horror, Comedy', d:'107 min' },
+      { t:'Bullet Train', id:'718930', g:'Action, Comedy', d:'126 min' },
+      { t:'The Northman', id:'634649', g:'Action, Adventure', d:'137 min' },
+      { t:'Everything Everywhere All at Once', id:'505642', g:'Action, Sci-Fi', d:'139 min' },
+      { t:'Top Gun: Maverick', id:'361743', g:'Action, Drama', d:'130 min' },
+      { t:'The Batman', id:'414906', g:'Crime, Mystery', d:'176 min' },
+      { t:'The Whale', id:'785084', g:'Drama', d:'117 min' },
+      { t:'Aftersun', id:'965150', g:'Drama', d:'102 min' },
+      { t:'Tár', id:'817758', g:'Drama, Music', d:'158 min' },
+      { t:'Babylon', id:'615777', g:'Drama, Comedy', d:'189 min' },
+      { t:'Beau Is Afraid', id:'798286', g:'Adventure, Comedy', d:'179 min' },
+      { t:'Asteroid City', id:'747188', g:'Comedy, Sci-Fi', d:'105 min' },
+      { t:'Saltburn', id:'930564', g:'Drama, Thriller', d:'131 min' },
+      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min' },
+      { t:'The Killer', id:'800158', g:'Crime, Thriller', d:'118 min' },
+      { t:'Extraction 2', id:'697843', g:'Action, Thriller', d:'123 min' },
+      { t:'Society of the Snow', id:'85552', g:'Adventure, Drama', d:'144 min' },
+      { t:'Rebel Moon - Part One', id:'848326', g:'Sci-Fi, Action', d:'134 min' },
+      { t:'Leave the World Behind', id:'726209', g:'Thriller, Drama', d:'141 min' },
+      { t:'The Holdovers', id:'840430', g:'Drama, Comedy', d:'133 min' },
+      { t:'Past Lives', id:'666277', g:'Drama, Romance', d:'106 min' },
+      { t:'Society of the Snow', id:'85552', g:'Drama, History', d:'144 min' },
+      { t:'Dream Scenario', id:'1016084', g:'Comedy, Fantasy', d:'102 min' },
+      { t:'Iron Claw', id:'848538', g:'Drama, Sport', d:'132 min' },
+      { t:'The Flash', id:'298618', g:'Action, Adventure', d:'144 min' }
+    ];
+
+    const tvSeries = [
+      { t:'The Last of Us', id:'121622', g:'Drama, Sci-Fi', d:'50-80 min' },
+      { t:'Shōgun', id:'111451', g:'Drama, War', d:'60 min' },
+      { t:'Fallout', id:'123456', g:'Sci-Fi, Action', d:'55 min' },
+      { t:'The Bear', id:'139305', g:'Drama, Comedy', d:'30 min' },
+      { t:'The Boys', id:'76479', g:'Action, Sci-Fi', d:'60 min' },
+      { t:'House of the Dragon', id:'94997', g:'Fantasy, Drama', d:'60 min' },
+      { t:'Succession', id:'76331', g:'Drama', d:'60 min' },
+      { t:'Severance', id:'95396', g:'Sci-Fi, Thriller', d:'50 min' },
+      { t:'The White Lotus', id:'111110', g:'Comedy, Drama', d:'60 min' },
+      { t:'Beef', id:'154385', g:'Comedy, Drama', d:'35 min' },
+      { t:'Yellowstone', id:'73586', g:'Western, Drama', d:'50 min' },
+      { t:'Stranger Things', id:'66732', g:'Sci-Fi, Horror', d:'50-90 min' },
+      { t:'The Mandalorian', id:'82856', g:'Sci-Fi, Action', d:'40 min' },
+      { t:'The Crown', id:'65494', g:'Drama, History', d:'60 min' },
+      { t:'Bridgerton', id:'94605', g:'Romance, Drama', d:'60 min' },
+      { t:'Euphoria', id:'85552', g:'Drama', d:'55 min' },
+      { t:'Squid Game', id:'115036', g:'Thriller, Drama', d:'50 min' },
+      { t:'Dark', id:'70523', g:'Sci-Fi, Mystery', d:'60 min' },
+      { t:'Breaking Bad', id:'1396', g:'Drama, Crime', d:'45 min' },
+      { t:'Game of Thrones', id:'1399', g:'Fantasy, Drama', d:'60 min' },
+      { t:'Better Call Saul', id:'60625', g:'Crime, Drama', d:'50 min' },
+      { t:'Cobra Kai', id:'77169', g:'Action, Comedy', d:'35 min' },
+      { t:'Wednesday', id:'119051', g:'Fantasy, Comedy', d:'50 min' },
+      { t:'Loki', id:'85271', g:'Action, Sci-Fi', d:'50 min' },
+      { t:'Arcane', id:'94603', g:'Animation, Sci-Fi', d:'40 min' }
+    ];
+
+    const allMovies = [...movies, ...moviesPart2, ...moviesPart3];
+
+    /* ---------- WINDOW LOGIC ---------- */
     function openWindow(name) {
       document.querySelectorAll('.window').forEach(w => w.style.display = 'none');
       const win = document.getElementById('window-' + name);
-      if (win) win.style.display = 'flex';
+      if (win) {
+        win.style.display = 'flex';
+        win.style.top = '120px';
+        win.style.left = '100px';
+        if (name === 'cinema') {
+          initCinemaOnce();
+        }
+      }
     }
 
     function closeWindow(name) {
@@ -238,13 +699,200 @@
       if (win) win.style.display = 'none';
     }
 
-    // Particle background
+    /* ---------- DRAGGING WINDOWS ---------- */
+    let dragData = null;
+    function startDrag(e, win) {
+      const rect = win.getBoundingClientRect();
+      dragData = {
+        win,
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top
+      };
+      document.addEventListener('mousemove', onDragMove);
+      document.addEventListener('mouseup', stopDrag);
+    }
+
+    function onDragMove(e) {
+      if (!dragData) return;
+      dragData.win.style.left = (e.clientX - dragData.offsetX) + 'px';
+      dragData.win.style.top = (e.clientY - dragData.offsetY) + 'px';
+    }
+
+    function stopDrag() {
+      document.removeEventListener('mousemove', onDragMove);
+      document.removeEventListener('mouseup', stopDrag);
+      dragData = null;
+    }
+
+    /* ---------- CINEMA LOGIC ---------- */
+    const servers = {
+      vidsrc: {
+        label: 'VidSrc',
+        movie: id => `https://vidsrc.to/embed/movie/${id}`,
+        tv: id => `https://vidsrc.to/embed/tv/${id}`
+      },
+      autoembed: {
+        label: 'AutoEmbed',
+        movie: id => `https://autoembed.to/movie/tmdb/${id}`,
+        tv: id => `https://autoembed.to/tv/tmdb/${id}`
+      },
+      superembed: {
+        label: 'SuperEmbed',
+        movie: id => `https://multiembed.mov/?video_id=${id}&tmdb=1`,
+        tv: id => `https://multiembed.mov/?video_id=${id}&tmdb=1&type=tv`
+      },
+      vidlink: {
+        label: 'VidLink',
+        movie: id => `https://vidlink.org/embed/movie/${id}`,
+        tv: id => `https://vidlink.org/embed/tv/${id}`
+      },
+      moviekex: {
+        label: 'MovieKex',
+        movie: id => `https://moviekex.com/embed/movie/${id}`,
+        tv: id => `https://moviekex.com/embed/tv/${id}`
+      },
+      vidsrccc: {
+        label: 'VidSrc CC',
+        movie: id => `https://vidsrc.cc/v2/embed/movie/${id}`,
+        tv: id => `https://vidsrc.cc/v2/embed/tv/${id}`
+      },
+      embedsu: {
+        label: 'EmbedSu',
+        movie: id => `https://embedsu.com/embed/movie/${id}`,
+        tv: id => `https://embedsu.com/embed/tv/${id}`
+      }
+    };
+
+    let cinemaInitialized = false;
+    let currentItem = null;
+    let currentType = 'movie'; // 'movie' or 'tv'
+    let libraryTab = 'movies';
+    let moviesLoaded = 0;
+    let seriesLoaded = 0;
+    const PAGE_SIZE = 24;
+
+    function initCinemaOnce() {
+      if (cinemaInitialized) return;
+      cinemaInitialized = true;
+      buildTrending();
+      buildLibraryInitial();
+      const scrollEl = document.getElementById('cinema-scroll');
+      scrollEl.addEventListener('scroll', onLibraryScroll);
+    }
+
+    function buildTrending() {
+      const row = document.getElementById('trending-row');
+      row.innerHTML = '';
+      const trendingItems = allMovies.slice(0, 10);
+      trendingItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'media-card';
+        card.onclick = () => playItem(item, 'movie');
+        card.innerHTML = `
+          <div class="media-title">${item.t}</div>
+          <div class="media-meta">${item.g}<br>${item.d}</div>
+        `;
+        row.appendChild(card);
+      });
+    }
+
+    function buildLibraryInitial() {
+      moviesLoaded = 0;
+      seriesLoaded = 0;
+      document.getElementById('library-grid').innerHTML = '';
+      loadMoreLibrary();
+    }
+
+    function onLibraryScroll(e) {
+      const el = e.target;
+      if (el.scrollTop + el.clientHeight >= el.scrollHeight - 80) {
+        loadMoreLibrary();
+      }
+    }
+
+    function setLibraryTab(tab) {
+      libraryTab = tab;
+      document.getElementById('tab-movies').classList.toggle('active', tab === 'movies');
+      document.getElementById('tab-series').classList.toggle('active', tab === 'series');
+      buildLibraryInitial();
+    }
+
+    function loadMoreLibrary() {
+      const grid = document.getElementById('library-grid');
+      let source, loaded, setLoaded;
+      if (libraryTab === 'movies') {
+        source = allMovies;
+        loaded = moviesLoaded;
+        setLoaded = v => moviesLoaded = v;
+      } else {
+        source = tvSeries;
+        loaded = seriesLoaded;
+        setLoaded = v => seriesLoaded = v;
+      }
+
+      if (loaded >= source.length) {
+        document.getElementById('load-more-label').innerText = 'All titles loaded.';
+        return;
+      }
+
+      const next = source.slice(loaded, loaded + PAGE_SIZE);
+      next.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'grid-card';
+        card.onclick = () => playItem(item, libraryTab === 'movies' ? 'movie' : 'tv');
+        card.innerHTML = `
+          <div class="grid-title">${item.t}</div>
+          <div class="grid-meta">${item.g}<br>${item.d}</div>
+        `;
+        grid.appendChild(card);
+      });
+
+      setLoaded(loaded + next.length);
+      if (loaded + next.length >= source.length) {
+        document.getElementById('load-more-label').innerText = 'All titles loaded.';
+      } else {
+        document.getElementById('load-more-label').innerText = 'Scroll to load more…';
+      }
+    }
+
+    function playItem(item, type) {
+      currentItem = item;
+      currentType = type;
+      const serverKey = document.getElementById('server-select').value;
+      const server = servers[serverKey] || servers.vidsrc;
+      const url = type === 'movie' ? server.movie(item.id) : server.tv(item.id);
+      document.getElementById('cinema-player').src = url;
+
+      document.getElementById('info-title').innerText = item.t;
+      document.getElementById('info-meta').innerText = `${type === 'movie' ? 'Movie' : 'Series'} • ${item.g} • ${item.d}`;
+      document.getElementById('info-desc').innerText =
+        'Streaming via ' + server.label + ' using TMDB ID ' + item.id + '.';
+      const chips = document.getElementById('info-chips');
+      chips.innerHTML = '';
+      item.g.split(',').map(s => s.trim()).forEach(g => {
+        const chip = document.createElement('div');
+        chip.className = 'chip';
+        chip.innerText = g;
+        chips.appendChild(chip);
+      });
+      const idChip = document.createElement('div');
+      idChip.className = 'chip';
+      idChip.innerText = 'TMDB: ' + item.id;
+      chips.appendChild(idChip);
+    }
+
+    function changeServer() {
+      if (!currentItem) return;
+      playItem(currentItem, currentType);
+    }
+
+    /* ---------- PARTICLES ---------- */
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     document.querySelector('.particles').appendChild(canvas);
     const ctx = canvas.getContext('2d');
-    const particles = Array.from({ length: 100 }, () => ({
+    const particlesArr = Array.from({ length: 100 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: Math.random() * 2 + 1,
@@ -253,7 +901,7 @@
     function drawParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#b86eff';
-      particles.forEach(p => {
+      particlesArr.forEach(p => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
@@ -266,6 +914,12 @@
       requestAnimationFrame(drawParticles);
     }
     drawParticles();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
   </script>
 </body>
 </html>
+
