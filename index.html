@@ -633,16 +633,30 @@
     </div>
   </div>
 
-  <!-- Proxy -->
-  <div id="window-proxy" class="window">
-    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-      <span>Proxy</span>
-      <button class="close-btn" onclick="closeWindow('proxy')">Close</button>
-    </div>
-    <div style="padding:16px;font-size:14px;color:#ccc;">
-      Proxy system coming soon. You’ll be able to browse through a built-in unblocked proxy here.
+ <!-- Proxy -->
+<div id="window-proxy" class="window">
+  <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+    <span>Proxy Browser</span>
+    <button class="close-btn" onclick="closeWindow('proxy')">Close</button>
+  </div>
+  <div class="proxy-browser">
+    <form id="proxy-form" class="proxy-bar" onsubmit="return handleProxySubmit(event)">
+      <input
+        id="proxy-url-input"
+        type="text"
+        placeholder="Enter URL or search (e.g. youtube.com or funny cat videos)"
+        autocomplete="off"
+      />
+      <button type="submit">Go</button>
+    </form>
+    <div class="proxy-iframe-wrapper">
+      <iframe
+        id="proxy-browser-iframe"
+        style="width:100%;height:100%;border:none;background:#050510;"
+      ></iframe>
     </div>
   </div>
+</div>
 
   <!-- Settings -->
   <div id="window-settings" class="window">
@@ -1112,9 +1126,43 @@
     }
 
     /* ---------- APPS LOGIC ---------- */
-  const PROXY = "https://6106577d-9273-44c1-86ae-168d855b2964-00-1inb12x2cdh3m.janeway.replit.dev";
+const PROXY = "https://web-proxy-service--scmfa413.replit.app/proxy/";
+
 
 function loadApp(app) {
+ function buildProxyTarget(raw) {
+  const value = raw.trim();
+  if (!value) return null;
+
+  // If it looks like a URL, normalize it
+  const looksLikeUrl =
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.includes(".");
+
+  if (looksLikeUrl) {
+    const url = value.startsWith("http") ? value : "https://" + value;
+    return url;
+  }
+
+  // Otherwise treat as Google search
+  const query = encodeURIComponent(value);
+  return "https://www.google.com/search?q=" + query;
+}
+
+function handleProxySubmit(event) {
+  event.preventDefault();
+  const input = document.getElementById("proxy-url-input");
+  const iframe = document.getElementById("proxy-browser-iframe");
+  if (!input || !iframe) return false;
+
+  const target = buildProxyTarget(input.value);
+  if (!target) return false;
+
+  iframe.src = PROXY + target;
+  return false;
+}
+
   const container = document.getElementById('apps-iframe-container');
   if (!container) return;
 
