@@ -14,17 +14,6 @@
       overflow: hidden;
     }
 
-    :root {
-      --accent: #b86eff;
-      --accent-soft: #d29bff;
-      --bg-main: #050509;
-      --bg-radial: radial-gradient(circle at top, #2a1540 0, #090910 55%, #050509 100%);
-    }
-
-    body {
-      background: var(--bg-main);
-    }
-
     .particles {
       position: fixed;
       width: 100%;
@@ -82,78 +71,6 @@
       font-size: 13px;
     }
 
-    /* LOGIN SCREEN */
-    #login-screen {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at top, #2a1540 0, #050509 60%, #020005 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-    }
-    .login-card {
-      width: 320px;
-      padding: 24px 20px;
-      border-radius: 18px;
-      background: rgba(10, 0, 25, 0.9);
-      border: 1px solid #2f1b4a;
-      box-shadow: 0 0 30px #b86eff;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .login-title {
-      font-size: 18px;
-      font-weight: 700;
-      text-align: center;
-      color: #b86eff;
-    }
-    .login-sub {
-      font-size: 12px;
-      text-align: center;
-      color: #ccc;
-    }
-    .login-field {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 12px;
-    }
-    .login-field label {
-      color: #aaa;
-    }
-    .login-field input {
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid #2f1b4a;
-      background: #12091f;
-      color: white;
-      outline: none;
-      font-size: 13px;
-    }
-    .login-btn {
-      margin-top: 8px;
-      padding: 9px 0;
-      border-radius: 10px;
-      border: none;
-      background: #b86eff;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 0 16px #b86eff;
-      font-size: 13px;
-    }
-    .login-btn:hover {
-      filter: brightness(1.1);
-    }
-    .login-error {
-      font-size: 11px;
-      color: #ff8ba7;
-      min-height: 14px;
-      text-align: center;
-    }
-
     /* FIXED SIDEBAR (A2 – 120px) */
     .sidebar {
       position: fixed;
@@ -161,7 +78,7 @@
       left: 0;
       width: 120px;
       height: 100%;
-      background: var(--bg-radial);
+      background: radial-gradient(circle at top, #2a1540 0, #090910 55%, #050509 100%);
       backdrop-filter: blur(14px);
       display: flex;
       flex-direction: column;
@@ -496,140 +413,6 @@
       text-align: center;
     }
 
-    /* Proxy browser window */
-    .proxy-browser {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 100%;
-      background: rgba(10, 0, 20, 0.7);
-      backdrop-filter: blur(12px);
-    }
-    .proxy-bar {
-      display: flex;
-      gap: 8px;
-      padding: 10px 14px;
-      background: rgba(20, 0, 40, 0.9);
-      border-bottom: 1px solid #2f1b4a;
-    }
-    .proxy-bar input {
-      flex: 1;
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid #3a245a;
-      background: #12091f;
-      color: #e0b3ff;
-      outline: none;
-      font-size: 13px;
-    }
-    .proxy-bar button {
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: none;
-      background: #b86eff;
-      color: white;
-      font-size: 13px;
-      cursor: pointer;
-      box-shadow: 0 0 10px #b86eff;
-    }
-    .proxy-bar button:hover {
-      filter: brightness(1.1);
-    }
-    .proxy-iframe-wrapper {
-      flex: 1;
-      width: 100%;
-      overflow: hidden;
-    }
-    .proxy-iframe-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: #050010;
-    }
-
-    /* Settings */
-    .settings-body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      font-size: 13px;
-    }
-    .settings-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-    .settings-row label {
-      color: #cbb4ff;
-    }
-    .settings-row select {
-      padding: 6px 10px;
-      border-radius: 8px;
-      border: 1px solid #3a245a;
-      background: #12091f;
-      color: #f5e9ff;
-      font-size: 13px;
-    }
-
-    /* Profile */
-    .profile-body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      font-size: 13px;
-    }
-    .profile-label {
-      color: #a8a0c0;
-      font-size: 12px;
-    }
-    .profile-value {
-      color: #d29bff;
-      font-weight: 600;
-    }
-
-    /* Assistant */
-    .assistant-body {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      gap: 8px;
-      padding: 10px;
-    }
-    .assistant-log {
-      flex: 1;
-      border-radius: 10px;
-      background: rgba(20, 0, 50, 0.7);
-      padding: 10px;
-      font-size: 13px;
-      overflow-y: auto;
-    }
-    .assistant-input-row {
-      display: flex;
-      gap: 8px;
-    }
-    .assistant-input-row input {
-      flex: 1;
-      padding: 8px;
-      border-radius: 8px;
-      border: none;
-      background: rgba(40, 0, 80, 0.8);
-      color: #f5e9ff;
-      outline: none;
-      font-size: 13px;
-    }
-    .assistant-input-row button {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      background: #b86eff;
-      color: #fff;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
     /* Scrollbars */
     .cinema-scroll::-webkit-scrollbar,
     .cinema-right::-webkit-scrollbar {
@@ -640,30 +423,81 @@
       background: #3a245a;
       border-radius: 3px;
     }
+
+    /* ---------- MOBILE CINEMA OVERLAY ---------- */
+    .mobile-cinema-window {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+      z-index: 2000;
+      background: radial-gradient(circle at top, #12091f 0, #050509 70%);
+      display: none;
+      flex-direction: column;
+    }
+
+    .mobile-cinema-tabs {
+      display: none;
+      padding: 10px 14px;
+      border-bottom: 1px solid #2f1b4a;
+      background: linear-gradient(90deg, #140b22, #1f102f);
+      gap: 8px;
+      justify-content: center;
+    }
+    .mobile-cinema-tab-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #3a245a;
+      background: #12091f;
+      color: #cbb4ff;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .mobile-cinema-tab-btn.active {
+      background: #b86eff;
+      color: #fff;
+      border-color: #b86eff;
+    }
+    .mobile-cinema-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .mobile-cinema-body iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ---------- HERO BUTTON SWITCH (DESKTOP vs MOBILE) ---------- */
+    #enter-cinema-btn { display: inline-block; }
+    #mobile-cinema-btn { display: none; }
+
+    @media (max-width: 768px) {
+      body {
+        overflow: hidden;
+      }
+      .hero {
+        margin-left: 0;
+        padding-top: 80px;
+      }
+      #enter-cinema-btn { display: none; }
+      #mobile-cinema-btn { display: inline-block; }
+
+      .mobile-cinema-tabs {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- LOGIN -->
-  <div id="login-screen">
-    <div class="login-card">
-      <div class="login-title">Absolute OS V2</div>
-      <div class="login-sub">Sign in to start your neon desktop.</div>
-
-      <div class="login-field">
-        <label for="login-username">Username</label>
-        <input id="login-username" type="text" autocomplete="off" />
-      </div>
-      <div class="login-field">
-        <label for="login-password">Password</label>
-        <input id="login-password" type="password" />
-      </div>
-
-      <div class="login-error" id="login-error"></div>
-
-      <button class="login-btn" onclick="handleLogin()">Log in</button>
-    </div>
-  </div>
-
   <div class="particles"></div>
 
   <!-- SIDEBAR -->
@@ -711,8 +545,9 @@
     <h1>Absolute OS is evolving.</h1>
     <p>The next generation of web systems, built for speed, style, and full control.</p>
     <div class="buttons">
+      <button id="enter-cinema-btn" onclick="openWindow('cinema')">Enter the Cinema</button>
+      <button id="mobile-cinema-btn" onclick="openWindow('mobilecinema')">Mobile Cinema</button>
       <button onclick="openWindow('games')">Start Playing</button>
-      <button onclick="openWindow('cinema')">Enter the Cinema</button>
     </div>
   </div>
 
@@ -754,24 +589,24 @@
               <option value="embedsu">EmbedSu</option>
             </select>
           </div>
-          <div class="cinema-scroll" id="cinema-scroll">
+          <div id="cinema-scroll" class="cinema-scroll">
             <div class="section-title">Trending</div>
-            <div class="card-row" id="trending-row"></div>
+            <div id="trending-row" class="card-row"></div>
 
             <div class="section-title">Library</div>
             <div class="tab-row">
               <button id="tab-movies" class="tab-btn active" onclick="setLibraryTab('movies')">Movies</button>
               <button id="tab-series" class="tab-btn" onclick="setLibraryTab('series')">Series</button>
             </div>
-            <div class="grid-list" id="library-grid"></div>
-            <div class="load-more" id="load-more-label">Scroll to load more…</div>
+            <div id="library-grid" class="grid-list"></div>
+            <div id="load-more-label" class="load-more">Scroll to load more…</div>
           </div>
         </div>
         <div class="cinema-right">
           <div class="hero-info-title" id="info-title">Select a title</div>
-          <div class="hero-info-meta" id="info-meta">Movie / Series info will appear here.</div>
+          <div class="hero-info-meta" id="info-meta">Movie • Genre • Year</div>
           <div class="hero-info-desc" id="info-desc">
-            Choose something from Trending or Library to start streaming.
+            Choose a movie or series from the library to start streaming.
           </div>
           <div class="chips-row" id="info-chips"></div>
         </div>
@@ -779,62 +614,529 @@
     </div>
   </div>
 
-  <!-- Cine-Hub Window -->
-  <div id="window-cinehub" class="window">
-    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-      <span>Cine-Hub</span>
-      <button class="close-btn" onclick="closeWindow('cinehub')">Close</button>
+  <!-- Mobile Cinema (Full-screen overlay, covers sidebar on mobile) -->
+  <div id="window-mobilecinema" class="mobile-cinema-window">
+    <div class="mobile-cinema-tabs">
+      <button class="mobile-cinema-tab-btn active" id="mobile-tab-trending" onclick="mobileCinemaShowTrending()">Trending</button>
+      <button class="mobile-cinema-tab-btn" id="mobile-tab-movies" onclick="mobileCinemaShowMovies()">Movies</button>
+      <button class="mobile-cinema-tab-btn" id="mobile-tab-series" onclick="mobileCinemaShowSeries()">Series</button>
+      <button class="mobile-cinema-tab-btn" onclick="closeWindow('mobilecinema')">Close</button>
     </div>
-    <iframe src="https://cine-hub-blocked.netlify.app"></iframe>
+    <div class="mobile-cinema-body">
+      <!-- Default: Cine-Hub for mobile -->
+      <iframe id="mobile-cinema-iframe" src="https://cine-hub-blocked.netlify.app" allowfullscreen></iframe>
+    </div>
   </div>
 
+  <!-- Other windows (apps, proxy, assistant, settings, profile, cinehub, etc.) go here -->
+
+  <!-- Part 2 & 3: scripts will be added after this -->
+  <script>
+    // JS will be provided in Part 2 / Part 3
+  </script>
+</body>
+  <script>
+/* ============================================================
+   WINDOW SYSTEM
+============================================================ */
+function openWindow(name) {
+  // Close all windows
+  document.querySelectorAll('.window, .mobile-cinema-window').forEach(w => {
+    w.style.display = 'none';
+  });
+
+  const win = document.getElementById('window-' + name);
+  if (win) {
+    win.style.display = 'flex';
+
+    // Initialize cinema only once
+    if (name === 'cinema') initCinemaOnce();
+
+    // Mobile Cinema overlay (full screen)
+    if (name === 'mobilecinema') {
+      document.body.style.overflow = 'hidden';
+    }
+  }
+}
+
+function closeWindow(name) {
+  const win = document.getElementById('window-' + name);
+  if (win) win.style.display = 'none';
+
+  if (name === 'mobilecinema') {
+    document.body.style.overflow = 'auto';
+  }
+}
+
+/* ============================================================
+   DRAGGING WINDOWS (DESKTOP ONLY)
+============================================================ */
+let dragData = null;
+
+function startDrag(e, win) {
+  if (window.innerWidth <= 768) return; // disable dragging on mobile
+
+  const rect = win.getBoundingClientRect();
+  dragData = {
+    win,
+    offsetX: e.clientX - rect.left,
+    offsetY: e.clientY - rect.top
+  };
+
+  document.addEventListener('mousemove', onDragMove);
+  document.addEventListener('mouseup', stopDrag);
+}
+
+function onDragMove(e) {
+  if (!dragData) return;
+  dragData.win.style.left = (e.clientX - dragData.offsetX) + 'px';
+  dragData.win.style.top = (e.clientY - dragData.offsetY) + 'px';
+}
+
+function stopDrag() {
+  document.removeEventListener('mousemove', onDragMove);
+  document.removeEventListener('mouseup', stopDrag);
+  dragData = null;
+}
+
+/* ============================================================
+   WEBVIEW BROWSER ENGINE (REPL WEBVIEW)
+============================================================ */
+const BROWSER_BASE = "https://webview.unblockproject.repl.co/?url=";
+
+function browserUrl(target) {
+  return BROWSER_BASE + encodeURIComponent(target);
+}
+
+function buildProxyTarget(raw) {
+  const value = raw.trim();
+  if (!value) return null;
+
+  const looksLikeUrl =
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.includes(".");
+
+  if (looksLikeUrl) {
+    const url = value.startsWith("http") ? value : "https://" + value;
+    return url;
+  }
+
+  const query = encodeURIComponent(value);
+  return "https://www.google.com/search?q=" + query;
+}
+
+function handleProxySubmit(event) {
+  event.preventDefault();
+  const input = document.getElementById("proxy-url-input");
+  const iframe = document.getElementById("proxy-browser-iframe");
+  if (!input || !iframe) return false;
+
+  const target = buildProxyTarget(input.value);
+  if (!target) return false;
+
+  iframe.src = browserUrl(target);
+  return false;
+}
+
+/* ============================================================
+   APPS LOADER (USING WEBVIEW)
+============================================================ */
+function loadApp(app) {
+  let target = "";
+
+  switch (app) {
+    case 'roblox': target = "https://www.roblox.com"; break;
+    case 'geforce': target = "https://play.geforcenow.com"; break;
+    case 'xbox': target = "https://www.xbox.com/play"; break;
+    case 'tiktok': target = "https://www.tiktok.com"; break;
+    case 'instagram': target = "https://www.instagram.com"; break;
+    case 'twitter': target = "https://x.com"; break;
+    case 'reddit': target = "https://www.reddit.com"; break;
+    case 'youtube': target = "https://www.youtube.com"; break;
+    case 'spotify': target = "https://open.spotify.com"; break;
+    case 'twitch': target = "https://www.twitch.tv"; break;
+  }
+
+  const container = document.getElementById('apps-iframe-container');
+  if (!container) return;
+
+  if (!container.querySelector('iframe')) {
+    container.innerHTML = '';
+    const iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    container.appendChild(iframe);
+  }
+
+  const iframe = container.querySelector('iframe');
+  iframe.src = browserUrl(target);
+}
+
+/* ============================================================
+   CINEMA LOGIC (TRENDING / MOVIES / SERIES)
+============================================================ */
+const TMDB_BASE = "https://image.tmdb.org/t/p/w300";
+
+// TEMP SAMPLE DATA (replace with your real arrays)
+const allMovies = [
+  { id: 27205, t: "Inception", g: "Sci-Fi, Action", d: "2010", posterPath: "/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg" },
+  { id: 603, t: "The Matrix", g: "Sci-Fi, Action", d: "1999", posterPath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" }
+];
+
+const allSeries = [
+  { id: 1399, t: "Game of Thrones", g: "Fantasy, Drama", d: "2011", posterPath: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg" }
+];
+
+let cinemaInitialized = false;
+let currentItem = null;
+let currentType = 'movie';
+let libraryTab = 'movies';
+let moviesLoaded = 0;
+let seriesLoaded = 0;
+const PAGE_SIZE = 24;
+
+function initCinemaOnce() {
+  if (cinemaInitialized) return;
+  cinemaInitialized = true;
+
+  buildTrending();
+  buildLibraryInitial();
+
+  const scrollEl = document.getElementById('cinema-scroll');
+  scrollEl.addEventListener('scroll', onLibraryScroll);
+}
+
+function createPosterThumb(item) {
+  const div = document.createElement('div');
+  div.className = 'poster-thumb';
+
+  if (item.posterPath) {
+    const img = document.createElement('img');
+    img.src = TMDB_BASE + item.posterPath;
+    img.alt = item.t;
+    div.appendChild(img);
+  }
+
+  return div;
+}
+
+function buildTrending() {
+  const row = document.getElementById('trending-row');
+  row.innerHTML = '';
+
+  const trendingItems = allMovies.slice(0, 12);
+  trendingItems.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'poster-card';
+    card.onclick = () => playItem(item, 'movie');
+
+    const thumb = createPosterThumb(item);
+    const title = document.createElement('div');
+    title.className = 'poster-meta-title';
+    title.innerText = item.t;
+
+    const sub = document.createElement('div');
+    sub.className = 'poster-meta-sub';
+    sub.innerText = item.g;
+
+    card.appendChild(thumb);
+    card.appendChild(title);
+    card.appendChild(sub);
+    row.appendChild(card);
+  });
+}
+
+function buildLibraryInitial() {
+  moviesLoaded = 0;
+  seriesLoaded = 0;
+  document.getElementById('library-grid').innerHTML = '';
+  loadMoreLibrary();
+}
+
+function onLibraryScroll(e) {
+  const el = e.target;
+  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 80) {
+    loadMoreLibrary();
+  }
+}
+
+function setLibraryTab(tab) {
+  libraryTab = tab;
+
+  document.getElementById('tab-movies').classList.toggle('active', tab === 'movies');
+  document.getElementById('tab-series').classList.toggle('active', tab === 'series');
+
+  buildLibraryInitial();
+}
+
+function loadMoreLibrary() {
+  const grid = document.getElementById('library-grid');
+  let source, loaded, setLoaded;
+
+  if (libraryTab === 'movies') {
+    source = allMovies;
+    loaded = moviesLoaded;
+    setLoaded = v => moviesLoaded = v;
+  } else {
+    source = allSeries;
+    loaded = seriesLoaded;
+    setLoaded = v => seriesLoaded = v;
+  }
+
+  if (loaded >= source.length) {
+    document.getElementById('load-more-label').innerText = 'All titles loaded.';
+    return;
+  }
+
+  const next = source.slice(loaded, loaded + PAGE_SIZE);
+  next.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'grid-poster-card';
+    card.onclick = () => playItem(item, libraryTab === 'movies' ? 'movie' : 'tv');
+
+    const thumb = createPosterThumb(item);
+    const title = document.createElement('div');
+    title.className = 'poster-meta-title';
+    title.innerText = item.t;
+
+    const sub = document.createElement('div');
+    sub.className = 'poster-meta-sub';
+    sub.innerText = item.g;
+
+    card.appendChild(thumb);
+    card.appendChild(title);
+    card.appendChild(sub);
+    grid.appendChild(card);
+  });
+
+  setLoaded(loaded + next.length);
+
+  if (loaded + next.length >= source.length) {
+    document.getElementById('load-more-label').innerText = 'All titles loaded.';
+  } else {
+    document.getElementById('load-more-label').innerText = 'Scroll to load more…';
+  }
+}
+
+function playItem(item, type) {
+  currentItem = item;
+  currentType = type;
+
+  const serverKey = document.getElementById('server-select').value;
+  const server = servers[serverKey] || servers.vidsrc;
+
+  const url = type === 'movie'
+    ? server.movie(item.id)
+    : server.tv(item.id);
+
+  document.getElementById('cinema-player').src = url;
+
+  document.getElementById('info-title').innerText = item.t;
+  document.getElementById('info-meta').innerText =
+    `${type === 'movie' ? 'Movie' : 'Series'} • ${item.g} • ${item.d}`;
+  document.getElementById('info-desc').innerText =
+    'Streaming via ' + server.label + ' using TMDB ID ' + item.id + '.';
+
+  const chips = document.getElementById('info-chips');
+  chips.innerHTML = '';
+
+  item.g.split(',').map(s => s.trim()).forEach(g => {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.innerText = g;
+    chips.appendChild(chip);
+  });
+
+  const idChip = document.createElement('div');
+  idChip.className = 'chip';
+  idChip.innerText = 'TMDB: ' + item.id;
+  chips.appendChild(idChip);
+}
+
+function changeServer() {
+  if (!currentItem) return;
+  playItem(currentItem, currentType);
+}
+
+/* ============================================================
+   MOBILE CINEMA LOGIC
+============================================================ */
+function mobileCinemaShowTrending() {
+  document.getElementById('mobile-cinema-iframe').src =
+    "https://cine-hub-blocked.netlify.app";
+
+  setMobileTabActive('trending');
+}
+
+function mobileCinemaShowMovies() {
+  document.getElementById('mobile-cinema-iframe').src =
+    browserUrl("https://cine-hub-blocked.netlify.app/movies");
+
+  setMobileTabActive('movies');
+}
+
+function mobileCinemaShowSeries() {
+  document.getElementById('mobile-cinema-iframe').src =
+    browserUrl("https://cine-hub-blocked.netlify.app/series");
+
+  setMobileTabActive('series');
+}
+
+function setMobileTabActive(tab) {
+  document.getElementById('mobile-tab-trending').classList.remove('active');
+  document.getElementById('mobile-tab-movies').classList.remove('active');
+  document.getElementById('mobile-tab-series').classList.remove('active');
+
+  document.getElementById('mobile-tab-' + tab).classList.add('active');
+}
+
+/* ============================================================
+   PARTICLES (BACKGROUND)
+============================================================ */
+const canvas = document.createElement('canvas');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+document.querySelector('.particles').appendChild(canvas);
+
+const ctx = canvas.getContext('2d');
+const particlesArr = Array.from({ length: 100 }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 2 + 1,
+  d: Math.random() * 1 + 0.5
+}));
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#b86eff';
+
+  particlesArr.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+
+    p.y += p.d;
+    if (p.y > canvas.height) {
+      p.y = 0;
+      p.x = Math.random() * canvas.width;
+    }
+  });
+
+  requestAnimationFrame(drawParticles);
+}
+
+drawParticles();
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
   <!-- Apps Window -->
   <div id="window-apps" class="window">
     <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
       <span>Apps</span>
       <button class="close-btn" onclick="closeWindow('apps')">Close</button>
     </div>
-    <div class="window-body">
-      <div class="apps-body">
-        <div class="apps-sidebar">
-          <div class="apps-group-title">Cloud Gaming</div>
-          <div class="app-tile" onclick="loadApp('geforce')"><strong>GeForce NOW</strong><br/>NVIDIA cloud gaming</div>
-          <div class="app-tile" onclick="loadApp('xbox')"><strong>Xbox Cloud</strong><br/>Xbox Game Pass</div>
-
-          <div class="apps-group-title">Games & Social</div>
-          <div class="app-tile" onclick="loadApp('roblox')"><strong>Roblox</strong><br/>Play & create</div>
-          <div class="app-tile" onclick="loadApp('tiktok')"><strong>TikTok</strong><br/>Short videos</div>
-          <div class="app-tile" onclick="loadApp('instagram')"><strong>Instagram</strong><br/>Photos & reels</div>
-          <div class="app-tile" onclick="loadApp('twitter')"><strong>X (Twitter)</strong><br/>Social feed</div>
-          <div class="app-tile" onclick="loadApp('reddit')"><strong>Reddit</strong><br/>Communities</div>
-
-          <div class="apps-group-title">Media</div>
-          <div class="app-tile" onclick="loadApp('youtube')"><strong>YouTube</strong><br/>Videos</div>
-          <div class="app-tile" onclick="loadApp('spotify')"><strong>Spotify</strong><br/>Music</div>
-          <div class="app-tile" onclick="loadApp('twitch')"><strong>Twitch</strong><br/>Live streams</div>
+    <div class="window-body apps-body">
+      <div class="apps-sidebar">
+        <div class="apps-group-title">Cloud Gaming</div>
+        <div class="app-tile" onclick="loadApp('geforce')">
+          <strong>GeForce NOW</strong><br/>Play PC games in the cloud.
         </div>
-        <div class="apps-main">
-          <div id="apps-iframe-container" class="apps-placeholder">
-            Select an app on the left to launch it here.
-          </div>
+        <div class="app-tile" onclick="loadApp('xbox')">
+          <strong>Xbox Cloud</strong><br/>Play anywhere.
         </div>
+
+        <div class="apps-group-title">Social</div>
+        <div class="app-tile" onclick="loadApp('tiktok')">
+          <strong>TikTok</strong><br/>Short‑form videos.
+        </div>
+        <div class="app-tile" onclick="loadApp('instagram')">
+          <strong>Instagram</strong><br/>Photos & reels.
+        </div>
+        <div class="app-tile" onclick="loadApp('twitter')">
+          <strong>X (Twitter)</strong><br/>Live conversations.
+        </div>
+        <div class="app-tile" onclick="loadApp('reddit')">
+          <strong>Reddit</strong><br/>Communities & threads.
+        </div>
+
+        <div class="apps-group-title">Media</div>
+        <div class="app-tile" onclick="loadApp('youtube')">
+          <strong>YouTube</strong><br/>Videos & streams.
+        </div>
+        <div class="app-tile" onclick="loadApp('spotify')">
+          <strong>Spotify</strong><br/>Music & podcasts.
+        </div>
+        <div class="app-tile" onclick="loadApp('twitch')">
+          <strong>Twitch</strong><br/>Live gaming.
+        </div>
+
+        <div class="apps-group-title">Games</div>
+        <div class="app-tile" onclick="loadApp('roblox')">
+          <strong>Roblox</strong><br/>User‑generated worlds.
+        </div>
+      </div>
+      <div class="apps-main">
+        <div class="apps-placeholder">
+          Select an app on the left to launch it inside Absolute OS.
+        </div>
+        <div id="apps-iframe-container" style="flex:1; display:flex; flex-direction:column;"></div>
       </div>
     </div>
   </div>
 
-  <!-- Proxy / Browser Window -->
+  <!-- Proxy Window -->
   <div id="window-proxy" class="window">
     <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-      <span>Cyber Browser</span>
+      <span>Proxy Browser</span>
       <button class="close-btn" onclick="closeWindow('proxy')">Close</button>
     </div>
-    <div class="proxy-browser">
-      <form class="proxy-bar" onsubmit="return handleProxySubmit(event)">
-        <input id="proxy-url-input" type="text" placeholder="Enter URL or search apps (roblox, tiktok, youtube...)" autocomplete="off" />
-        <button type="submit">Go</button>
+    <div class="window-body" style="flex-direction:column;">
+      <form onsubmit="handleProxySubmit(event)" style="padding:10px; display:flex; gap:8px;">
+        <input
+          id="proxy-url-input"
+          type="text"
+          placeholder="Enter URL or search…"
+          style="flex:1; padding:8px 10px; border-radius:8px; border:1px solid #3a245a; background:#12091f; color:#f5e9ff; outline:none; font-size:13px;"
+        />
+        <button
+          type="submit"
+          style="padding:8px 14px; border-radius:8px; border:none; background:#b86eff; color:#fff; font-size:13px; cursor:pointer;"
+        >
+          Go
+        </button>
       </form>
-      <div class="proxy-iframe-wrapper">
-        <iframe id="proxy-browser-iframe" allow="fullscreen; autoplay; clipboard-read; clipboard-write;"></iframe>
+      <div style="flex:1; border-top:1px solid #2b1b3f;">
+        <iframe id="proxy-browser-iframe"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cine-Hub Window (desktop) -->
+  <div id="window-cinehub" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Cine‑Hub</span>
+      <button class="close-btn" onclick="closeWindow('cinehub')">Close</button>
+    </div>
+    <iframe src="https://cine-hub-blocked.netlify.app" allowfullscreen></iframe>
+  </div>
+
+  <!-- Assistant Window -->
+  <div id="window-assistant" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Assistant</span>
+      <button class="close-btn" onclick="closeWindow('assistant')">Close</button>
+    </div>
+    <div class="window-body" style="flex-direction:column; padding:16px; gap:10px;">
+      <div style="font-size:14px; color:#e3c4ff; font-weight:600;">
+        Absolute Assistant
+      </div>
+      <div style="font-size:13px; color:#cbb4ff; line-height:1.5;">
+        This is a placeholder panel for your future integrated assistant UI.
+        You can wire this to any backend or chat API later.
       </div>
     </div>
   </div>
@@ -845,25 +1147,13 @@
       <span>Settings</span>
       <button class="close-btn" onclick="closeWindow('settings')">Close</button>
     </div>
-    <div class="window-body">
-      <div class="settings-body">
-        <div class="settings-row">
-          <label for="theme-select">Accent theme</label>
-          <select id="theme-select" onchange="changeTheme(this.value)">
-            <option value="purple">Neon Purple</option>
-            <option value="blue">Cyber Blue</option>
-            <option value="green">Matrix Green</option>
-            <option value="red">Crimson</option>
-          </select>
-        </div>
-        <div class="settings-row">
-          <label for="bg-select">Background style</label>
-          <select id="bg-select" onchange="changeBackground(this.value)">
-            <option value="radial">Radial Glow</option>
-            <option value="linear">Linear Gradient</option>
-            <option value="solid">Solid Dark</option>
-          </select>
-        </div>
+    <div class="window-body" style="flex-direction:column; padding:16px; gap:16px; overflow:auto;">
+      <div style="font-size:16px; font-weight:600; color:#f5e9ff;">Appearance</div>
+      <div style="font-size:13px; color:#cbb4ff;">(Placeholder) Theme, background, and accent controls can go here.</div>
+
+      <div style="font-size:16px; font-weight:600; color:#f5e9ff;">System</div>
+      <div style="font-size:13px; color:#cbb4ff;">
+        You can later add toggles for animations, performance mode, and more.
       </div>
     </div>
   </div>
@@ -874,542 +1164,13 @@
       <span>Profile</span>
       <button class="close-btn" onclick="closeWindow('profile')">Close</button>
     </div>
-    <div class="window-body">
-      <div class="profile-body">
-        <div>
-          <div class="profile-label">Username</div>
-          <div class="profile-value" id="profile-username">—</div>
-        </div>
-        <div>
-          <div class="profile-label">Login time</div>
-          <div class="profile-value" id="profile-login-time">—</div>
-        </div>
-        <div>
-          <div class="profile-label">Time on site</div>
-          <div class="profile-value" id="profile-session-duration">0s</div>
-        </div>
-        <div>
-          <div class="profile-label">Sites opened in browser</div>
-          <div class="profile-value" id="profile-sites-opened">0</div>
-        </div>
+    <div class="window-body" style="flex-direction:column; padding:16px; gap:12px; overflow:auto;">
+      <div style="font-size:18px; font-weight:600; color:#f5e9ff;">User Profile</div>
+      <div style="font-size:13px; color:#cbb4ff;">
+        This is a simple placeholder profile panel. You can wire this to login/session data later.
       </div>
     </div>
   </div>
+</script>
 
-  <!-- Assistant Window -->
-  <div id="window-assistant" class="window">
-    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-      <span>Assistant</span>
-      <button class="close-btn" onclick="closeWindow('assistant')">Close</button>
-    </div>
-    <div class="window-body">
-      <div class="assistant-body">
-        <div id="assistant-log" class="assistant-log">
-          <div>Welcome to Absolute OS Assistant. This is a local log — you can wire it to anything later.</div>
-        </div>
-        <div class="assistant-input-row">
-          <input id="assistant-input" type="text" placeholder="Type something..." />
-          <button onclick="sendAssistant()">Send</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    /* ---------- LOGIN & PROFILE ---------- */
-    let sessionStart = null;
-    let sessionTimer = null;
-    let sitesOpened = 0;
-    let currentUser = "";
-
-    function handleLogin() {
-      const userInput = document.getElementById("login-username");
-      const passInput = document.getElementById("login-password");
-      const errorEl = document.getElementById("login-error");
-
-      const username = userInput.value.trim();
-      const password = passInput.value.trim();
-
-      if (!username || !password) {
-        errorEl.textContent = "Enter both username and password.";
-        return;
-      }
-
-      errorEl.textContent = "";
-
-      currentUser = username;
-      sessionStart = new Date();
-      sitesOpened = 0;
-
-      // remember user
-      localStorage.setItem("absoluteOSUser", username);
-
-      document.getElementById("profile-username").textContent = currentUser;
-      document.getElementById("profile-login-time").textContent = sessionStart.toLocaleTimeString();
-      document.getElementById("profile-sites-opened").textContent = "0";
-
-      if (sessionTimer) clearInterval(sessionTimer);
-      sessionTimer = setInterval(updateSessionDuration, 1000);
-
-      document.getElementById("login-screen").style.display = "none";
-    }
-
-    function autoLoginIfRemembered() {
-      const savedUser = localStorage.getItem("absoluteOSUser");
-      if (!savedUser) return;
-      currentUser = savedUser;
-      sessionStart = new Date();
-      sitesOpened = 0;
-
-      document.getElementById("profile-username").textContent = currentUser;
-      document.getElementById("profile-login-time").textContent = sessionStart.toLocaleTimeString();
-      document.getElementById("profile-sites-opened").textContent = "0";
-
-      if (sessionTimer) clearInterval(sessionTimer);
-      sessionTimer = setInterval(updateSessionDuration, 1000);
-
-      document.getElementById("login-screen").style.display = "none";
-    }
-
-    function updateSessionDuration() {
-      if (!sessionStart) return;
-      const now = new Date();
-      const diffMs = now - sessionStart;
-      const totalSec = Math.floor(diffMs / 1000);
-      const h = Math.floor(totalSec / 3600);
-      const m = Math.floor((totalSec % 3600) / 60);
-      const s = totalSec % 60;
-      const formatted =
-        (h > 0 ? h + "h " : "") +
-        (m > 0 ? m + "m " : "") +
-        s + "s";
-      document.getElementById("profile-session-duration").textContent = formatted;
-    }
-
-    /* ---------- WINDOW LOGIC ---------- */
-    function openWindow(name) {
-      document.querySelectorAll('.window').forEach(w => w.style.display = 'none');
-      const win = document.getElementById('window-' + name);
-      if (win) {
-        win.style.display = 'flex';
-        if (name === 'cinema') initCinemaOnce();
-      }
-    }
-    function closeWindow(name) {
-      const win = document.getElementById('window-' + name);
-      if (win) win.style.display = 'none';
-    }
-
-    /* ---------- DRAGGING WINDOWS ---------- */
-    let dragData = null;
-    function startDrag(e, win) {
-      const rect = win.getBoundingClientRect();
-      dragData = {
-        win,
-        offsetX: e.clientX - rect.left,
-        offsetY: e.clientY - rect.top
-      };
-      document.addEventListener('mousemove', onDragMove);
-      document.addEventListener('mouseup', stopDrag);
-    }
-    function onDragMove(e) {
-      if (!dragData) return;
-      dragData.win.style.left = (e.clientX - dragData.offsetX) + 'px';
-      dragData.win.style.top = (e.clientY - dragData.offsetY) + 'px';
-    }
-    function stopDrag() {
-      document.removeEventListener('mousemove', onDragMove);
-      document.removeEventListener('mouseup', stopDrag);
-      dragData = null;
-    }
-
-    /* ---------- CINEMA LOGIC ---------- */
-    const servers = {
-      vidsrc: {
-        label: 'VidSrc',
-        movie: id => `https://vidsrc.to/embed/movie/${id}`,
-        tv: id => `https://vidsrc.to/embed/tv/${id}`
-      },
-      autoembed: {
-        label: 'AutoEmbed',
-        movie: id => `https://autoembed.to/movie/tmdb/${id}`,
-        tv: id => `https://autoembed.to/tv/tmdb/${id}`
-      },
-      superembed: {
-        label: 'SuperEmbed',
-        movie: id => `https://multiembed.mov/?video_id=${id}&tmdb=1`,
-        tv: id => `https://multiembed.mov/?video_id=${id}&tmdb=1&type=tv`
-      },
-      vidlink: {
-        label: 'VidLink',
-        movie: id => `https://vidlink.org/embed/movie/${id}`,
-        tv: id => `https://vidlink.org/embed/tv/${id}`
-      },
-      moviekex: {
-        label: 'MovieKex',
-        movie: id => `https://moviekex.com/embed/movie/${id}`,
-        tv: id => `https://moviekex.com/embed/tv/${id}`
-      },
-      vidsrccc: {
-        label: 'VidSrc CC',
-        movie: id => `https://vidsrc.cc/v2/embed/movie/${id}`,
-        tv: id => `https://vidsrc.cc/v2/embed/tv/${id}`
-      },
-      embedsu: {
-        label: 'EmbedSu',
-        movie: id => `https://embedsu.com/embed/movie/${id}`,
-        tv: id => `https://embedsu.com/embed/tv/${id}`
-      }
-    };
-
-    const TMDB_BASE = "https://image.tmdb.org/t/p/w300";
-
-    // Example minimal data so it doesn't break if your real arrays aren't loaded yet
-    const allMovies = [
-      { id: 27205, t: "Inception", g: "Sci-Fi, Action", d: "2010", posterPath: "/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg" },
-      { id: 245891, t: "John Wick", g: "Action, Thriller", d: "2014", posterPath: "/fZPSd91yGE9fCcCe6OoQr6E3Bev.jpg" },
-      { id: 335984, t: "Blade Runner 2049", g: "Sci-Fi, Drama", d: "2017", posterPath: "/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg" },
-      { id: 603, t: "The Matrix", g: "Sci-Fi, Action", d: "1999", posterPath: "/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" }
-    ];
-    const allSeries = [
-      { id: 1399, t: "Game of Thrones", g: "Fantasy, Drama", d: "2011", posterPath: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg" },
-      { id: 66732, t: "Stranger Things", g: "Sci-Fi, Horror", d: "2016", posterPath: "/x2LSRK2Cm7MZhjluni1msVJ3wDF.jpg" }
-    ];
-
-    let cinemaInitialized = false;
-    let currentItem = null;
-    let currentType = 'movie';
-    let libraryTab = 'movies';
-    let moviesLoaded = 0;
-    let seriesLoaded = 0;
-    const PAGE_SIZE = 24;
-
-    function initCinemaOnce() {
-      if (cinemaInitialized) return;
-      cinemaInitialized = true;
-      buildTrending();
-      buildLibraryInitial();
-      const scrollEl = document.getElementById('cinema-scroll');
-      scrollEl.addEventListener('scroll', onLibraryScroll);
-    }
-
-    function createPosterThumb(item) {
-      const div = document.createElement('div');
-      div.className = 'poster-thumb';
-      if (item.posterPath) {
-        const img = document.createElement('img');
-        img.src = TMDB_BASE + item.posterPath;
-        img.alt = item.t;
-        div.appendChild(img);
-      }
-      return div;
-    }
-
-    function buildTrending() {
-      const row = document.getElementById('trending-row');
-      row.innerHTML = '';
-      const trendingItems = allMovies.slice(0, 12);
-      trendingItems.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'poster-card';
-        card.onclick = () => playItem(item, 'movie');
-        const thumb = createPosterThumb(item);
-        const title = document.createElement('div');
-        title.className = 'poster-meta-title';
-        title.innerText = item.t;
-        const sub = document.createElement('div');
-        sub.className = 'poster-meta-sub';
-        sub.innerText = item.g;
-        card.appendChild(thumb);
-        card.appendChild(title);
-        card.appendChild(sub);
-        row.appendChild(card);
-      });
-    }
-
-    function buildLibraryInitial() {
-      moviesLoaded = 0;
-      seriesLoaded = 0;
-      document.getElementById('library-grid').innerHTML = '';
-      loadMoreLibrary();
-    }
-
-    function onLibraryScroll(e) {
-      const el = e.target;
-      if (el.scrollTop + el.clientHeight >= el.scrollHeight - 80) {
-        loadMoreLibrary();
-      }
-    }
-
-    function setLibraryTab(tab) {
-      libraryTab = tab;
-      document.getElementById('tab-movies').classList.toggle('active', tab === 'movies');
-      document.getElementById('tab-series').classList.toggle('active', tab === 'series');
-      buildLibraryInitial();
-    }
-
-    function loadMoreLibrary() {
-      const grid = document.getElementById('library-grid');
-      let source, loaded, setLoaded;
-      if (libraryTab === 'movies') {
-        source = allMovies;
-        loaded = moviesLoaded;
-        setLoaded = v => moviesLoaded = v;
-      } else {
-        source = allSeries;
-        loaded = seriesLoaded;
-        setLoaded = v => seriesLoaded = v;
-      }
-
-      if (loaded >= source.length) {
-        document.getElementById('load-more-label').innerText = 'All titles loaded.';
-        return;
-      }
-
-      const next = source.slice(loaded, loaded + PAGE_SIZE);
-      next.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'grid-poster-card';
-        card.onclick = () => playItem(item, libraryTab === 'movies' ? 'movie' : 'tv');
-        const thumb = createPosterThumb(item);
-        const title = document.createElement('div');
-        title.className = 'poster-meta-title';
-        title.innerText = item.t;
-        const sub = document.createElement('div');
-        sub.className = 'poster-meta-sub';
-        sub.innerText = item.g;
-        card.appendChild(thumb);
-        card.appendChild(title);
-        card.appendChild(sub);
-        grid.appendChild(card);
-      });
-
-      setLoaded(loaded + next.length);
-      if (loaded + next.length >= source.length) {
-        document.getElementById('load-more-label').innerText = 'All titles loaded.';
-      } else {
-        document.getElementById('load-more-label').innerText = 'Scroll to load more…';
-      }
-    }
-
-    function playItem(item, type) {
-      currentItem = item;
-      currentType = type;
-      const serverKey = document.getElementById('server-select').value;
-      const server = servers[serverKey] || servers.vidsrc;
-      const url = type === 'movie' ? server.movie(item.id) : server.tv(item.id);
-      document.getElementById('cinema-player').src = url;
-
-      document.getElementById('info-title').innerText = item.t;
-      document.getElementById('info-meta').innerText = `${type === 'movie' ? 'Movie' : 'Series'} • ${item.g} • ${item.d}`;
-      document.getElementById('info-desc').innerText =
-        'Streaming via ' + server.label + ' using TMDB ID ' + item.id + '.';
-      const chips = document.getElementById('info-chips');
-      chips.innerHTML = '';
-      item.g.split(',').map(s => s.trim()).forEach(g => {
-        const chip = document.createElement('div');
-        chip.className = 'chip';
-        chip.innerText = g;
-        chips.appendChild(chip);
-      });
-      const idChip = document.createElement('div');
-      idChip.className = 'chip';
-      idChip.innerText = 'TMDB: ' + item.id;
-      chips.appendChild(idChip);
-    }
-
-    function changeServer() {
-      if (!currentItem) return;
-      playItem(currentItem, currentType);
-    }
-
-    /* ---------- REAL BROWSER (REPLACES UV) ---------- */
-    const BROWSER_BASE = "https://chrome.browserless.io/?url=";
-
-    function buildProxyTarget(raw) {
-      const value = raw.trim();
-      if (!value) return null;
-
-      const looksLikeUrl =
-        value.startsWith("http://") ||
-        value.startsWith("https://") ||
-        value.includes(".");
-
-      if (looksLikeUrl) {
-        const url = value.startsWith("http") ? value : "https://" + value;
-        return url;
-      }
-
-      const query = encodeURIComponent(value);
-      return "https://www.google.com/search?q=" + query;
-    }
-
-    function browserUrl(target) {
-      return BROWSER_BASE + encodeURIComponent(target);
-    }
-
-    function handleProxySubmit(event) {
-      event.preventDefault();
-      const input = document.getElementById("proxy-url-input");
-      const iframe = document.getElementById("proxy-browser-iframe");
-      if (!input || !iframe) return false;
-
-      const target = buildProxyTarget(input.value);
-      if (!target) return false;
-
-      iframe.src = browserUrl(target);
-
-      // track sites opened
-      sitesOpened += 1;
-      document.getElementById("profile-sites-opened").textContent = String(sitesOpened);
-
-      return false;
-    }
-
-    /* ---------- APPS LOGIC (NOW USING REAL BROWSER ENGINE) ---------- */
-    function loadApp(app) {
-      let target = "";
-      switch (app) {
-        case 'roblox':
-          target = "https://www.roblox.com";
-          break;
-        case 'geforce':
-          target = "https://play.geforcenow.com";
-          break;
-        case 'xbox':
-          target = "https://www.xbox.com/play";
-          break;
-        case 'tiktok':
-          target = "https://www.tiktok.com";
-          break;
-        case 'instagram':
-          target = "https://www.instagram.com";
-          break;
-        case 'twitter':
-          target = "https://x.com";
-          break;
-        case 'reddit':
-          target = "https://www.reddit.com";
-          break;
-        case 'youtube':
-          target = "https://www.youtube.com";
-          break;
-        case 'spotify':
-          target = "https://open.spotify.com";
-          break;
-        case 'twitch':
-          target = "https://www.twitch.tv";
-          break;
-      }
-
-      const container = document.getElementById('apps-iframe-container');
-      if (!container) return;
-
-      if (!container.querySelector('iframe')) {
-        container.innerHTML = '';
-        const iframe = document.createElement('iframe');
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = 'none';
-        container.appendChild(iframe);
-      }
-
-      const iframe = container.querySelector('iframe');
-      iframe.src = browserUrl(target);
-
-      // track sites opened
-      sitesOpened += 1;
-      document.getElementById("profile-sites-opened").textContent = String(sitesOpened);
-    }
-
-    /* ---------- SETTINGS (THEME + BACKGROUND) ---------- */
-    function changeTheme(theme) {
-      const root = document.documentElement;
-      if (theme === "purple") {
-        root.style.setProperty("--accent", "#b86eff");
-        root.style.setProperty("--accent-soft", "#d29bff");
-      } else if (theme === "blue") {
-        root.style.setProperty("--accent", "#0077ff");
-        root.style.setProperty("--accent-soft", "#66b3ff");
-      } else if (theme === "green") {
-        root.style.setProperty("--accent", "#00c853");
-        root.style.setProperty("--accent-soft", "#69f0ae");
-      } else if (theme === "red") {
-        root.style.setProperty("--accent", "#ff1744");
-        root.style.setProperty("--accent-soft", "#ff8a80");
-      }
-    }
-
-    function changeBackground(style) {
-      const root = document.documentElement;
-      if (style === "radial") {
-        root.style.setProperty("--bg-main", "#050509");
-        root.style.setProperty(
-          "--bg-radial",
-          "radial-gradient(circle at top, #2a1540 0, #090910 55%, #050509 100%)"
-        );
-      } else if (style === "linear") {
-        root.style.setProperty("--bg-main", "linear-gradient(135deg, #050509, #1b102b, #050509)");
-      } else if (style === "solid") {
-        root.style.setProperty("--bg-main", "#050509");
-      }
-      document.body.style.background = getComputedStyle(root).getPropertyValue("--bg-main");
-    }
-
-    /* ---------- ASSISTANT MOCK ---------- */
-    function sendAssistant() {
-      const input = document.getElementById("assistant-input");
-      const log = document.getElementById("assistant-log");
-      if (!input || !log) return;
-      const text = input.value.trim();
-      if (!text) return;
-      const div = document.createElement("div");
-      div.textContent = "> " + text;
-      log.appendChild(div);
-      log.scrollTop = log.scrollHeight;
-      input.value = "";
-    }
-
-    /* ---------- PARTICLES ---------- */
-    const canvas = document.createElement('canvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    document.querySelector('.particles').appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-    const particlesArr = Array.from({ length: 100 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 2 + 1,
-      d: Math.random() * 1 + 0.5
-    }));
-
-    function drawParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#b86eff';
-      particlesArr.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-        p.y += p.d;
-        if (p.y > canvas.height) {
-          p.y = 0;
-          p.x = Math.random() * canvas.width;
-        }
-      });
-      requestAnimationFrame(drawParticles);
-    }
-
-    drawParticles();
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-
-    /* ---------- INIT ---------- */
-    window.addEventListener("load", () => {
-      autoLoginIfRemembered();
-    });
-  </script>
-</body>
 </html>
-
