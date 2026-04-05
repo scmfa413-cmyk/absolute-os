@@ -2,809 +2,1266 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Absolute OS V2 – Neon</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Absolute OS V2</title>
   <style>
-    :root {
-      --bg-main: radial-gradient(circle at top, #1a0033 0, #050008 45%, #020005 100%);
-      --accent: #6a00ff;
-      --accent-soft: #b36bff;
-      --panel-bg: rgba(10, 0, 25, 0.85);
-      --panel-border: rgba(179, 107, 255, 0.7);
-      --text-main: #f5e9ff;
-      --text-soft: #bda4ff;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg-main);
-      color: var(--text-main);
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #050509;
+      color: white;
       overflow: hidden;
     }
 
-    /* LOGIN SCREEN */
-    #login-screen {
+    .particles {
       position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at top, #2b0055 0, #050008 45%, #020005 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .login-card {
-      width: 320px;
-      padding: 24px 20px;
-      border-radius: 18px;
-      background: rgba(10, 0, 25, 0.9);
-      border: 1px solid var(--panel-border);
-      box-shadow: 0 0 30px var(--accent);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .hero {
+      text-align: center;
+      padding: 100px 20px 40px;
+      z-index: 1;
+      position: relative;
     }
-
-    .login-title {
+    .hero h1 {
+      font-size: 48px;
+      font-weight: bold;
+      color: #b86eff;
+      text-shadow: 0 0 10px #b86eff;
+    }
+    .hero p {
       font-size: 18px;
-      font-weight: 700;
-      text-align: center;
-      color: var(--accent-soft);
+      color: #ccc;
+      margin-top: 10px;
     }
-
-    .login-sub {
-      font-size: 12px;
-      text-align: center;
-      color: var(--text-soft);
-    }
-
-    .login-field {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 12px;
-    }
-
-    .login-field label {
-      color: var(--text-soft);
-    }
-
-    .login-field input {
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(179, 107, 255, 0.5);
-      background: rgba(20, 0, 50, 0.9);
-      color: var(--text-main);
-      outline: none;
-      font-size: 13px;
-    }
-
-    .login-btn {
-      margin-top: 8px;
-      padding: 9px 0;
-      border-radius: 10px;
+    .buttons { margin-top: 30px; }
+    .buttons button {
+      background: #b86eff;
       border: none;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 600;
+      color: white;
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      box-shadow: 0 0 16px var(--accent);
+      box-shadow: 0 0 10px #b86eff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .buttons button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 16px #d29bff;
+    }
+
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #11111a;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #b86eff;
+      z-index: 3;
       font-size: 13px;
     }
 
-    .login-btn:hover {
-      filter: brightness(1.1);
-    }
-
-    .login-error {
-      font-size: 11px;
-      color: #ff8ba7;
-      min-height: 14px;
-      text-align: center;
-    }
-
-    /* SIDEBAR */
+    /* FIXED SIDEBAR (A2 – 120px) */
     .sidebar {
       position: fixed;
       top: 0;
       left: 0;
       width: 120px;
-      height: 100vh;
-      background: rgba(5, 0, 20, 0.95);
-      border-right: 1px solid var(--accent);
-      box-shadow: 0 0 25px var(--accent);
+      height: 100%;
+      background: radial-gradient(circle at top, #2a1540 0, #090910 55%, #050509 100%);
+      backdrop-filter: blur(14px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px 8px;
-      gap: 16px;
+      padding-top: 18px;
       z-index: 1000;
-      display: none; /* hidden until login */
+      border-right: 1px solid #2b1b3f;
     }
-
-    .sidebar-logo {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
-      background: radial-gradient(circle at top, var(--accent-soft), #4b00b8);
+    .icon {
+      width: 70px;
+      height: 70px;
+      margin: 10px 0;
+      background: rgba(10, 10, 18, 0.95);
+      border-radius: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 20px;
-      color: #0b0015;
-      box-shadow: 0 0 18px var(--accent-soft);
-    }
-
-    .sidebar-section-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #8f6ad9;
-      margin-top: 8px;
-    }
-
-    .sidebar-btn {
-      width: 100%;
-      padding: 10px 6px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      background: rgba(20, 0, 50, 0.7);
-      color: #e8d7ff;
-      font-size: 12px;
-      text-align: center;
       cursor: pointer;
-      transition: 0.15s ease;
-      box-shadow: 0 0 10px rgba(106, 0, 255, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 0 8px #b86eff33;
+      border: 1px solid #2f1b4a;
+    }
+    .icon:hover {
+      transform: scale(1.12) translateY(-2px);
+      box-shadow: 0 0 18px #b86eff;
+      background: radial-gradient(circle at top, #3b1f63, #12091f);
+    }
+    .icon svg {
+      width: 30px;
+      height: 30px;
+      fill: #d29bff;
     }
 
-    .sidebar-btn:hover {
-      border-color: var(--accent-soft);
-      background: rgba(40, 0, 80, 0.9);
-      box-shadow: 0 0 16px rgba(179, 107, 255, 0.8);
-      transform: translateY(-1px);
+    .hero {
+      margin-left: 120px;
     }
-
-    .sidebar-spacer {
-      flex: 1;
-    }
-
-    /* DESKTOP */
-    .desktop {
-      position: absolute;
-      left: 120px;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      padding: 16px;
-      overflow: hidden;
-      display: none; /* hidden until login */
-    }
-
-    /* WINDOWS */
     .window {
       position: absolute;
-      top: 80px;
-      left: 180px;
-      width: 720px;
-      height: 420px;
-      background: var(--panel-bg);
+      top: 120px;
+      left: 150px;
+      width: calc(100% - 180px);
+      height: 70%;
+      background: radial-gradient(circle at top left, #1b102b 0, #090812 55%, #050509 100%);
       border-radius: 16px;
-      border: 1px solid var(--panel-border);
-      box-shadow: 0 0 30px rgba(179, 107, 255, 0.7);
+      box-shadow: 0 0 24px #b86effaa;
+      backdrop-filter: blur(14px);
       display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 999;
+      border: 1px solid #2f1b4a;
+    }
+    .window-header {
+      background: linear-gradient(90deg, #140b22, #1f102f);
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: move;
+      border-bottom: 1px solid #2f1b4a;
+    }
+    .window-header span {
+      font-weight: 600;
+      color: #e3c4ff;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+    }
+    .close-btn {
+      background: #b86eff;
+      border: none;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .window-body {
+      flex: 1;
+      display: flex;
       overflow: hidden;
     }
+    .window iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
 
-    .window-header {
-      height: 36px;
-      background: linear-gradient(90deg, rgba(40, 0, 80, 0.9), rgba(10, 0, 40, 0.9));
-      border-bottom: 1px solid var(--panel-border);
+    /* Cinema layout */
+    .cinema-layout {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .cinema-left {
+      flex: 2.2;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 14px;
+      overflow: hidden;
+    }
+    .cinema-right {
+      flex: 1.3;
+      padding: 16px;
+      border-left: 1px solid #2b1b3f;
+      overflow-y: auto;
+      background: radial-gradient(circle at top, #12091f 0, #07050c 60%);
+    }
+    .player-container {
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 0 16px #b86eff55;
+      flex-shrink: 0;
+    }
+    .player-container iframe {
+      width: 100%;
+      height: 340px;
+    }
+    .server-bar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 10px;
-      cursor: move;
-      user-select: none;
-      color: var(--text-main);
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: #ccc;
+    }
+    .server-bar select {
+      background: #12091f;
+      color: white;
+      border-radius: 999px;
+      border: 1px solid #3a245a;
+      padding: 6px 12px;
+      outline: none;
       font-size: 13px;
     }
-
-    .close-btn {
-      background: transparent;
-      border: none;
-      color: #ff8ba7;
-      font-size: 12px;
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 8px;
-      transition: 0.15s ease;
-    }
-
-    .close-btn:hover {
-      background: rgba(255, 139, 167, 0.12);
-    }
-
-    .window-body {
-      padding: 12px;
-      font-size: 14px;
-      color: #d9c4ff;
-      height: calc(100% - 36px);
-      overflow: hidden;
-    }
-
-    /* CINEMA (kept simple, no placeholders) */
-    .cinema-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 12px;
-      height: 100%;
+    .cinema-scroll {
+      flex: 1;
       overflow-y: auto;
+      margin-top: 8px;
       padding-right: 4px;
     }
-
-    .poster-card {
-      background: rgba(20, 0, 50, 0.8);
-      border-radius: 12px;
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      box-shadow: 0 0 12px rgba(106, 0, 255, 0.4);
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 10px 0 6px;
+      color: #e3c4ff;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
+    /* Poster cards */
+    .card-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .poster-card {
+      min-width: 150px;
+      max-width: 150px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
     .poster-thumb {
       width: 100%;
-      aspect-ratio: 2 / 3;
-      border-radius: 8px;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .poster-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-
-    .poster-meta {
-      font-size: 11px;
-      color: var(--text-soft);
-    }
-
-    /* BROWSER */
-    .proxy-browser {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      background: rgba(10, 0, 20, 0.6);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--accent);
-      box-shadow: 0 0 20px var(--accent);
-    }
-
-    .proxy-bar {
-      display: flex;
-      gap: 8px;
-      padding: 12px;
-      background: rgba(20, 0, 40, 0.8);
-      border-bottom: 1px solid var(--accent);
-    }
-
-    .proxy-bar input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background: rgba(50, 0, 100, 0.4);
-      color: #e0b3ff;
-      outline: none;
-      box-shadow: 0 0 10px var(--accent) inset;
-      font-size: 13px;
-    }
-
-    .proxy-bar button {
-      padding: 10px 16px;
-      border: none;
-      border-radius: 8px;
-      background: var(--accent);
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 0 12px var(--accent);
-      font-size: 13px;
-    }
-
-    .proxy-bar button:hover {
-      filter: brightness(1.1);
-    }
-
-    .proxy-iframe-wrapper {
-      flex: 1;
-      width: 100%;
+      height: 220px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #2b1b3f, #12091f);
+      box-shadow: 0 0 10px #000;
       overflow: hidden;
     }
-
-    .proxy-iframe-wrapper iframe {
+    .poster-thumb img {
       width: 100%;
       height: 100%;
-      border: none;
-      background: #050010;
+      object-fit: cover;
+      display: block;
+    }
+    .poster-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 0 18px #b86effaa;
+    }
+    .poster-meta-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 6px;
+      color: #f5e9ff;
+    }
+    .poster-meta-sub {
+      font-size: 11px;
+      color: #a8a0c0;
+      margin-top: 2px;
     }
 
-    /* SETTINGS */
-    .settings-section {
+    .grid-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 14px;
+      margin-top: 6px;
+    }
+    .grid-poster-card {
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .grid-poster-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 0 18px #b86effaa;
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+    .tab-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #3a245a;
+      background: #12091f;
+      color: #cbb4ff;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .tab-btn.active {
+      background: #b86eff;
+      color: #fff;
+      border-color: #b86eff;
+    }
+
+    .load-more {
+      text-align: center;
+      padding: 10px 0 18px;
+      font-size: 12px;
+      color: #8f84b0;
+    }
+
+    .hero-info-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 4px;
+      color: #f5e9ff;
+    }
+    .hero-info-meta {
+      font-size: 12px;
+      color: #b3a6d6;
+      margin-top: 4px;
+    }
+    .hero-info-desc {
+      font-size: 13px;
+      color: #d0c6f0;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    .chips-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .chip {
+      background: #12091f;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: #cbb4ff;
+      border: 1px solid #3a245a;
+    }
+
+    /* Apps layout */
+    .apps-body {
+      display: flex;
+      height: 100%;
+    }
+    .apps-sidebar {
+      width: 230px;
+      border-right: 1px solid #2b1b3f;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      font-size: 13px;
+      background: radial-gradient(circle at top, #1b102b 0, #07050c 60%);
     }
-
-    .settings-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .settings-row label {
-      color: var(--text-soft);
-    }
-
-    .settings-row select {
-      padding: 6px 8px;
-      border-radius: 8px;
-      border: 1px solid var(--panel-border);
-      background: rgba(20, 0, 50, 0.9);
-      color: var(--text-main);
-      font-size: 13px;
-    }
-
-    /* PROFILE */
-    .profile-info {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-size: 13px;
-    }
-
-    .profile-label {
-      color: var(--text-soft);
+    .apps-group-title {
       font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9f8ad0;
+      margin-top: 4px;
+      margin-bottom: 4px;
     }
-
-    .profile-value {
-      font-weight: 600;
-      color: var(--accent-soft);
+    .app-tile {
+      background: #12091f;
+      border-radius: 12px;
+      padding: 9px 10px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 0 8px #000;
+      font-size: 12px;
+      border: 1px solid #2f1b4a;
     }
-
-    /* ASSISTANT */
-    .assistant-body {
+    .app-tile:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 16px #b86eff55;
+      background: radial-gradient(circle at top, #3b1f63, #12091f);
+    }
+    .app-tile strong {
+      color: #f5e9ff;
+      font-size: 13px;
+    }
+    .apps-main {
+      flex: 1;
+      background: #050509;
       display: flex;
       flex-direction: column;
+    }
+    .apps-main iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
       height: 100%;
-      gap: 8px;
     }
-
-    .assistant-log {
+    .apps-placeholder {
       flex: 1;
-      border-radius: 10px;
-      background: rgba(20, 0, 50, 0.7);
-      padding: 10px;
-      font-size: 13px;
-      overflow-y: auto;
-    }
-
-    .assistant-input-row {
       display: flex;
-      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      color: #77729a;
+      font-size: 14px;
+      padding: 20px;
+      text-align: center;
     }
 
-    .assistant-input-row input {
-      flex: 1;
-      padding: 8px;
-      border-radius: 8px;
-      border: none;
-      background: rgba(40, 0, 80, 0.8);
-      color: var(--text-main);
-      outline: none;
-      font-size: 13px;
-    }
-
-    .assistant-input-row button {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      background: var(--accent);
-      color: #fff;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .assistant-input-row button:hover {
-      filter: brightness(1.1);
-    }
-
-    /* SCROLLBARS */
-    ::-webkit-scrollbar {
+    /* Scrollbars */
+    .cinema-scroll::-webkit-scrollbar,
+    .cinema-right::-webkit-scrollbar {
       width: 6px;
-      height: 6px;
     }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(140, 90, 255, 0.7);
+    .cinema-scroll::-webkit-scrollbar-thumb,
+    .cinema-right::-webkit-scrollbar-thumb {
+      background: #3a245a;
       border-radius: 3px;
     }
   </style>
 </head>
 <body>
-  <!-- LOGIN -->
-  <div id="login-screen">
-    <div class="login-card">
-      <div class="login-title">Absolute OS V2</div>
-      <div class="login-sub">Sign in to start your neon desktop.</div>
-
-      <div class="login-field">
-        <label for="login-username">Username</label>
-        <input id="login-username" type="text" autocomplete="off" />
-      </div>
-      <div class="login-field">
-        <label for="login-password">Password</label>
-        <input id="login-password" type="password" />
-      </div>
-
-      <div class="login-error" id="login-error"></div>
-
-      <button class="login-btn" onclick="handleLogin()">Log in</button>
-    </div>
-  </div>
+  <div class="particles"></div>
 
   <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-logo">AO</div>
-    <div class="sidebar-section-title">Windows</div>
-    <button class="sidebar-btn" onclick="openWindow('cinema')">Cinema</button>
-    <button class="sidebar-btn" onclick="openWindow('browser')">Browser</button>
-    <button class="sidebar-btn" onclick="openWindow('settings')">Settings</button>
-    <button class="sidebar-btn" onclick="openWindow('profile')">Profile</button>
-    <button class="sidebar-btn" onclick="openWindow('assistant')">Assistant</button>
-    <div class="sidebar-spacer"></div>
-    <div style="font-size:10px;color:#7f6bb8;text-align:center;">
-      Absolute OS V2<br/>Neon Build
+  <div class="sidebar">
+    <!-- Home -->
+    <div class="icon" onclick="openWindow('home')">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    </div>
+    <!-- Absolute Cinema -->
+    <div class="icon" onclick="openWindow('cinema')">
+      <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-4l2 4h-3l-2-4H6l2 4H5l-2-4H2v16h20V4z"/></svg>
+    </div>
+    <!-- Cine-Hub -->
+    <div class="icon" onclick="openWindow('cinehub')">
+      <svg viewBox="0 0 24 24"><path d="M3 5h18v4H3V5zm0 6h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+    </div>
+    <!-- Games -->
+    <div class="icon" onclick="openWindow('games')">
+      <svg viewBox="0 0 24 24"><path d="M17 6H7c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 5H9v2H7v-2H5v-2h2V7h2v2h2v2zm6 1c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+    </div>
+    <!-- Apps -->
+    <div class="icon" onclick="openWindow('apps')">
+      <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+    </div>
+    <!-- Assistant -->
+    <div class="icon" onclick="openWindow('assistant')">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-10 10c0 5.5 4.5 10 10 10s10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/><circle cx="12" cy="14" r="1.5"/><path d="M11 6h2v6h-2z"/></svg>
+    </div>
+    <!-- Proxy -->
+    <div class="icon" onclick="openWindow('proxy')">
+      <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+    </div>
+    <!-- Settings -->
+    <div class="icon" onclick="openWindow('settings')">
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .11-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.007 7.007 0 0 0-1.63-.94l-.36-2.54A.5.5 0 0 0 14.5 2h-5a.5.5 0 0 0-.5.42l-.36 2.54c-.6.23-1.16.54-1.63.94l-2.39-.96a.5.5 0 0 0-.61.22L2.72 8.88a.5.5 0 0 0 .11.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.83 14.94a.5.5 0 0 0-.11.64l1.92 3.32c.14.24.43.34.68.22l2.39-.96c.47.4 1.03.71 1.63.94l.36 2.54c.05.27.27.42.5.42h5c.23 0 .45-.15.5-.42l.36-2.54c.6-.23 1.16-.54 1.63-.94l2.39.96c.25.12.54.02.68-.22l1.92-3.32a.5.5 0 0 0-.11-.64l-2.03-1.58zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5S10.07 8.5 12 8.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+    </div>
+    <!-- Profile -->
+    <div class="icon" onclick="openWindow('profile')">
+      <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
     </div>
   </div>
 
-  <!-- DESKTOP -->
-  <div class="desktop" id="desktop">
-    <!-- CINEMA -->
-    <div id="window-cinema" class="window">
-      <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        <span>Cinema</span>
-        <button class="close-btn" onclick="closeWindow('cinema')">Close</button>
-      </div>
-      <div class="window-body">
-        <div class="cinema-grid">
-          <div class="poster-card">
-            <div class="poster-thumb" style="background-image:url('https://image.tmdb.org/t/p/w300/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg');"></div>
-            <div class="poster-title">Inception</div>
-            <div class="poster-meta">Sci‑Fi • 2010</div>
-          </div>
-          <div class="poster-card">
-            <div class="poster-thumb" style="background-image:url('https://image.tmdb.org/t/p/w300/fZPSd91yGE9fCcCe6OoQr6E3Bev.jpg');"></div>
-            <div class="poster-title">John Wick</div>
-            <div class="poster-meta">Action • 2014</div>
-          </div>
-          <div class="poster-card">
-            <div class="poster-thumb" style="background-image:url('https://image.tmdb.org/t/p/w300/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg');"></div>
-            <div class="poster-title">Blade Runner 2049</div>
-            <div class="poster-meta">Cyberpunk • 2017</div>
-          </div>
-          <div class="poster-card">
-            <div class="poster-thumb" style="background-image:url('https://image.tmdb.org/t/p/w300/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg');"></div>
-            <div class="poster-title">The Matrix</div>
-            <div class="poster-meta">Sci‑Fi • 1999</div>
-          </div>
-        </div>
-      </div>
+  <!-- HERO -->
+  <div class="hero" id="home-hero">
+    <h1>Absolute OS is evolving.</h1>
+    <p>The next generation of web systems, built for speed, style, and full control.</p>
+    <div class="buttons">
+      <button onclick="openWindow('games')">Start Playing</button>
+      <button onclick="openWindow('cinema')">Enter the Cinema</button>
     </div>
+  </div>
 
-    <!-- BROWSER (REAL ENGINE) -->
-    <div id="window-browser" class="window">
-      <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        <span style="color:#b36bff;">Cyber Browser</span>
-        <button class="close-btn" onclick="closeWindow('browser')">Close</button>
-      </div>
-      <div class="proxy-browser">
-        <form id="proxy-form" class="proxy-bar" onsubmit="return handleProxySubmit(event)">
-          <input
-            id="proxy-url-input"
-            type="text"
-            placeholder="Enter URL or search apps (e.g. roblox, tiktok, youtube)..."
-            autocomplete="off"
-          />
-          <button type="submit">Go</button>
-        </form>
-        <div class="proxy-iframe-wrapper">
-          <iframe
-            id="proxy-browser-iframe"
-            allow="fullscreen; autoplay; clipboard-read; clipboard-write;"
-          ></iframe>
-        </div>
-      </div>
+  <!-- Notification -->
+  <div class="notification">
+    System: Absolute OS V2 — Sidebar, Cinema, Apps and more are now live.
+  </div>
+
+  <!-- Games Window -->
+  <div id="window-games" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Games</span>
+      <button class="close-btn" onclick="closeWindow('games')">Close</button>
     </div>
+    <iframe src="https://www.onlinegames.io"></iframe>
+  </div>
 
-    <!-- SETTINGS -->
-    <div id="window-settings" class="window">
-      <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        <span>Settings</span>
-        <button class="close-btn" onclick="closeWindow('settings')">Close</button>
-      </div>
-      <div class="window-body">
-        <div class="settings-section">
-          <div class="settings-row">
-            <label for="theme-select">Theme color</label>
-            <select id="theme-select" onchange="changeTheme(this.value)">
-              <option value="purple">Neon Purple</option>
-              <option value="blue">Cyber Blue</option>
-              <option value="green">Matrix Green</option>
-              <option value="red">Crimson</option>
+  <!-- Absolute Cinema -->
+  <div id="window-cinema" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Absolute Cinema</span>
+      <button class="close-btn" onclick="closeWindow('cinema')">Close</button>
+    </div>
+    <div class="window-body">
+      <div class="cinema-layout">
+        <div class="cinema-left">
+          <div class="player-container">
+            <iframe id="cinema-player" src="" allowfullscreen></iframe>
+          </div>
+          <div class="server-bar">
+            <span>Server:</span>
+            <select id="server-select" onchange="changeServer()">
+              <option value="vidsrc">VidSrc</option>
+              <option value="autoembed">AutoEmbed</option>
+              <option value="superembed">SuperEmbed</option>
+              <option value="vidlink">VidLink</option>
+              <option value="moviekex">MovieKex</option>
+              <option value="vidsrccc">VidSrc CC</option>
+              <option value="embedsu">EmbedSu</option>
             </select>
+            <span>• Click any poster to play.</span>
           </div>
-          <div class="settings-row">
-            <label for="bg-style-select">Background style</label>
-            <select id="bg-style-select" onchange="changeBackground(this.value)">
-              <option value="radial">Radial Glow</option>
-              <option value="linear">Linear Gradient</option>
-              <option value="solid">Solid Dark</option>
-            </select>
+          <div class="cinema-scroll" id="cinema-scroll">
+            <div class="section-title">Trending Now</div>
+            <div class="card-row" id="trending-row"></div>
+
+            <div class="section-title">Browse Library</div>
+            <div class="tab-row">
+              <button class="tab-btn active" id="tab-movies" onclick="setLibraryTab('movies')">Movies</button>
+              <button class="tab-btn" id="tab-series" onclick="setLibraryTab('series')">Series</button>
+            </div>
+            <div class="grid-list" id="library-grid"></div>
+            <div class="load-more" id="load-more-label">Scroll to load more…</div>
           </div>
+        </div>
+        <div class="cinema-right">
+          <div class="section-title">Now Playing</div>
+          <div class="hero-info-title" id="info-title">Select a title to start</div>
+          <div class="hero-info-meta" id="info-meta"></div>
+          <div class="hero-info-desc" id="info-desc">
+            Choose any movie or series from Trending or the Library to load it into the player using your selected server.
+          </div>
+
+          <div class="section-title">Details</div>
+          <div class="chips-row" id="info-chips"></div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- PROFILE -->
-    <div id="window-profile" class="window">
-      <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        <span>Profile</span>
-        <button class="close-btn" onclick="closeWindow('profile')">Close</button>
+  <!-- Cine-Hub Mode -->
+  <div id="window-cinehub" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Cine-Hub Mode</span>
+      <button class="close-btn" onclick="closeWindow('cinehub')">Close</button>
+    </div>
+    <iframe src="https://cine-hub-blocked.netlify.app"></iframe>
+  </div>
+
+  <!-- Apps Window -->
+  <div id="window-apps" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Apps</span>
+      <button class="close-btn" onclick="closeWindow('apps')">Close</button>
+    </div>
+    <div class="window-body apps-body">
+      <div class="apps-sidebar">
+        <div class="apps-group-title">Social</div>
+        <div class="app-tile" onclick="openDiscord()">
+          <strong>Discord</strong><br>
+          Open Absolute OS server
+        </div>
+        <div class="app-tile" onclick="loadApp('tiktok')">
+          <strong>TikTok</strong><br>
+          Scroll short videos
+        </div>
+        <div class="app-tile" onclick="loadApp('instagram')">
+          <strong>Instagram</strong><br>
+          Feed & reels
+        </div>
+        <div class="app-tile" onclick="loadApp('twitter')">
+          <strong>X (Twitter)</strong><br>
+          Timeline & posts
+        </div>
+        <div class="app-tile" onclick="loadApp('reddit')">
+          <strong>Reddit</strong><br>
+          Communities & threads
+        </div>
+
+        <div class="apps-group-title">Gaming</div>
+        <div class="app-tile" onclick="loadApp('roblox')">
+          <strong>Roblox</strong><br>
+          Play in browser
+        </div>
+        <div class="app-tile" onclick="loadApp('geforce')">
+          <strong>GeForce NOW</strong><br>
+          Cloud gaming
+        </div>
+        <div class="app-tile" onclick="loadApp('xbox')">
+          <strong>Xbox Cloud</strong><br>
+          Xbox streaming
+        </div>
+
+        <div class="apps-group-title">Media</div>
+        <div class="app-tile" onclick="loadApp('youtube')">
+          <strong>YouTube</strong><br>
+          Videos & streams
+        </div>
+        <div class="app-tile" onclick="loadApp('spotify')">
+          <strong>Spotify</strong><br>
+          Music & playlists
+        </div>
+        <div class="app-tile" onclick="loadApp('twitch')">
+          <strong>Twitch</strong><br>
+          Live streams
+        </div>
       </div>
-      <div class="window-body">
-        <div class="profile-info">
-          <div>
-            <div class="profile-label">Username</div>
-            <div class="profile-value" id="profile-username">—</div>
-          </div>
-          <div>
-            <div class="profile-label">Login time</div>
-            <div class="profile-value" id="profile-login-time">—</div>
-          </div>
-          <div>
-            <div class="profile-label">Time on site</div>
-            <div class="profile-value" id="profile-session-duration">0s</div>
-          </div>
-          <div>
-            <div class="profile-label">Sites opened in browser</div>
-            <div class="profile-value" id="profile-sites-opened">0</div>
-          </div>
+      <div class="apps-main">
+        <div id="apps-iframe-container" class="apps-placeholder">
+          Select an app on the left to load it here.
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- ASSISTANT -->
-    <div id="window-assistant" class="window">
-      <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
-        <span>Assistant</span>
-        <button class="close-btn" onclick="closeWindow('assistant')">Close</button>
-      </div>
-      <div class="window-body">
-        <div class="assistant-body">
-          <div id="assistant-log" class="assistant-log">
-            <div>Welcome to Absolute OS Assistant. This is a local log — you can wire it to anything later.</div>
-          </div>
-          <div class="assistant-input-row">
-            <input id="assistant-input" type="text" placeholder="Type something..." />
-            <button onclick="sendAssistant()">Send</button>
-          </div>
-        </div>
-      </div>
+  <!-- Assistant -->
+  <div id="window-assistant" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Assistant</span>
+      <button class="close-btn" onclick="closeWindow('assistant')">Close</button>
+    </div>
+    <div style="padding:16px;font-size:14px;color:#ccc;">
+      AI Assistant coming soon. This will be your built-in copilot for Absolute OS.
+    </div>
+  </div>
+<!-- Proxy (Cyberpunk Browser) -->
+<div id="window-proxy" class="window">
+  <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+    <span style="color:#b36bff;">Cyber Browser</span>
+    <button class="close-btn" onclick="closeWindow('proxy')">Close</button>
+  </div>
+
+  <div class="proxy-browser" style="height:100%;display:flex;flex-direction:column;background:rgba(10,0,20,0.6);backdrop-filter:blur(12px);border:1px solid #6a00ff;box-shadow:0 0 20px #6a00ff;">
+    
+    <!-- Cyberpunk URL Bar -->
+    <form id="proxy-form" onsubmit="return handleProxySubmit(event)" 
+      style="display:flex;gap:8px;padding:12px;background:rgba(20,0,40,0.6);border-bottom:1px solid #6a00ff;">
+      
+      <input id="proxy-url-input"
+        type="text"
+        placeholder="Enter URL or search..."
+        autocomplete="off"
+        style="flex:1;padding:10px;border:none;border-radius:8px;
+        background:rgba(50,0,100,0.4);color:#e0b3ff;
+        outline:none;box-shadow:0 0 10px #6a00ff inset;">
+      
+      <button type="submit"
+        style="padding:10px 16px;border:none;border-radius:8px;
+        background:#6a00ff;color:white;font-weight:bold;
+        cursor:pointer;box-shadow:0 0 12px #6a00ff;">
+        Go
+      </button>
+    </form>
+
+    <!-- Browser iframe -->
+    <iframe id="proxy-browser-iframe"
+      style="flex:1;width:100%;border:none;background:#050010;"
+      allow="fullscreen; autoplay; clipboard-read; clipboard-write;">
+    </iframe>
+
+  </div>
+</div>
+
+
+
+  <!-- Settings -->
+  <div id="window-settings" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Settings</span>
+      <button class="close-btn" onclick="closeWindow('settings')">Close</button>
+    </div>
+    <div style="padding:16px;font-size:14px;color:#ccc;">
+      Settings placeholder. Later we can add theme toggles, layout options, and more.
+    </div>
+  </div>
+
+  <!-- Profile -->
+  <div id="window-profile" class="window">
+    <div class="window-header" onmousedown="startDrag(event, this.parentElement)">
+      <span>Profile</span>
+      <button class="close-btn" onclick="closeWindow('profile')">Close</button>
+    </div>
+    <div style="padding:16px;font-size:14px;color:#ccc;">
+      Profile placeholder. You can add user info, avatars, and stats here later.
     </div>
   </div>
 
   <script>
-    /* ---------- LOGIN & PROFILE STATE ---------- */
-    let sessionStart = null;
-    let sessionTimer = null;
-    let sitesOpened = 0;
-    let currentUser = "";
+    /* ---------- DATA (TMDB poster support) ---------- */
+    const TMDB_BASE = 'https://image.tmdb.org/t/p/w500';
 
-    function handleLogin() {
-      const userInput = document.getElementById("login-username");
-      const passInput = document.getElementById("login-password");
-      const errorEl = document.getElementById("login-error");
+    // Example: some real posterPath values for big titles.
+    // You can add more posterPath fields as you like.
+    const movies = [
+      { t:'Dune: Part Two', id:'693134', g:'Sci-Fi, Adventure', d:'166 min', posterPath:'/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg' },
+      { t:'Kung Fu Panda 4', id:'1011985', g:'Animation, Family', d:'94 min', posterPath:'/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg' },
+      { t:'Godzilla x Kong: The New Empire', id:'823464', g:'Action, Sci-Fi', d:'115 min', posterPath:'/tMefBSflR6PGQLv7WvFPpKLZkyk.jpg' },
+      { t:'Aquaman and the Lost Kingdom', id:'572802', g:'Action, Adventure', d:'124 min', posterPath:'/8xV47NDrjdZDpkVcCFqkdHa3T0C.jpg' },
+      { t:'Oppenheimer', id:'872585', g:'Drama, History', d:'180 min', posterPath:'/ptpr0kGAckfQkJeJIt8st5dglvd.jpg' },
+      { t:'Poor Things', id:'792307', g:'Sci-Fi, Romance', d:'141 min', posterPath:'/kCGlIMHnOm8JPXq3rXM6c5wMxcT.jpg' },
+      { t:'Napoleon', id:'753342', g:'History, War', d:'158 min', posterPath:'/vcZWJGvB5xydWuUO1vaTLI82tGi.jpg' },
+      { t:'Migration', id:'940551', g:'Animation, Comedy', d:'83 min', posterPath:'/ldfCF9RhR40mppkzmftxapaHeTo.jpg' },
+      { t:'Road House', id:'335977', g:'Action, Thriller', d:'121 min', posterPath:'/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg' },
+      { t:'Wonka', id:'787699', g:'Comedy, Family', d:'116 min', posterPath:'/qhb1qOilapbapxWQn9jtRCMwXJF.jpg' },
+      { t:'Anyone But You', id:'1072790', g:'Romance, Comedy', d:'103 min', posterPath:'/yRt7MGBElkLQOYRvLTT1b3B1rcp.jpg' },
+      { t:'Wish', id:'1022789', g:'Animation, Family', d:'95 min', posterPath:'/AcoVfiv1rrWOmAdpnAMnM56ki19.jpg' },
+      { t:'Killers of the Flower Moon', id:'466420', g:'Crime, History', d:'206 min', posterPath:'/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg' },
+      { t:'The Beekeeper', id:'866398', g:'Action, Thriller', d:'105 min', posterPath:'/A7EByudX0eOzlkQ2FIbogzyazm2.jpg' },
+      { t:'Argylle', id:'848538', g:'Action, Comedy', d:'139 min', posterPath:'/95VlSEfLMqeX36UVcHJuNlWEpwf.jpg' },
+      { t:'Madame Web', id:'507089', g:'Action, Sci-Fi', d:'116 min', posterPath:'/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg' },
+      { t:'Bob Marley: One Love', id:'850165', g:'Music, History', d:'107 min', posterPath:'/mKWalirPreEdCKDJjc5TKeOP2xi.jpg' },
+      { t:'The Marvels', id:'609681', g:'Sci-Fi, Action', d:'105 min', posterPath:'/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg' },
+      { t:'Godzilla Minus One', id:'940551', g:'Sci-Fi, Kaiju', d:'124 min' }, // example without posterPath
+      { t:'Spider-Man: Across the Spider-Verse', id:'569094', g:'Animation, Action', d:'140 min', posterPath:'/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg' },
+      { t:'Guardians of the Galaxy Vol. 3', id:'447365', g:'Sci-Fi, Adventure', d:'150 min', posterPath:'/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg' },
+      { t:'John Wick: Chapter 4', id:'603692', g:'Action, Thriller', d:'169 min', posterPath:'/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg' }
+    ];
 
-      const username = userInput.value.trim();
-      const password = passInput.value.trim();
+    const moviesPart2 = [
+      { t:'Terrifier 3', id:'1100782', g:'Horror, Slasher', d:'125 min' },
+      { t:'Smile 2', id:'1100785', g:'Horror, Thriller', d:'127 min' },
+      { t:'Conclave', id:'974950', g:'Thriller, Drama', d:'120 min' },
+      { t:'The Substance', id:'933260', g:'Horror, Drama', d:'140 min' },
+      { t:'Heretic', id:'1114513', g:'Horror, Thriller', d:'110 min' },
+      { t:'Red One', id:'802219', g:'Action, Fantasy', d:'123 min' },
+      { t:'Kraven the Hunter', id:'76669', g:'Action, Adventure', d:'127 min' },
+      { t:'Better Man', id:'812225', g:'Drama, Music', d:'134 min' },
+      { t:'The Amateur', id:'1058574', g:'Thriller, Action', d:'115 min' },
+      { t:'In the Grey', id:'1129598', g:'Action, Crime', d:'120 min' },
+      { t:'Ballerina', id:'1003580', g:'Action, Thriller', d:'110 min' },
+      { t:'Wolfs', id:'877817', g:'Thriller, Comedy', d:'108 min' },
+      { t:'High Forces', id:'1344132', g:'Action, Thriller', d:'115 min' },
+      { t:'Transformers One', id:'698687', g:'Animation, Action', d:'104 min' },
+      { t:'The Old Guard 2', id:'714277', g:'Action, Fantasy', d:'125 min' },
+      { t:'Havoc', id:'801002', g:'Action, Thriller', d:'118 min' },
+      { t:'Constantine 2', id:'1025555', g:'Fantasy, Horror', d:'130 min' },
+      { t:'I Am Legend 2', id:'945657', g:'Sci-Fi, Drama', d:'125 min' },
+      { t:'28 Years Later', id:'1222411', g:'Horror, Sci-Fi', d:'115 min' },
+      { t:'Now You See Me 3', id:'393624', g:'Thriller, Crime', d:'110 min' },
+      { t:'The Woman in the Yard', id:'1231920', g:'Horror, Thriller', d:'95 min' },
+      { t:'Drop', id:'1241154', g:'Thriller, Mystery', d:'102 min' },
+      { t:'The Monkey', id:'1144962', g:'Horror, Supernatural', d:'105 min' },
+      { t:'The Running Man', id:'1101547', g:'Sci-Fi, Action', d:'120 min' },
+      { t:'Flow', id:'1281826', g:'Animation, Adventure', d:'84 min' },
+      { t:'The Brutalist', id:'742784', g:'Drama, History', d:'215 min' },
+      { t:'Anora', id:'1064213', g:'Comedy, Drama', d:'139 min' },
+      { t:'Emilia Pérez', id:'974950', g:'Musical, Crime', d:'130 min' },
+      { t:'The Piano Lesson', id:'1111873', g:'Drama, Music', d:'125 min' },
+      { t:'A Real Pain', id:'1131755', g:'Comedy, Drama', d:'90 min' },
+      { t:'Presence', id:'1165415', g:'Horror, Thriller', d:'85 min' },
+      { t:'The End', id:'927421', g:'Musical, Drama', d:'148 min' },
+      { t:'Nightbitch', id:'973652', g:'Comedy, Horror', d:'103 min' },
+      { t:'Carry-On', id:'1011114', g:'Thriller, Action', d:'119 min' },
+      { t:'Back in Action', id:'1002185', g:'Action, Comedy', d:'110 min' },
+      { t:'The Gorge', id:'961019', g:'Romance, Action', d:'126 min' },
+      { t:'The Electric State', id:'714125', g:'Sci-Fi, Adventure', d:'135 min' },
+      { t:'Black Bag', id:'1231245', g:'Thriller, Drama', d:'110 min' },
+      { t:'The Battle of Baktan Cross', id:'1213456', g:'Drama, Action', d:'140 min' },
+      { t:'Frankenstein', id:'1115545', g:'Horror, Sci-Fi', d:'130 min' },
+      { t:'Dracula: A Love Tale', id:'1200114', g:'Horror, Romance', d:'125 min' },
+      { t:'Cliffs of Freedom', id:'1055566', g:'Drama, History', d:'137 min' },
+      { t:'The Unholy', id:'632357', g:'Horror, Mystery', d:'99 min' },
+      { t:'The Ritual', id:'433808', g:'Horror, Mystery', d:'94 min' },
+      { t:'Apostle', id:'471474', g:'Horror, Thriller', d:'130 min' },
+      { t:'No One Will Save You', id:'883107', g:'Sci-Fi, Thriller', d:'93 min' },
+      { t:'Barbarian', id:'927339', g:'Horror, Thriller', d:'102 min' },
+      { t:'Pearl', id:'985939', g:'Horror, Drama', d:'102 min' },
+      { t:'X', id:'760104', g:'Horror, Slasher', d:'105 min' },
+      { t:'Talk to Me', id:'1008042', g:'Horror, Thriller', d:'95 min' }
+    ];
 
-      if (!username || !password) {
-        errorEl.textContent = "Enter both username and password.";
+    const moviesPart3 = [
+      { t:'The Menu', id:'593643', g:'Horror, Comedy', d:'107 min' },
+      { t:'Bullet Train', id:'718930', g:'Action, Comedy', d:'126 min', posterPath:'/jJF4t9vWZP9F1QX8uXkMlnPpKkF.jpg' },
+      { t:'The Northman', id:'639933', g:'Action, Adventure', d:'137 min', posterPath:'/zhLKlUaF1SEpO58ppHIAyENkwgw.jpg' },
+      { t:'Everything Everywhere All at Once', id:'545611', g:'Action, Sci-Fi', d:'139 min', posterPath:'/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg' },
+      { t:'Top Gun: Maverick', id:'361743', g:'Action, Drama', d:'130 min', posterPath:'/62HCnUTziyWcpDaBO2i1DX17ljH.jpg' },
+      { t:'The Batman', id:'414906', g:'Crime, Mystery', d:'176 min', posterPath:'/74xTEgt7R36Fpooo50r9T25onhq.jpg' },
+      { t:'The Whale', id:'785084', g:'Drama', d:'117 min', posterPath:'/jQ0gylJMxWSL490sy0RrPj1Lj7e.jpg' },
+      { t:'Aftersun', id:'965150', g:'Drama', d:'102 min', posterPath:'/hYhZ8Qk8q6Z9QnT0y1gXkGumZ3C.jpg' },
+      { t:'Tár', id:'817758', g:'Drama, Music', d:'158 min', posterPath:'/dRVAlaU0vbG6hMf2K45NSiIyoUe.jpg' },
+      { t:'Babylon', id:'615777', g:'Drama, Comedy', d:'189 min', posterPath:'/wjOHjWCUE0YzDiEzKv8AfqHj3ir.jpg' },
+      { t:'Beau Is Afraid', id:'798286', g:'Adventure, Comedy', d:'179 min', posterPath:'/zXk3fF5sZ0ZxZqVQSWXKqHcIu7C.jpg' },
+      { t:'Asteroid City', id:'747188', g:'Comedy, Sci-Fi', d:'105 min', posterPath:'/qdq40gRS8xKnpFt5V75t6lUHgpx.jpg' },
+      { t:'Saltburn', id:'930564', g:'Drama, Thriller', d:'131 min', posterPath:'/qjhahNLSZ705B5JP92YMEYPocPz.jpg' },
+      { t:'The Killer', id:'800158', g:'Crime, Thriller', d:'118 min', posterPath:'/e7olqFmF8GftkEd7k5Cw0U2y0Jd.jpg' },
+      { t:'Extraction 2', id:'697843', g:'Action, Thriller', d:'123 min', posterPath:'/7gKI9hpEMcZUQpNgKrkDzJpbnNS.jpg' },
+      { t:'Rebel Moon - Part One', id:'848326', g:'Sci-Fi, Action', d:'134 min', posterPath:'/ui4DrH1cKk2vkHshcUcGt2lKxCm.jpg' },
+      { t:'Leave the World Behind', id:'726209', g:'Thriller, Drama', d:'141 min', posterPath:'/29rhl1xopxA7JlGVVsf1UHfYPvN.jpg' },
+      { t:'The Holdovers', id:'840430', g:'Drama, Comedy', d:'133 min', posterPath:'/jLLtx3nTRSLGPAKl4RoIv1FbEBr.jpg' },
+      { t:'Past Lives', id:'666277', g:'Drama, Romance', d:'106 min', posterPath:'/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg' },
+      { t:'Dream Scenario', id:'1016084', g:'Comedy, Fantasy', d:'102 min', posterPath:'/9u6HEtZJdZDjPGGJq6YEuhPnoan.jpg' },
+      { t:'The Flash', id:'298618', g:'Action, Adventure', d:'144 min', posterPath:'/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg' }
+    ];
+
+    const moviesPart4 = [
+      { t:'Inception', id:'27205', g:'Sci-Fi, Action', d:'148 min', posterPath:'/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg' },
+      { t:'Interstellar', id:'157336', g:'Sci-Fi, Drama', d:'169 min', posterPath:'/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg' },
+      { t:'The Dark Knight', id:'155', g:'Action, Crime', d:'152 min', posterPath:'/qJ2tW6WMUDux911r6m7haRef0WH.jpg' },
+      { t:'Pulp Fiction', id:'680', g:'Thriller, Crime', d:'154 min', posterPath:'/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg' },
+      { t:'Fight Club', id:'550', g:'Drama', d:'139 min', posterPath:'/a26cQPRhJPX6GbWfQbvZdrrp9j9.jpg' },
+      { t:'Forrest Gump', id:'13', g:'Drama, Romance', d:'142 min', posterPath:'/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg' },
+      { t:'The Matrix', id:'603', g:'Sci-Fi, Action', d:'136 min', posterPath:'/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg' },
+      { t:'Spider-Man: No Way Home', id:'634649', g:'Action, Adventure', d:'148 min', posterPath:'/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg' },
+      { t:'Avengers: Endgame', id:'299534', g:'Action, Adventure', d:'181 min', posterPath:'/or06FN3Dka5tukK1e9sl16pB3iy.jpg' },
+      { t:'Parasite', id:'496243', g:'Thriller, Drama', d:'132 min', posterPath:'/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg' },
+      { t:'Joker', id:'475557', g:'Crime, Drama', d:'122 min', posterPath:'/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg' },
+      { t:'The Wolf of Wall Street', id:'106646', g:'Comedy, Crime', d:'180 min', posterPath:'/34m2tygAYBGqA9MXKhRDtzYd4MR.jpg' },
+      { t:'Blade Runner 2049', id:'335984', g:'Sci-Fi, Drama', d:'164 min', posterPath:'/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg' },
+      { t:'Arrival', id:'329865', g:'Sci-Fi, Mystery', d:'116 min', posterPath:'/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg' },
+      { t:'Mad Max: Fury Road', id:'76341', g:'Action, Adventure', d:'120 min', posterPath:'/kqjL17yufvn9OVLyXYpvtyrFfak.jpg' },
+      { t:'Coco', id:'354912', g:'Animation, Family', d:'105 min', posterPath:'/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg' },
+      { t:'The Lion King', id:'8587', g:'Animation, Family', d:'89 min', posterPath:'/sKCr78MXSLixwmZ8DyJLrpMsd15.jpg' },
+      { t:'Gladiator', id:'98', g:'Action, Drama', d:'155 min', posterPath:'/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg' },
+      { t:'Shrek', id:'808', g:'Animation, Comedy', d:'90 min', posterPath:'/iB64vpL3dIObOtMZgX3RqdVdQDc.jpg' },
+      { t:'Toy Story', id:'862', g:'Animation, Family', d:'81 min', posterPath:'/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg' },
+      { t:'The Godfather', id:'238', g:'Drama, Crime', d:'175 min', posterPath:'/3bhkrj58Vtu7enYsRolD1fZdja1.jpg' },
+      { t:'Scarface', id:'111', g:'Action, Crime', d:'170 min', posterPath:'/iQ5ztdjvteGeboxtmRdXEChJOHh.jpg' },
+      { t:'Goodfellas', id:'769', g:'Drama, Crime', d:'145 min', posterPath:'/aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg' },
+      { t:'The Green Mile', id:'497', g:'Drama, Fantasy', d:'189 min', posterPath:'/8VG8fDNiy50H4FedGwdSVUPoaJe.jpg' },
+      { t:'Se7en', id:'807', g:'Thriller, Mystery', d:'127 min', posterPath:'/6yoghtyTpznpBik8EngEmJskVUO.jpg' },
+      { t:'The Silence of the Lambs', id:'274', g:'Thriller, Horror', d:'118 min', posterPath:'/uS9m8OBk1A8eM9I042bx8XXpqAq.jpg' },
+      { t:'The Shining', id:'694', g:'Horror, Thriller', d:'146 min', posterPath:'/9fgh3Ns1iRzlQNYuJyK0ARQZU7w.jpg' },
+      { t:'Alien', id:'348', g:'Horror, Sci-Fi', d:'117 min', posterPath:'/vfrQk5IPloGg1v9Rzbh2Eg3VGyM.jpg' },
+      { t:'Psycho', id:'539', g:'Horror, Thriller', d:'109 min', posterPath:'/yz4QVuxbWZpLCSfu5ZrjYV7xZ7z.jpg' },
+      { t:'Halloween', id:'948', g:'Horror, Thriller', d:'91 min', posterPath:'/wjiG7hGw1rX0Z8H1rG0h0uT1w3l.jpg' },
+      { t:'Scream', id:'4232', g:'Horror, Mystery', d:'111 min', posterPath:'/aXAByjBN8UhaYjQkZx7Kc2VYNYO.jpg' },
+      { t:'The Conjuring', id:'138843', g:'Horror, Thriller', d:'112 min', posterPath:'/wVYREutTvI2tmxr6ujrHT704wGF.jpg' },
+      { t:'Hereditary', id:'493922', g:'Horror, Mystery', d:'127 min', posterPath:'/lHV8HHlhwNup2VbpiACtlKzaGIQ.jpg' },
+      { t:'Midsommar', id:'530385', g:'Horror, Drama', d:'148 min', posterPath:'/7LEI8ulZzO5gy9Ww2NVCrKmHeDZ.jpg' },
+      { t:'Get Out', id:'419430', g:'Horror, Thriller', d:'104 min', posterPath:'/1SwAVYpuLj8KsHxllTF8Dt9dSSX.jpg' },
+      { t:'A Quiet Place', id:'447332', g:'Horror, Sci-Fi', d:'90 min', posterPath:'/nAU74GmpUk7t5iklEp3bufwDq4n.jpg' },
+      { t:'The Invisible Man', id:'570670', g:'Horror, Sci-Fi', d:'124 min', posterPath:'/5EufsDwXdY2CVttYOk2WtYhgKpa.jpg' },
+      { t:'Saw', id:'176', g:'Horror, Mystery', d:'103 min', posterPath:'/dHYvIgsax8ZFgkz1OslE4V6Pnf5.jpg' },
+      { t:'Insidious', id:'49018', g:'Horror, Thriller', d:'103 min', posterPath:'/2lXxVJzxY3p4rK0uQqz3gq8QW3U.jpg' },
+      { t:'Smile', id:'882598', g:'Horror, Mystery', d:'115 min', posterPath:'/aPqcQwu4VGEewPhagWNncDbJ9Xp.jpg' }
+    ];
+
+    const tvSeries = [
+      { t:'The Last of Us', id:'100088', g:'Drama, Sci-Fi', d:'50-80 min', posterPath:'/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg' },
+      { t:'Shōgun', id:'111451', g:'Drama, War', d:'60 min', posterPath:'/7O4iVfOMQmdCSxhOg1WnzG1AgYT.jpg' },
+      { t:'Fallout', id:'123012', g:'Sci-Fi, Action', d:'55 min', posterPath:'/AnsSKR9LuK0T9bAOcPVA3PUvyWj.jpg' },
+      { t:'The Bear', id:'139305', g:'Drama, Comedy', d:'30 min', posterPath:'/o9PSd0Y1WgPbqLzS9vZsM9iZq8U.jpg' },
+      { t:'The Boys', id:'76479', g:'Action, Sci-Fi', d:'60 min', posterPath:'/mY7SeH4HFFxW1hiI6cWuwCRKptN.jpg' },
+      { t:'House of the Dragon', id:'94997', g:'Fantasy, Drama', d:'60 min', posterPath:'/1X4h40fcB4WWUmIBK0auT4zRBAV.jpg' },
+      { t:'Succession', id:'76331', g:'Drama', d:'60 min', posterPath:'/7HW47XbkNQ5fiwQFYGWdw9gs144.jpg' },
+      { t:'Severance', id:'95396', g:'Sci-Fi, Thriller', d:'50 min', posterPath:'/pGx6O6IwqADOsgmqWzPysmWnOyr.jpg' },
+      { t:'The White Lotus', id:'110316', g:'Comedy, Drama', d:'60 min', posterPath:'/oqP1qEZccq5AD9TVTIaO6IGUj7o.jpg' },
+      { t:'Beef', id:'154385', g:'Comedy, Drama', d:'35 min', posterPath:'/5QNaG0reQfQWp5rYHjdYqZkZ3PA.jpg' },
+      { t:'Yellowstone', id:'73586', g:'Western, Drama', d:'50 min', posterPath:'/iqWCUwLcjkVgtpsDLs8xx8kscg6.jpg' },
+      { t:'Stranger Things', id:'66732', g:'Sci-Fi, Horror', d:'50-90 min', posterPath:'/x2LSRK2Cm7MZhjluni1msVJ3wDF.jpg' },
+      { t:'The Mandalorian', id:'82856', g:'Sci-Fi, Action', d:'40 min', posterPath:'/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg' },
+      { t:'The Crown', id:'65494', g:'Drama, History', d:'60 min', posterPath:'/uK1OqfH1Z1vK2xVqQ3i4KpQ9h9H.jpg' },
+      { t:'Bridgerton', id:'110316', g:'Romance, Drama', d:'60 min' },
+      { t:'Euphoria', id:'85552', g:'Drama', d:'55 min', posterPath:'/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg' },
+      { t:'Squid Game', id:'110316', g:'Thriller, Drama', d:'50 min' },
+      { t:'Dark', id:'70523', g:'Sci-Fi, Mystery', d:'60 min', posterPath:'/apbrvFWUG7T8RQUOL0Z3gBVQ8aG.jpg' },
+      { t:'Breaking Bad', id:'1396', g:'Drama, Crime', d:'45 min', posterPath:'/ggFHVNu6YYI5L9pCfOacjizRGt.jpg' },
+      { t:'Game of Thrones', id:'1399', g:'Fantasy, Drama', d:'60 min', posterPath:'/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg' },
+      { t:'Better Call Saul', id:'60059', g:'Crime, Drama', d:'50 min', posterPath:'/fC2HDm5t0kHl7mTm7jxMR31b7by.jpg' },
+      { t:'Cobra Kai', id:'77169', g:'Action, Comedy', d:'35 min', posterPath:'/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg' },
+      { t:'Wednesday', id:'119051', g:'Fantasy, Comedy', d:'50 min', posterPath:'/9PFonBhy4cQy7Jz20NpMygczOkv.jpg' },
+      { t:'Loki', id:'84958', g:'Action, Sci-Fi', d:'50 min', posterPath:'/voHUmluYmKyleFkTu3lOXQG702u.jpg' },
+      { t:'Arcane', id:'94605', g:'Animation, Sci-Fi', d:'40 min', posterPath:'/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg' }
+    ];
+
+    const tvSeriesPart2 = [
+      { t:'The Office', id:'2316', g:'Comedy', d:'22 min', posterPath:'/qWnJzyZhyy74gjpSjIXWmuk0ifX.jpg' },
+      { t:'Friends', id:'1668', g:'Comedy', d:'22 min', posterPath:'/f496cm9enuEsZkSPzCwnTESEK5s.jpg' },
+      { t:'The Big Bang Theory', id:'1418', g:'Comedy', d:'22 min', posterPath:'/ooBGRQBdbGzBxAVfExiO8r7kloA.jpg' },
+      { t:'How I Met Your Mother', id:'1100', g:'Comedy, Romance', d:'22 min', posterPath:'/b34jPzmB0wZy7EjUZoleXOl2RRI.jpg' },
+      { t:'Brooklyn Nine-Nine', id:'48891', g:'Comedy, Crime', d:'22 min', posterPath:'/mKq0v2v1ZkqQfQAtF5NCzlyNNLA.jpg' },
+      { t:'Modern Family', id:'1421', g:'Comedy', d:'22 min', posterPath:'/nSxr2Cq3lH1J0Yx9qv2vNhbbX6J.jpg' },
+      { t:'Peaky Blinders', id:'60574', g:'Drama, Crime', d:'60 min', posterPath:'/pE8CScObQURsFZ723PSW1K9EGYp.jpg' },
+      { t:'The Witcher', id:'71912', g:'Fantasy, Adventure', d:'60 min', posterPath:'/7vjaCdMw15FEbXyLQTVa04URsPm.jpg' },
+      { t:'The Umbrella Academy', id:'75006', g:'Action, Sci-Fi', d:'50 min', posterPath:'/uYHdIs5O8tiU5p6MvUPd2jElOH6.jpg' },
+      { t:'Money Heist (La Casa de Papel)', id:'71446', g:'Crime, Thriller', d:'50 min', posterPath:'/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg' },
+      { t:'Narcos', id:'63351', g:'Crime, Drama', d:'50 min', posterPath:'/rTmal9fDbwh5F0waol2hq35U4ah.jpg' },
+      { t:'Ozark', id:'69740', g:'Crime, Drama', d:'60 min', posterPath:'/w4lN7ygc2kZpQvVvY5CzC9K4p1p.jpg' },
+      { t:'Mindhunter', id:'67744', g:'Crime, Drama', d:'50 min', posterPath:'/fbKE87mojpIETWepSbD5Qt741fp.jpg' },
+      { t:'Sherlock', id:'19885', g:'Crime, Mystery', d:'90 min', posterPath:'/f9zGxLHGyQB10cMDZNY5ZcGKhZi.jpg' },
+      { t:'Lupin', id:'96677', g:'Crime, Mystery', d:'45 min', posterPath:'/sgxawbFB5Vi5OkPWQLNfl3dvkNJ.jpg' },
+      { t:'The Queen\'s Gambit', id:'87739', g:'Drama', d:'50 min', posterPath:'/zU0htwkhNvBQdVSIKB9s6hgVeFK.jpg' },
+      { t:'Chernobyl', id:'87108', g:'Drama, History', d:'60 min', posterPath:'/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg' },
+      { t:'Ted Lasso', id:'97546', g:'Comedy, Sport', d:'30 min', posterPath:'/5V4QFvJxR2Q0uJqZ2nYlZ3WZ2qE.jpg' },
+      { t:'The Morning Show', id:'91599', g:'Drama', d:'55 min', posterPath:'/gL8ZDtAYni-wHcLxPQYQ2w1xkQ.jpg' },
+      { t:'Yellowjackets', id:'117488', g:'Drama, Mystery', d:'60 min', posterPath:'/zq8Cl3PNIDGU3iWNRoc5nEZ6pCe.jpg' },
+      { t:'House', id:'1408', g:'Drama, Mystery', d:'45 min', posterPath:'/3Cz7yJXxv8qk1Z3n6zGyFVR7fs2.jpg' },
+      { t:'Grey\'s Anatomy', id:'1416', g:'Drama, Romance', d:'43 min', posterPath:'/zPIug5giU8oug6Xes5K1sTfQJxY.jpg' },
+      { t:'The Good Doctor', id:'71712', g:'Drama', d:'43 min', posterPath:'/53P8oHo9cfOsgb1cLxBi4pFY0ja.jpg' },
+      { t:'Suits', id:'37680', g:'Drama', d:'44 min', posterPath:'/vQiryp6LioFxQThywxbC6TuoDjy.jpg' },
+      { t:'Vikings', id:'44217', g:'Action, Drama', d:'45 min', posterPath:'/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg' },
+      { t:'The Walking Dead', id:'1402', g:'Horror, Action', d:'45 min', posterPath:'/xf9wuDcqlUPWABZNeDKPbZUjWx0.jpg' },
+      { t:'The 100', id:'48866', g:'Sci-Fi, Drama', d:'43 min', posterPath:'/wcaDIAG1QdXQLRaj4vC1EFdBT2.jpg' },
+      { t:'Black Mirror', id:'42009', g:'Sci-Fi, Thriller', d:'60 min', posterPath:'/pXeuSwsWYJpzpo1hOSvfQgdmrSV.jpg' },
+      { t:'Westworld', id:'63247', g:'Sci-Fi, Western', d:'60 min', posterPath:'/y55oBgf6bVMI7sFNXwJDrSIxPQt.jpg' },
+      { t:'The Expanse', id:'63639', g:'Sci-Fi, Mystery', d:'50 min', posterPath:'/q3y0j7Z9E9Qn6i8r6t0p1TGVtC5.jpg' },
+      { t:'Foundation', id:'93740', g:'Sci-Fi, Drama', d:'50 min', posterPath:'/A1fXGFxDifQzj08OlaGTVcnXHyd.jpg' },
+      { t:'The Handmaid\'s Tale', id:'69478', g:'Drama, Sci-Fi', d:'50 min', posterPath:'/oIkxqt6ug5zT5ZSUUyc1Iqopf02.jpg' },
+      { t:'You', id:'78191', g:'Thriller, Drama', d:'45 min', posterPath:'/7bEYwjUvlJW7GerM8GYmqwl4oS3.jpg' },
+      { t:'Killing Eve', id:'72750', g:'Thriller, Drama', d:'43 min', posterPath:'/zU0htwkhNvBQdVSIKB9s6hgVeFK.jpg' },
+      { t:'Elite', id:'76669', g:'Crime, Drama', d:'50 min', posterPath:'/3NTAbAiao4JLzFQw6YxP1YZppM8.jpg' },
+      { t:'Sintonia', id:'91535', g:'Drama, Music', d:'40 min', posterPath:'/p6pZqW0UuZkqQ0uJqZ2nYlZ3WZ2.jpg' },
+      { t:'Sense8', id:'62858', g:'Sci-Fi, Drama', d:'55 min', posterPath:'/gZ8X8Z8KKrkaI0s5momkGLwZ5qX.jpg' }
+    ];
+
+    const allMovies = [...movies, ...moviesPart2, ...moviesPart3, ...moviesPart4];
+    const allSeries = [...tvSeries, ...tvSeriesPart2];
+
+    /* ---------- WINDOW LOGIC ---------- */
+    function openWindow(name) {
+      document.querySelectorAll('.window').forEach(w => w.style.display = 'none');
+      const win = document.getElementById('window-' + name);
+      if (win) {
+        win.style.display = 'flex';
+        if (name === 'cinema') initCinemaOnce();
+      }
+    }
+    function closeWindow(name) {
+      const win = document.getElementById('window-' + name);
+      if (win) win.style.display = 'none';
+    }
+
+    /* ---------- DRAGGING WINDOWS ---------- */
+    let dragData = null;
+    function startDrag(e, win) {
+      const rect = win.getBoundingClientRect();
+      dragData = {
+        win,
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top
+      };
+      document.addEventListener('mousemove', onDragMove);
+      document.addEventListener('mouseup', stopDrag);
+    }
+    function onDragMove(e) {
+      if (!dragData) return;
+      dragData.win.style.left = (e.clientX - dragData.offsetX) + 'px';
+      dragData.win.style.top = (e.clientY - dragData.offsetY) + 'px';
+    }
+    function stopDrag() {
+      document.removeEventListener('mousemove', onDragMove);
+      document.removeEventListener('mouseup', stopDrag);
+      dragData = null;
+    }
+
+    /* ---------- CINEMA LOGIC ---------- */
+    const servers = {
+      vidsrc: {
+        label: 'VidSrc',
+        movie: id => `https://vidsrc.to/embed/movie/${id}`,
+        tv: id => `https://vidsrc.to/embed/tv/${id}`
+      },
+      autoembed: {
+        label: 'AutoEmbed',
+        movie: id => `https://autoembed.to/movie/tmdb/${id}`,
+        tv: id => `https://autoembed.to/tv/tmdb/${id}`
+      },
+      superembed: {
+        label: 'SuperEmbed',
+        movie: id => `https://multiembed.mov/?video_id=${id}&tmdb=1`,
+        tv: id => `https://multiembed.mov/?video_id=${id}&tmdb=1&type=tv`
+      },
+      vidlink: {
+        label: 'VidLink',
+        movie: id => `https://vidlink.org/embed/movie/${id}`,
+        tv: id => `https://vidlink.org/embed/tv/${id}`
+      },
+      moviekex: {
+        label: 'MovieKex',
+        movie: id => `https://moviekex.com/embed/movie/${id}`,
+        tv: id => `https://moviekex.com/embed/tv/${id}`
+      },
+      vidsrccc: {
+        label: 'VidSrc CC',
+        movie: id => `https://vidsrc.cc/v2/embed/movie/${id}`,
+        tv: id => `https://vidsrc.cc/v2/embed/tv/${id}`
+      },
+      embedsu: {
+        label: 'EmbedSu',
+        movie: id => `https://embedsu.com/embed/movie/${id}`,
+        tv: id => `https://embedsu.com/embed/tv/${id}`
+      }
+    };
+
+    let cinemaInitialized = false;
+    let currentItem = null;
+    let currentType = 'movie';
+    let libraryTab = 'movies';
+    let moviesLoaded = 0;
+    let seriesLoaded = 0;
+    const PAGE_SIZE = 24;
+
+    function initCinemaOnce() {
+      if (cinemaInitialized) return;
+      cinemaInitialized = true;
+      buildTrending();
+      buildLibraryInitial();
+      const scrollEl = document.getElementById('cinema-scroll');
+      scrollEl.addEventListener('scroll', onLibraryScroll);
+    }
+
+    function createPosterThumb(item) {
+      const div = document.createElement('div');
+      div.className = 'poster-thumb';
+      if (item.posterPath) {
+        const img = document.createElement('img');
+        img.src = TMDB_BASE + item.posterPath;
+        img.alt = item.t;
+        div.appendChild(img);
+      }
+      return div;
+    }
+
+    function buildTrending() {
+      const row = document.getElementById('trending-row');
+      row.innerHTML = '';
+      const trendingItems = allMovies.slice(0, 12);
+      trendingItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'poster-card';
+        card.onclick = () => playItem(item, 'movie');
+        const thumb = createPosterThumb(item);
+        const title = document.createElement('div');
+        title.className = 'poster-meta-title';
+        title.innerText = item.t;
+        const sub = document.createElement('div');
+        sub.className = 'poster-meta-sub';
+        sub.innerText = item.g;
+        card.appendChild(thumb);
+        card.appendChild(title);
+        card.appendChild(sub);
+        row.appendChild(card);
+      });
+    }
+
+    function buildLibraryInitial() {
+      moviesLoaded = 0;
+      seriesLoaded = 0;
+      document.getElementById('library-grid').innerHTML = '';
+      loadMoreLibrary();
+    }
+
+    function onLibraryScroll(e) {
+      const el = e.target;
+      if (el.scrollTop + el.clientHeight >= el.scrollHeight - 80) {
+        loadMoreLibrary();
+      }
+    }
+
+    function setLibraryTab(tab) {
+      libraryTab = tab;
+      document.getElementById('tab-movies').classList.toggle('active', tab === 'movies');
+      document.getElementById('tab-series').classList.toggle('active', tab === 'series');
+      buildLibraryInitial();
+    }
+
+    function loadMoreLibrary() {
+      const grid = document.getElementById('library-grid');
+      let source, loaded, setLoaded;
+      if (libraryTab === 'movies') {
+        source = allMovies;
+        loaded = moviesLoaded;
+        setLoaded = v => moviesLoaded = v;
+      } else {
+        source = allSeries;
+        loaded = seriesLoaded;
+        setLoaded = v => seriesLoaded = v;
+      }
+
+      if (loaded >= source.length) {
+        document.getElementById('load-more-label').innerText = 'All titles loaded.';
         return;
       }
 
-      // Simple check (no backend) – any non-empty combo is accepted
-      errorEl.textContent = "";
-
-      currentUser = username;
-      sessionStart = new Date();
-      sitesOpened = 0;
-
-      document.getElementById("profile-username").textContent = currentUser;
-      document.getElementById("profile-login-time").textContent = sessionStart.toLocaleTimeString();
-      document.getElementById("profile-sites-opened").textContent = "0";
-
-      // Start session timer
-      if (sessionTimer) clearInterval(sessionTimer);
-      sessionTimer = setInterval(updateSessionDuration, 1000);
-
-      // Show OS
-      document.getElementById("login-screen").style.display = "none";
-      document.getElementById("sidebar").style.display = "flex";
-      document.getElementById("desktop").style.display = "block";
-
-      // Open browser by default
-      openWindow("browser");
-    }
-
-    function updateSessionDuration() {
-      if (!sessionStart) return;
-      const now = new Date();
-      const diffMs = now - sessionStart;
-      const totalSec = Math.floor(diffMs / 1000);
-      const h = Math.floor(totalSec / 3600);
-      const m = Math.floor((totalSec % 3600) / 60);
-      const s = totalSec % 60;
-      const formatted =
-        (h > 0 ? h + "h " : "") +
-        (m > 0 ? m + "m " : "") +
-        s + "s";
-      document.getElementById("profile-session-duration").textContent = formatted;
-    }
-
-    /* ---------- WINDOW MANAGEMENT ---------- */
-    function openWindow(name) {
-      const el = document.getElementById("window-" + name);
-      if (!el) return;
-      el.style.display = "block";
-      el.style.zIndex = getNextZ();
-    }
-
-    function closeWindow(name) {
-      const el = document.getElementById("window-" + name);
-      if (!el) return;
-      el.style.display = "none";
-    }
-
-    function getNextZ() {
-      const windows = document.querySelectorAll(".window");
-      let maxZ = 100;
-      windows.forEach(w => {
-        const z = parseInt(window.getComputedStyle(w).zIndex || "100", 10);
-        if (z > maxZ) maxZ = z;
+      const next = source.slice(loaded, loaded + PAGE_SIZE);
+      next.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'grid-poster-card';
+        card.onclick = () => playItem(item, libraryTab === 'movies' ? 'movie' : 'tv');
+        const thumb = createPosterThumb(item);
+        const title = document.createElement('div');
+        title.className = 'poster-meta-title';
+        title.innerText = item.t;
+        const sub = document.createElement('div');
+        sub.className = 'poster-meta-sub';
+        sub.innerText = item.g;
+        card.appendChild(thumb);
+        card.appendChild(title);
+        card.appendChild(sub);
+        grid.appendChild(card);
       });
-      return maxZ + 1;
+
+      setLoaded(loaded + next.length);
+      if (loaded + next.length >= source.length) {
+        document.getElementById('load-more-label').innerText = 'All titles loaded.';
+      } else {
+        document.getElementById('load-more-label').innerText = 'Scroll to load more…';
+      }
     }
 
-    function startDrag(e, win) {
-      e.preventDefault();
-      const rect = win.getBoundingClientRect();
-      const offsetX = e.clientX - rect.left;
-      const offsetY = e.clientY - rect.top;
+    function playItem(item, type) {
+      currentItem = item;
+      currentType = type;
+      const serverKey = document.getElementById('server-select').value;
+      const server = servers[serverKey] || servers.vidsrc;
+      const url = type === 'movie' ? server.movie(item.id) : server.tv(item.id);
+      document.getElementById('cinema-player').src = url;
 
-      win.style.zIndex = getNextZ();
-
-      function onMove(ev) {
-        win.style.left = ev.clientX - offsetX + "px";
-        win.style.top = ev.clientY - offsetY + "px";
-      }
-
-      function onUp() {
-        document.removeEventListener("mousemove", onMove);
-        document.removeEventListener("mouseup", onUp);
-      }
-
-      document.addEventListener("mousemove", onMove);
-      document.addEventListener("mouseup", onUp);
+      document.getElementById('info-title').innerText = item.t;
+      document.getElementById('info-meta').innerText = `${type === 'movie' ? 'Movie' : 'Series'} • ${item.g} • ${item.d}`;
+      document.getElementById('info-desc').innerText =
+        'Streaming via ' + server.label + ' using TMDB ID ' + item.id + '.';
+      const chips = document.getElementById('info-chips');
+      chips.innerHTML = '';
+      item.g.split(',').map(s => s.trim()).forEach(g => {
+        const chip = document.createElement('div');
+        chip.className = 'chip';
+        chip.innerText = g;
+        chips.appendChild(chip);
+      });
+      const idChip = document.createElement('div');
+      idChip.className = 'chip';
+      idChip.innerText = 'TMDB: ' + item.id;
+      chips.appendChild(idChip);
     }
 
-    /* ---------- BROWSER (REAL ENGINE) ---------- */
-    function handleProxySubmit(event) {
-      event.preventDefault();
-      const input = document.getElementById("proxy-url-input");
-      const iframe = document.getElementById("proxy-browser-iframe");
-      if (!input || !iframe) return false;
+    function changeServer() {
+      if (!currentItem) return;
+      playItem(currentItem, currentType);
+    }
+/* ---------- APPS LOGIC ---------- */
 
-      let value = input.value.trim();
-      if (!value) return false;
+const UV_BASE = "https://incog.dev/service/";
 
-      // If user types something like "roblox" or "tiktok", treat as search
-      if (!value.startsWith("http")) {
-        // If it looks like a domain, turn into URL; else search
-        if (value.includes(".") && !value.includes(" ")) {
-          value = "https://" + value;
-        } else {
-          value = "https://www.google.com/search?q=" + encodeURIComponent(value);
+
+
+function uvUrl(target) {
+  return UV_BASE + encodeURIComponent(target);
+}
+
+function loadApp(app) {
+ function buildProxyTarget(raw) {
+  const value = raw.trim();
+  if (!value) return null;
+
+  const looksLikeUrl =
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.includes(".");
+
+  if (looksLikeUrl) {
+    const url = value.startsWith("http") ? value : "https://" + value;
+    return url;
+  }
+
+  const query = encodeURIComponent(value);
+  return "https://www.google.com/search?q=" + query;
+}
+
+function handleProxySubmit(event) {
+  event.preventDefault();
+  const input = document.getElementById("proxy-url-input");
+  const iframe = document.getElementById("proxy-browser-iframe");
+  if (!input || !iframe) return false;
+
+  const target = buildProxyTarget(input.value);
+  if (!target) return false;
+
+  iframe.src = uvUrl(target);
+  return false;
+}
+
+  const container = document.getElementById('apps-iframe-container');
+  if (!container) return;
+
+  if (!container.querySelector('iframe')) {
+    container.innerHTML = '';
+    const iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    container.appendChild(iframe);
+  }
+
+  const iframe = container.querySelector('iframe');
+
+  switch (app) {
+    case 'roblox':
+      iframe.src = uvUrl("https://www.roblox.com");
+      break;
+    case 'geforce':
+      iframe.src = uvUrl("https://play.geforcenow.com");
+      break;
+    case 'xbox':
+      iframe.src = uvUrl("https://www.xbox.com/play");
+      break;
+    case 'tiktok':
+      iframe.src = uvUrl("https://www.tiktok.com");
+      break;
+    case 'instagram':
+      iframe.src = uvUrl("https://www.instagram.com");
+      break;
+    case 'twitter':
+      iframe.src = uvUrl("https://x.com");
+      break;
+    case 'reddit':
+      iframe.src = uvUrl("https://www.reddit.com");
+      break;
+    case 'youtube':
+      iframe.src = uvUrl("https://www.youtube.com");
+      break;
+    case 'spotify':
+      iframe.src = uvUrl("https://open.spotify.com");
+      break;
+    case 'twitch':
+      iframe.src = uvUrl("https://www.twitch.tv");
+      break;
+  }
+}
+
+
+
+    /* ---------- PARTICLES ---------- */
+    const canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.querySelector('.particles').appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    const particlesArr = Array.from({ length: 100 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2 + 1,
+      d: Math.random() * 1 + 0.5
+    }));
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#b86eff';
+      particlesArr.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        p.y += p.d;
+        if (p.y > canvas.height) {
+          p.y = 0;
+          p.x = Math.random() * canvas.width;
         }
-      }
-
-      iframe.src = "https://chrome.browserless.io/?url=" + encodeURIComponent(value);
-
-      // Track "apps data" – how many sites opened
-      sitesOpened += 1;
-      document.getElementById("profile-sites-opened").textContent = String(sitesOpened);
-
-      return false;
+      });
+      requestAnimationFrame(drawParticles);
     }
-
-    /* ---------- SETTINGS (THEME + BACKGROUND) ---------- */
-    function changeTheme(theme) {
-      const root = document.documentElement;
-      if (theme === "purple") {
-        root.style.setProperty("--accent", "#6a00ff");
-        root.style.setProperty("--accent-soft", "#b36bff");
-        root.style.setProperty("--panel-border", "rgba(179, 107, 255, 0.7)");
-      } else if (theme === "blue") {
-        root.style.setProperty("--accent", "#0077ff");
-        root.style.setProperty("--accent-soft", "#66b3ff");
-        root.style.setProperty("--panel-border", "rgba(102, 179, 255, 0.7)");
-      } else if (theme === "green") {
-        root.style.setProperty("--accent", "#00c853");
-        root.style.setProperty("--accent-soft", "#69f0ae");
-        root.style.setProperty("--panel-border", "rgba(105, 240, 174, 0.7)");
-      } else if (theme === "red") {
-        root.style.setProperty("--accent", "#ff1744");
-        root.style.setProperty("--accent-soft", "#ff8a80");
-        root.style.setProperty("--panel-border", "rgba(255, 138, 128, 0.7)");
-      }
-    }
-
-    function changeBackground(style) {
-      const root = document.documentElement;
-      if (style === "radial") {
-        root.style.setProperty(
-          "--bg-main",
-          "radial-gradient(circle at top, #1a0033 0, #050008 45%, #020005 100%)"
-        );
-      } else if (style === "linear") {
-        root.style.setProperty(
-          "--bg-main",
-          "linear-gradient(135deg, #050010, #1a0033, #050010)"
-        );
-      } else if (style === "solid") {
-        root.style.setProperty("--bg-main", "#050008");
-      }
-      document.body.style.background = getComputedStyle(root).getPropertyValue("--bg-main");
-    }
-
-    /* ---------- ASSISTANT MOCK ---------- */
-    function sendAssistant() {
-      const input = document.getElementById("assistant-input");
-      const log = document.getElementById("assistant-log");
-      if (!input || !log) return;
-      const text = input.value.trim();
-      if (!text) return;
-      const div = document.createElement("div");
-      div.textContent = "> " + text;
-      log.appendChild(div);
-      log.scrollTop = log.scrollHeight;
-      input.value = "";
-    }
+    drawParticles();
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
   </script>
 </body>
 </html>
