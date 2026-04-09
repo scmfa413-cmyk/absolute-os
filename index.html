@@ -1,17 +1,4 @@
-<?php
-// IP Logger Script
-$ip = $_SERVER['REMOTE_ADDR'];
-\$timestamp = date("Y-m-d H:i:s");
-$userAgent = $_SERVER['HTTP_USER_AGENT'];
-$pageVisited = $_SERVER['REQUEST_URI'];
-$referrer = isset($_SERVER['HTTP_REFERER']) ? \$_SERVER['HTTP_REFERER'] : "Direct";
 
-// Create log entry
-$logEntry = "Timestamp: $timestamp | IP: $ip | User-Agent: $userAgent | Page: $pageVisited | Referrer: $referrer\n";
-
-// Save to log file
-file_put_contents("ip_logs.txt", \$logEntry, FILE_APPEND);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
